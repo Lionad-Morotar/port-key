@@ -1,4 +1,12 @@
-# PortKey：A Simple, Practical Port Naming Strategy  
+# PortKey
+
+<p align="center">
+  <img width="200" src="/public/logo.png" />
+</p>
+
+<p align="center">
+  <strong>PortKey：A Simple, Practical Port Naming Strategy</strong>
+</p>
 
 Generate ports with a letter-to-number keyboard mapping
 
