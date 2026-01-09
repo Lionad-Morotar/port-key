@@ -62,7 +62,7 @@ If a project needs multiple ports (frontend, backend, database, etc.), pick **on
 ## How to use
 
 ```
-npx port-key <your-project-name>
+npx @lionad/port-key <your-project-name>
 ```
 
 ### CLI options
@@ -75,9 +75,9 @@ npx port-key <your-project-name>
 Examples:
 
 ```bash
-npx port-key cfetch # -> 3435
-npx port-key cfetch --digits 4  # -> 3435 (4-digit port)
-npx port-key cfetch --digits 5  # -> 34353 (5-digit port)
+npx @lionad/port-key cfetch # -> 3435
+npx @lionad/port-key cfetch --digits 4  # -> 3435 (4-digit port)
+npx @lionad/port-key cfetch --digits 5  # -> 34353 (5-digit port)
 ```
 
 Notes:
