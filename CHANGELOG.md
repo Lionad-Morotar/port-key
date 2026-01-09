@@ -1,8 +1,12 @@
 # 更新日志
 
+## v0.1.1
+
+- 更改包名为 `port-key`
+
 ## v0.1.0
 
-- 提供命令行运行能力：`npx portkey -- <项目名称>`（`bin/portkey.js`）
+- 提供命令行运行能力：`npx portkey -- <项目名称>`（`bin/port-key.js`）
 - 提供默认的键盘映射策略（1qaz、2wsx、3edc、4rfv、5tgb、6yhn、7ujm、8ik、9ol、0p）
 - 支持自定义映射 `-m/--map`（支持 JSON 或 JS 对象字面量）
 - 支持自定义映射键校验

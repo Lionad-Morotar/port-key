@@ -1,6 +1,6 @@
 'use strict';
 
-import { DEFAULT_MAP, mapToPort, parseUserMap } from './portkey.js';
+import { DEFAULT_MAP, mapToPort, parseUserMap } from './port-key.js';
 import { loadUserConfigSync, mergeConfig } from './config.js';
 import { getLangOrDefault, loadMessages } from './i18n.js';
 

@@ -8,7 +8,15 @@ function getConfigPath(pathModule, osModule, env) {
   const home = (env && (env.PORTKEY_HOME || env.HOME)) || (osModule && osModule.homedir && osModule.homedir());
   if (!home) return null;
   const pathToUse = pathModule || path;
-  return pathToUse.join(home, '.portkey', 'config.json');
+  const newPath = pathToUse.join(home, '.port-key', 'config.json');
+  const oldPath = pathToUse.join(home, '.portkey', 'config.json');
+  try {
+    // Prefer new path if exists; otherwise fall back to old path
+    if (fs.existsSync(newPath)) return newPath;
+    return oldPath;
+  } catch {
+    return oldPath;
+  }
 }
 
 function loadUserConfigSync(deps = {}) {

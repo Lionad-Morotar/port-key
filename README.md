@@ -62,7 +62,7 @@ If a project needs multiple ports (frontend, backend, database, etc.), pick **on
 ## How to use
 
 ```
-npx portkey -- <your-project-name>
+npx port-key <your-project-name>
 ```
 
 ### CLI options
@@ -75,9 +75,9 @@ npx portkey -- <your-project-name>
 Examples:
 
 ```bash
-npx portkey cfetch # -> 3435
-npx portkey cfetch --digits 4  # -> 3435 (4-digit port)
-npx portkey cfetch --digits 5  # -> 34353 (5-digit port)
+npx port-key cfetch # -> 3435
+npx port-key cfetch --digits 4  # -> 3435 (4-digit port)
+npx port-key cfetch --digits 5  # -> 34353 (5-digit port)
 ```
 
 Notes:
@@ -88,4 +88,4 @@ Notes:
 
 PortKey reads optional user config from:
 
-- `~/.portkey/config.json`
+- `~/.port-key/config.json`

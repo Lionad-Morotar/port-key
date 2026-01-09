@@ -1,5 +1,5 @@
 import { describe, it, expect } from 'vitest';
-import { mapToDigits, parseUserMap, DEFAULT_MAP, pickPortFromDigits, mapToPort } from '../src/portkey.js';
+import { mapToDigits, parseUserMap, DEFAULT_MAP, pickPortFromDigits, mapToPort } from '../src/port-key.js';
 
 describe('utils: mapToDigits', () => {
   it('maps letters to their keyboard digits', () => {

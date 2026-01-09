@@ -1,20 +1,23 @@
 {
-  "name": "portkey",
+  "name": "port-key",
   "version": "0.1.0",
   "description": "A simple, practical port naming strategy",
   "type": "module",
   "exports": {
-    ".": "./src/portkey.js"
+    ".": "./src/port-key.js"
   },
   "keywords": [
     "portkey",
     "port-key",
     "port",
+    "port number",
     "naming",
-    "strategy"
+    "strategy",
+    "method",
+    "mcp"
   ],
   "bin": {
-    "portkey": "./bin/portkey.js"
+    "port-key": "./bin/port-key.js"
   },
   "files": [
     "src",
@@ -43,7 +46,5 @@
   "devDependencies": {
     "vitest": "4.0.16"
   },
-  "dependencies": {
-    "portkey": "file:portkey-0.1.0.tgz"
-  }
+  "dependencies": {}
 }

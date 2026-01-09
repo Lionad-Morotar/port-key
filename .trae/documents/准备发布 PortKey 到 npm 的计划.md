@@ -8,7 +8,7 @@
 
 * 对齐入口与导出
 
-  * 在 package.json 添加 exports: { ".": "./src/portkey.js" }，不再依赖 main
+  * 在 package.json 添加 exports: { ".": "./src/port-key.js" }，不再依赖 main
 
   * 保持 type=module；源码直接以 ESM 发布
 
@@ -48,9 +48,9 @@
 
 * package.json [package.json](file:///Users/lionad/Github/Lionad-Morotar/port-key/package.json)
 
-* 源码导出 [portkey.js](file:///Users/lionad/Github/Lionad-Morotar/port-key/src/portkey.js)
+* 源码导出 [port-key.js](file:///Users/lionad/Github/Lionad-Morotar/port-key/src/port-key.js)
 
-* CLI 可执行 [portkey.js](file:///Users/lionad/Github/Lionad-Morotar/port-key/bin/portkey.js)
+* CLI 可执行 [port-key.js](file:///Users/lionad/Github/Lionad-Morotar/port-key/bin/port-key.js)
 
 * README [README.md](file:///Users/lionad/Github/Lionad-Morotar/port-key/README.md)
 
