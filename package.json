@@ -1,0 +1,49 @@
+{
+  "name": "portkey",
+  "version": "0.1.0",
+  "description": "A simple, practical port naming strategy",
+  "type": "module",
+  "exports": {
+    ".": "./src/portkey.js"
+  },
+  "keywords": [
+    "portkey",
+    "port-key",
+    "port",
+    "naming",
+    "strategy"
+  ],
+  "bin": {
+    "portkey": "./bin/portkey.js"
+  },
+  "files": [
+    "src",
+    "bin",
+    "locales",
+    "README.md",
+    "LICENSE"
+  ],
+  "scripts": {
+    "test": "vitest run",
+    "test:watch": "vitest"
+  },
+  "author": "Lionad",
+  "license": "ISC",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Lionad-Morotar/port-key.git"
+  },
+  "bugs": {
+    "url": "https://github.com/Lionad-Morotar/port-key/issues"
+  },
+  "homepage": "https://github.com/Lionad-Morotar/port-key#readme",
+  "engines": {
+    "node": ">=16"
+  },
+  "devDependencies": {
+    "vitest": "4.0.16"
+  },
+  "dependencies": {
+    "portkey": "file:portkey-0.1.0.tgz"
+  }
+}

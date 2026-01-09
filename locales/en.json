@@ -1,0 +1,22 @@
+{
+  "helpTitle": "portkey - project name -> port number (keyboard mapping)",
+  "usage": "Usage:",
+  "usageLine1": "  npx portkey -- <text>",
+  "usageLine2": "  npx portkey -- --lang en -m \"{ 1: 'qaz', 2: 'wsx', 3: 'edc', 4: 'rfv', 5: 'tgb', 6: 'yhn', 7: 'ujm', 8: 'ik', 9: 'ol', 0: 'p' }\" <text>",
+  "options": "Options:",
+  "optMap": "  -m, --map <object>   Custom mapping (JSON or JS-like object literal)",
+  "optLang": "      --lang <code>    Output language (en or cn)",
+  "optDigits": "  -d, --digits <count> Preferred digit count for port (4 or 5, default: 4)",
+  "optHelp": "  -h, --help           Show help",
+  "examples": "Examples:",
+  "ex1": "  npx portkey -- cfetch           # -> 34353",
+  "ex2": "  npx portkey -- my-app-01        # -> 7610",
+  "ex3": "  npx portkey -d 5 -- 013344   # -> 13344 (5-digit port)",
+  "missingInput": "Missing input text.",
+  "missingMap": "Missing value for -m/--map",
+  "missingDigits": "Missing value for -d/--digits",
+  "invalidDigits": "Invalid digit count. Must be 4 or 5.",
+  "missingLang": "Missing value for --lang",
+  "invalidLang": "Unsupported language. Only \"en\" or \"cn\" are available.",
+  "noValidPort": "No valid port could be generated from input."
+}

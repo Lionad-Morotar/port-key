@@ -1,0 +1,22 @@
+{
+  "helpTitle": "portkey - 项目名 -> 端口号（键盘映射）",
+  "usage": "用法：",
+  "usageLine1": "  npx portkey -- <文本>",
+  "usageLine2": "  npx portkey -- --lang cn -m \"{ 1: 'qaz', 2: 'wsx', 3: 'edc', 4: 'rfv', 5: 'tgb', 6: 'yhn', 7: 'ujm', 8: 'ik', 9: 'ol', 0: 'p' }\" <文本>",
+  "options": "选项：",
+  "optMap": "  -m, --map <对象>    自定义映射（JSON 或 JS 对象字面量）",
+  "optLang": "      --lang <代码>   输出语言（en 或 cn）",
+  "optDigits": "  -d, --digits <位数> 端口优先位数（4 或 5，默认：4）",
+  "optHelp": "  -h, --help           显示帮助",
+  "examples": "示例：",
+  "ex1": "  npx portkey -- cfetch           # -> 34353",
+  "ex2": "  npx portkey -- my-app-01        # -> 7610",
+  "ex3": "  npx portkey -d 5 -- 013344   # -> 13344（5位端口）",
+  "missingInput": "缺少输入文本。",
+  "missingMap": "缺少 -m/--map 的值",
+  "missingDigits": "缺少 -d/--digits 的值",
+  "invalidDigits": "无效的位数。必须为 4 或 5。",
+  "missingLang": "缺少 --lang 的值",
+  "invalidLang": "不支持的语言。仅支持 \"en\" 或 \"cn\"。",
+  "noValidPort": "无法从输入生成有效端口。"
+}
