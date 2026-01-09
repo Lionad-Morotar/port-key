@@ -17,7 +17,7 @@
     "mcp"
   ],
   "bin": {
-    "port-key": "./bin/port-key.js"
+    "port-key": "bin/port-key.js"
   },
   "files": [
     "src",
