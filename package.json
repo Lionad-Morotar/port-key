@@ -1,7 +1,6 @@
 {
   "name": "port-key-workspace",
   "private": true,
-  "version": "0.1.2",
   "description": "Workspace for @lionad/port-key monorepo",
   "scripts": {
     "test": "pnpm -C packages/core test",
