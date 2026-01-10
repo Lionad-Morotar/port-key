@@ -46,5 +46,8 @@
   "devDependencies": {
     "vitest": "4.0.16"
   },
-  "dependencies": {}
+  "dependencies": {},
+  "publishConfig": {
+    "registry": "https://registry.npmjs.org/"
+  }
 }
