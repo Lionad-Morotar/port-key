@@ -16,7 +16,6 @@ const DEFAULT_MAP = Object.freeze({
 const DEFAULT_BLOCKED_PORTS = Object.freeze(
   new Set([
     0,
-    // common/system-ish
     20,
     21,
     22,
@@ -39,7 +38,6 @@ const DEFAULT_BLOCKED_PORTS = Object.freeze(
     636,
     993,
     995,
-    // very common dev defaults
     3000,
     3001,
     5000,
@@ -51,7 +49,6 @@ const DEFAULT_BLOCKED_PORTS = Object.freeze(
     9000,
     27017,
     3306,
-    // common dev port
     1234,
   ])
 );
@@ -125,16 +122,14 @@ function pickPortFromDigits(digits, options = {}) {
   const minPort = Number.isFinite(options.minPort) ? options.minPort : 0;
   const maxPort = Number.isFinite(options.maxPort) ? options.maxPort : 65535;
   const blockedPorts = options.blockedPorts || DEFAULT_BLOCKED_PORTS;
-  const preferDigitCount = options.preferDigitCount || 4; // default to 4
+  const preferDigitCount = options.preferDigitCount || 4;
 
-  // Prefer exact digit count using normalized prefix first, then normalized suffix
   const candidates = [];
   const normalized = raw.replace(/^0+/, '');
   if (preferDigitCount && normalized.length >= preferDigitCount) {
     candidates.push(normalized.slice(0, preferDigitCount));
     candidates.push(normalized.slice(normalized.length - preferDigitCount));
   } else {
-    // Fallback only when digits are fewer than preferDigitCount
     for (let len = Math.min(normalized.length, preferDigitCount); len >= 2; len -= 1) {
       candidates.push(normalized.slice(0, len));
     }
@@ -180,7 +175,6 @@ function parseUserMap(mapString) {
   const raw = String(mapString || '').trim();
   if (!raw) throw new Error('Empty map string');
 
-  // 1) Strict JSON: {"1":"qaz",...}
   try {
     const maybe = JSON.parse(raw);
     if (!isPlainObject(maybe)) throw new Error('Map must be an object');
@@ -200,11 +194,8 @@ function parseUserMap(mapString) {
     if (err.message === 'Keys must be digits, values must be mapped letters') {
       throw err;
     }
-    // fall through
   }
 
-  // 2) JS-ish object literal: { 1: 'qaz', 0: 'p' }
-  // Extract digit keys and quoted string values.
   const extracted = {};
   const re = /([0-9])\s*:\s*(['"])(.*?)\2/g;
   let match;

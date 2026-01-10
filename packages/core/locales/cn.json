@@ -18,5 +18,8 @@
   "invalidDigits": "无效的位数。必须为 4 或 5。",
   "missingLang": "缺少 --lang 的值",
   "invalidLang": "不支持的语言。仅支持 \"en\" 或 \"cn\"。",
-  "noValidPort": "无法从输入生成有效端口。"
+  "noValidPort": "无法从输入生成有效端口。",
+  "configReadFailed": "[info] 配置文件 {path} 似乎无法读取或不是有效的 JSON 格式。将使用默认配置。",
+  "firstRunNoConfig": "[info] 欢迎使用 PortKey！\n\n你可以在 {configDir} 目录下创建 config.json 文件来自定义配置。\n\n配置示例请参考：\n{readmeUrl}",
+  "readmeConfigExampleLink": "https://github.com/Lionad-Morotar/port-key#config"
 }

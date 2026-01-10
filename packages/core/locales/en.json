@@ -18,5 +18,8 @@
   "invalidDigits": "Invalid digit count. Must be 4 or 5.",
   "missingLang": "Missing value for --lang",
   "invalidLang": "Unsupported language. Only \"en\" or \"cn\" are available.",
-  "noValidPort": "No valid port could be generated from input."
+  "noValidPort": "No valid port could be generated from input.",
+  "configReadFailed": "[info] It seems the config file at {path} could not be read or is not valid JSON. Using default config.",
+  "firstRunNoConfig": "[info] Welcome to PortKey!\n\nYou can create a config.json file in {configDir} to customize your settings.\n\nFor config examples, see:\n{readmeUrl}",
+  "readmeConfigExampleLink": "https://github.com/Lionad-Morotar/port-key#config"
 }

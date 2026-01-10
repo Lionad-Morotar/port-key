@@ -6,11 +6,9 @@ settings:
 
 importers:
 
-  .:
-    dependencies:
-      portkey:
-        specifier: file:portkey-0.1.0.tgz
-        version: file:portkey-0.1.0.tgz
+  .: {}
+
+  packages/core:
     devDependencies:
       vitest:
         specifier: 4.0.16
@@ -401,12 +399,6 @@ packages:
     resolution: {integrity: sha512-5gTmgEY/sqK6gFXLIsQNH19lWb4ebPDLA4SdLP7dsWkIXHWlG66oPuVvXSGFPppYZz8ZDZq0dYYrbHfBCVUb1Q==}
     engines: {node: '>=12'}
 
-  portkey@file:portkey-0.1.0.tgz:
-    resolution: {integrity: sha512-eFhtvXDmawn3sf1JBGcRGHCfFIPQKhcpV2gNWw6OwqWuGwb+gQhiCwS+wwmnoJwQVaQbwrLrlZzi9Wwjrfskeg==, tarball: file:portkey-0.1.0.tgz}
-    version: 0.1.0
-    engines: {node: '>=16'}
-    hasBin: true
-
   postcss@8.5.6:
     resolution: {integrity: sha512-3Ybi1tAuwAP9s0r1UQ2J4n5Y0G05bJkpUIO0/bI9MhwmD70S5aTWbXGBwxHrelT+XM1k6dM0pk+SwNkpTRN7Pg==}
     engines: {node: ^10 || ^12 || >=14}
@@ -791,8 +783,6 @@ snapshots:
   picocolors@1.1.1: {}
 
   picomatch@4.0.3: {}
-
-  portkey@file:portkey-0.1.0.tgz: {}
 
   postcss@8.5.6:
     dependencies:

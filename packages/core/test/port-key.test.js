@@ -44,7 +44,7 @@ describe('utils: mapToPort', () => {
 
 describe('parseUserMap', () => {
   it('consumes valid JSON', () => {
-    const mapString = '{"1": "qaz", "2": "wsx", "0": "p"}';
+    const mapString = '{\"1\": \"qaz\", \"2\": \"wsx\", \"0\": \"p\"}';
     expect(parseUserMap(mapString)).toEqual({
       '1': 'qaz',
       '2': 'wsx',

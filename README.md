@@ -94,9 +94,22 @@ A full Example:
 
 ```json
 {
-  "preferDigitCount": 4,
-  "blockedPorts": [3000, 3001, 3002],
+  // Preferred digit count for port (4 or 5)
+  "preferDigitCount": 5,
+  // Custom letter-to-digit mapping
+  "blockedPorts": [3000, 3001, 3002, 6666],
+  // Port range limits (inclusive)
   "minPort": 1024,
   "maxPort": 49151
 }
 ```
+
+---
+
+## For Developer
+
+### Project Structure
+
+- 本仓库采用 pnpm monorepo；核心包位于 `packages/core`。
+- 安装：在根目录执行 `pnpm install`。
+- 运行测试：`pnpm -C packages/core test` 或 `pnpm -C packages/core test:watch`。

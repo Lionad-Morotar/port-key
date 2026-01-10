@@ -14,11 +14,11 @@ function createStream() {
 }
 
 describe('User config', () => {
-  it('respects ~/.portkey/config.json settings', () => {
+  it('respects ~/.port-key/config.json settings', () => {
     const tmpHome = fs.mkdtempSync(path.join(os.tmpdir(), 'portkey-home-'));
-    fs.mkdirSync(path.join(tmpHome, '.portkey'), { recursive: true });
+    fs.mkdirSync(path.join(tmpHome, '.port-key'), { recursive: true });
     fs.writeFileSync(
-      path.join(tmpHome, '.portkey', 'config.json'),
+      path.join(tmpHome, '.port-key', 'config.json'),
       JSON.stringify({ lang: 'cn', preferDigitCount: 5 }),
       'utf8'
     );

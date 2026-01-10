@@ -1,34 +1,11 @@
 {
-  "name": "@lionad/port-key",
+  "name": "port-key-workspace",
+  "private": true,
   "version": "0.1.2",
-  "description": "A simple, practical port naming strategy",
-  "type": "module",
-  "exports": {
-    ".": "./src/port-key.js"
-  },
-  "keywords": [
-    "portkey",
-    "port-key",
-    "port",
-    "port number",
-    "naming",
-    "strategy",
-    "method",
-    "mcp"
-  ],
-  "bin": {
-    "port-key": "bin/port-key.js"
-  },
-  "files": [
-    "src",
-    "bin",
-    "locales",
-    "README.md",
-    "LICENSE"
-  ],
+  "description": "Workspace for @lionad/port-key monorepo",
   "scripts": {
-    "test": "vitest run",
-    "test:watch": "vitest"
+    "test": "pnpm -C packages/core test",
+    "test:watch": "pnpm -C packages/core test:watch"
   },
   "author": "Lionad",
   "license": "ISC",
@@ -42,9 +19,5 @@
   "homepage": "https://github.com/Lionad-Morotar/port-key#readme",
   "engines": {
     "node": ">=16"
-  },
-  "devDependencies": {
-    "vitest": "4.0.16"
-  },
-  "dependencies": {}
+  }
 }

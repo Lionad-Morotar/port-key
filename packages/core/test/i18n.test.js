@@ -13,7 +13,7 @@ describe('i18n', () => {
   it('loads Chinese messages and is default', () => {
     const m = loadMessages('cn');
     expect(m.usage).toBe('用法：');
-    const help = formatHelp(); // default
+    const help = formatHelp();
     expect(help).toContain('用法：');
     expect(getLangOrDefault(undefined)).toBe('cn');
   });

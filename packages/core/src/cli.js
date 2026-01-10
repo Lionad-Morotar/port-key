@@ -1,7 +1,7 @@
 'use strict';
 
 import { DEFAULT_MAP, mapToPort, parseUserMap } from './port-key.js';
-import { loadUserConfigSync, mergeConfig } from './config.js';
+import { loadUserConfigSync, mergeConfig, getPortKeyDirPath, loadRunCount, incrementRunCount } from './config.js';
 import { getLangOrDefault, loadMessages } from './i18n.js';
 
 function formatHelp(lang = 'cn') {
@@ -78,7 +78,6 @@ function parseArgv(argv) {
       continue;
     }
 
-    // Unknown option: treat as positional (so "portkey -foo" still works when user passes "--")
     positionals.push(token);
     i += 1;
   }
@@ -93,7 +92,24 @@ function parseArgv(argv) {
 }
 
 function runCli(argv, stdout = process.stdout, stderr = process.stderr, deps = {}) {
-  const { config } = loadUserConfigSync(deps);
+  const { config, configReadError, path: configPath, configExists } = loadUserConfigSync(deps);
+  const { isFirstRun } = loadRunCount(deps);
+
+  if (configReadError && configPath) {
+    const lang = getLangOrDefault((config && config.lang) || 'cn');
+    const MSG = loadMessages(lang);
+    stderr.write(MSG.configReadFailed.replace('{path}', configPath) + '\n');
+  }
+
+  if (isFirstRun && !configExists) {
+    const lang = getLangOrDefault((config && config.lang) || 'cn');
+    const MSG = loadMessages(lang);
+    const portKeyDir = getPortKeyDirPath(deps);
+    stderr.write(MSG.firstRunNoConfig.replace('{configDir}', portKeyDir || '~/.port-key').replace('{readmeUrl}', MSG.readmeConfigExampleLink) + '\n');
+  }
+
+  incrementRunCount(deps);
+
   let parsed;
   try {
     parsed = parseArgv(argv);
