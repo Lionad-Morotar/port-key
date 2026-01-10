@@ -5,8 +5,7 @@
   "description": "Workspace for @lionad/port-key monorepo",
   "scripts": {
     "test": "pnpm -C packages/core test",
-    "test:watch": "pnpm -C packages/core test:watch",
-    "release": "pnpm -C packages/core publish --access=public"
+    "test:watch": "pnpm -C packages/core test:watch"
   },
   "author": "Lionad",
   "license": "ISC",
