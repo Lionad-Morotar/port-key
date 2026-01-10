@@ -89,3 +89,14 @@ Notes:
 PortKey reads optional user config from:
 
 - `~/.port-key/config.json`
+
+A full Example:
+
+```json
+{
+  "preferDigitCount": 4,
+  "blockedPorts": [3000, 3001, 3002],
+  "minPort": 1024,
+  "maxPort": 49151
+}
+```
