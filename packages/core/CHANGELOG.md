@@ -1,5 +1,9 @@
 # 更新日志
 
+## v0.1.4
+
+- add readme in packages/core
+
 ## v0.1.3
 
 - 首次运行时提示欢迎信息
