@@ -1,5 +1,22 @@
 # Changelog
 
+## v0.4.0
+
+- feat: add HTTP server support using Fastify (StreamableHTTPServerTransport)
+- feat: add command line arguments `--streamable` and `--port`
+- feat: add command line arguments `--resuse` to reuse port number
+- feat: add stateful session management with TTL and timeout
+- feat: add Winston-based logging system with file rotation
+- feat: add configuration management via environment variables
+- feat: add new tools: `check-port-availability` and `get-port-occupancy`
+- feat: add new resources: `config://port-mapping`
+- feat: add health check endpoint `/health`
+- refactor: modularize tools and resources into separate files
+- refactor: rewrite server using MCPServerApp class
+- chore: update dependencies (fastify, winston, zod)
+- docs: update README with HTTP server usage and acknowledgements
+- test: add full e2e test
+
 ## v0.3.0
 
 - chore: sync version

@@ -1,6 +1,6 @@
 {
   "name": "@lionad/port-key-mcp",
-  "version": "0.3.0",
+  "version": "0.4.0",
   "description": "MCP Server for PortKey",
   "bin": "./bin/port-key-mcp.js",
   "type": "module",
@@ -34,9 +34,7 @@
     "build": "pnpm run build:locales && tsc -p tsconfig.build.json",
     "prepublishOnly": "pnpm run build",
     "test": "pnpm run build && vitest run",
-    "test:watch": "vitest",
-    "test:e2e": "pnpm run build && vitest run --config ../../vitest.e2e.config.js",
-    "test:e2e:watch": "vitest --config ../../vitest.e2e.config.js"
+    "test:watch": "vitest"
   },
   "author": "Lionad",
   "license": "ISC",
