@@ -11,7 +11,7 @@
     "bump:patch": "bash scripts/bump-version.sh patch",
     "bump:minor": "bash scripts/bump-version.sh minor",
     "bump:major": "bash scripts/bump-version.sh major",
-    "release": "pnpm -r publish --access public --no-git-checks --registry=https://registry.npmjs.org/"
+    "release": "pnpm build && pnpm -r publish --access public --no-git-checks --registry=https://registry.npmjs.org/"
   },
   "author": "Lionad",
   "license": "ISC",
