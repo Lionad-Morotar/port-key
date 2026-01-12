@@ -1,8 +1,12 @@
 {
   "extends": "../../tsconfig.base.json",
-  "files": ["src/mcp-cli.js"],
+  "files": [
+    "src/mcp-cli.ts",
+    "src/mcp-server.ts"
+  ],
   "compilerOptions": {
     "noEmit": true,
-    "strict": true
+    "strict": true,
+    "allowJs": true
   }
 }

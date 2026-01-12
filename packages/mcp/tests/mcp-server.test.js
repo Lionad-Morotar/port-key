@@ -25,9 +25,9 @@ describe("MCP Server", () => {
 		it("should list tools", async () => {
 			const { tools } = await client.listTools();
 
-			assert.strictEqual(tools.length, 1);
+			assert.strictEqual(tools.length, 2);
 			assert.strictEqual(tools[0].name, "map-project-name-to-port");
-			assert.strictEqual(tools[0].description, "Map a project name to a port number using keyboard-based letter-to-number mapping");
+			assert.strictEqual(tools[1].name, "get-design-philosophy");
 		});
 
 		describe("map-project-name-to-port", () => {
@@ -93,6 +93,44 @@ describe("MCP Server", () => {
 				const result = JSON.parse(content[0].text);
 				assert.ok(result.port !== 3435);
 				assert.ok(result.port !== 4353);
+			});
+		});
+
+		describe("get-design-philosophy", () => {
+			it("should return design philosophy in Chinese by default", async () => {
+				const { content } = await client.callTool({
+					name: "get-design-philosophy",
+					arguments: {},
+				});
+
+				assert.strictEqual(content.length, 1);
+				assert.strictEqual(content[0].type, "text");
+				assert.ok(content[0].text.length > 0);
+				assert.ok(content[0].text.includes("设计理念"));
+			});
+
+			it("should return design philosophy in Chinese when lang is cn", async () => {
+				const { content } = await client.callTool({
+					name: "get-design-philosophy",
+					arguments: { lang: "cn" },
+				});
+
+				assert.strictEqual(content.length, 1);
+				assert.strictEqual(content[0].type, "text");
+				assert.ok(content[0].text.length > 0);
+				assert.ok(content[0].text.includes("设计理念"));
+			});
+
+			it("should return design philosophy in English when lang is en", async () => {
+				const { content } = await client.callTool({
+					name: "get-design-philosophy",
+					arguments: { lang: "en" },
+				});
+
+				assert.strictEqual(content.length, 1);
+				assert.strictEqual(content[0].type, "text");
+				assert.ok(content[0].text.length > 0);
+				assert.ok(content[0].text.includes("design philosophy"));
 			});
 		});
 	});

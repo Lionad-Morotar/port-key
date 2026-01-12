@@ -2,10 +2,14 @@
   "name": "@lionad/port-key-mcp",
   "version": "0.1.5",
   "description": "MCP Server for PortKey",
-  "type": "module",
   "bin": "./bin/port-key-mcp.js",
+  "type": "module",
+  "types": "./dist/mcp-cli.d.ts",
   "exports": {
-    ".": "./src/mcp-cli.js"
+    ".": {
+      "types": "./dist/mcp-cli.d.ts",
+      "default": "./dist/mcp-cli.js"
+    }
   },
   "keywords": [
     "portkey",
@@ -17,16 +21,18 @@
     "method",
     "mcp"
   ],
-  "main": "src/mcp-cli.js",
+  "main": "dist/mcp-cli.js",
   "files": [
-    "src",
+    "dist",
     "bin",
     "locales",
     "README.md",
     "LICENSE"
   ],
   "scripts": {
-    "test": "vitest run",
+    "build": "tsc -p tsconfig.build.json",
+    "prepublishOnly": "pnpm run build",
+    "test": "pnpm run build && vitest run",
     "test:watch": "vitest"
   },
   "author": "Lionad",
@@ -46,7 +52,7 @@
     "registry": "https://registry.npmjs.org/"
   },
   "dependencies": {
-    "@lionad/port-key": "workspace:*",
+    "@lionad/port-key": "^0.1.5",
     "@modelcontextprotocol/sdk": "^1.24.1",
     "zod": "^4.1.13"
   },

@@ -2,11 +2,11 @@
 
 ## Description
 
-[Model Context Protocol](https://modelcontextprotocol.io) (MCP) server for PortKey. It provides a tool to map project names to port numbers using keyboard-based letter-to-number mapping.
+[Model Context Protocol](https://modelcontextprotocol.io) (MCP) server for PortKey. It provides tools to map project names to port numbers using keyboard-based letter-to-number mapping and get design philosophy.
 
 ## Installation
 
-Install the MCP server package:
+Install MCP server package:
 
 ```shell
 npm install @lionad/port-key-mcp
@@ -24,20 +24,23 @@ npx @lionad/port-key-mcp
 
 ### Available Tools
 
-The MCP server provides the following tool:
+The MCP server provides the following tools:
 
 - **map-project-name-to-port**: Map a project name to a port number using keyboard-based letter-to-number mapping
+- **get-design-philosophy**: Get the design philosophy and background of PortKey
 
-#### Tool Parameters
+#### map-project-name-to-port
+
+##### Tool Parameters
 
 - `projectName` (string, required): The project name to map to a port number
 - `map` (string, optional): Custom mapping in JSON format (e.g., `{ "1": "qaz", "2": "wsx", ... }`)
-- `preferDigitCount` (number, optional): Preferred digit count for the port (2-5, default: 4)
+- `preferDigitCount` (number, optional): Preferred digit count for port (2-5, default: 4)
 - `minPort` (number, optional): Minimum port number (0-65535, default: 0)
 - `maxPort` (number, optional): Maximum port number (0-65535, default: 65535)
 - `blockedPorts` (array of numbers, optional): List of blocked port numbers to avoid
 
-#### Example Tool Call
+##### Example Tool Call
 
 ```json
 {
@@ -49,7 +52,7 @@ The MCP server provides the following tool:
 }
 ```
 
-#### Example Response
+##### Example Response
 
 ```json
 {
@@ -59,9 +62,38 @@ The MCP server provides the following tool:
 }
 ```
 
+#### get-design-philosophy
+
+##### Tool Parameters
+
+- `lang` (string, optional): Language code for the design philosophy content (`"cn"` or `"en"`, default: `"cn"`)
+
+##### Example Tool Call
+
+```json
+{
+  "name": "get-design-philosophy",
+  "arguments": {
+    "lang": "en"
+  }
+}
+```
+
+##### Example Response
+
+```
+Here is design philosophy of PortKey:
+
+## Core Idea
+
+PortKey maps project names to numbers based on keyboard layout, making port numbers both readable and memorable.
+
+...
+```
+
 ## Configuration
 
-You can configure the MCP server in your MCP client's configuration file (e.g., for VS Code Copilot, configure in your `.copilot/settings.json`):
+You can configure MCP server in your MCP client's configuration file (e.g., for VS Code Copilot, configure in your `.vscode/mcp.json`):
 
 ```json
 {

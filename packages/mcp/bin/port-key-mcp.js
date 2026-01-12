@@ -1,3 +1,3 @@
 #!/usr/bin/env node
 
-import "../src/mcp-cli.js";
+import "../dist/mcp-cli.js";
