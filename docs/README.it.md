@@ -6,7 +6,7 @@
 </p>
 
 <p align="center">
-  <strong>PortKey: Una strategia semplice e pratica per la denominazione delle porte</strong>
+  <strong>PortKey: una strategia semplice e pratica per la denominazione delle porte</strong>
 </p>
 
 <p align="center">
@@ -16,41 +16,41 @@
 
 ## Breve
 
-Genera porte con una mappatura da lettere a numeri della tastiera.
+Genera porte con una mappatura tastiera lettera‑numero
 
-Quando gestisci più progetti in locale, scegliere i numeri di porta può diventare fastidioso.
+Quando si eseguono più progetti in locale, scegliere i numeri di porta diventa fastidioso.
 
-- Negli ultimi anni sono nati *tantissimi* nuovi progetti. Per provarli è spesso necessario avviarli localmente—e le porte iniziano a collidere.
-- Se vuoi mantenere gli URL o i segnalibri del browser stabili, la porta di un progetto non dovrebbe cambiare continuamente.
+- Negli ultimi due anni sono nati *tantissimi* nuovi progetti. Per provarli davvero, spesso è necessario avviarli localmente — e poi le porte cominciano a collidere.
+- Se vuoi mantenere stabile la barra degli indirizzi del browser (o i segnalibri), la porta di un progetto non dovrebbe cambiare continuamente.
 
-Ad esempio, ho più di dieci app Nuxt sulla mia macchina. Se tutti usassero la porta predefinita `3000`, ovviamente non funzionerebbe. Ho quindi ideato una regola semplice e coerente per “assegnare” porte a ciascun progetto.
+Ad esempio, ho più di dieci applicazioni Nuxt sulla mia macchina. Se tutte usassero la porta predefinita `3000`, ovviamente non funzionerebbe. Perciò ho ideato una semplice e coerente regola di denominazione delle porte per “assegnare” le porte a ciascun progetto.
 
-[Post del blog originale](https://lionad.art/articles/simple-naming-method)
+[Post originale sul blog](https://lionad.art/articles/simple-naming-method)
 
 ### Idea principale
 
-Invece di scegliere numeri a caso, mappa **il nome del progetto a numeri basati sulla tastiera**, così la porta risulta *leggibile* e *memorizzabile*.
+Invece di scegliere numeri a caso, mappa **il nome del progetto a numeri basati sulla tastiera**, così la porta è *leggibile* e *memorizzabile*.
 
-Finché il risultato rientra nell’intervallo valido delle porte (**1024–65535**) e non coincide con porte riservate/sistema, può essere usato liberamente.
+Finché il risultato rientra nell’intervallo valido delle porte (**1024–65535**) e non colpisce porte riservate/sistema, puoi usarlo tranquillamente.
 
-Più in dettaglio: usando una tastiera QWERTY standard, associa ogni lettera a una singola cifra in base alla sua **posizione riga/colonna**.
+Più specificamente: usando una tastiera QWERTY standard, mappa ogni lettera a una singola cifra in base alla sua **posizione di riga/colonna**.
 
 Esempio:
 
-`"cfetch"` → `c(3) f(4) e(3) t(5) c(3) h(6)` → `34353`（numero di porta）
+`"cfetch"` → `c(3) f(4) e(3) t(5) c(3) h(6)` → `34353`（numero della porta）
 
-Puoi prendere le prime 4 cifre (es. `3453`) oppure mantenere più cifre (es. `34353`). Entrambe le scelte vanno bene.
+Puoi prendere le prime 4 cifre (es. `3453`), oppure mantenere più cifre (es. `34353`). Entrambi vanno bene.
 
-Se un progetto richiede più porte (frontend, backend, database, ecc.), scegli **uno** dei due approcci seguenti:
+Se un progetto richiede più porte (frontend, backend, database, ecc.), scegli **una** delle due seguenti strategie:
 
-1. Usa il prefisso del progetto, quindi aggiungi un “suffisso di ruolo”  
+1. Usa il prefisso del progetto, poi aggiungi un “suffisso ruolo”  
    - Per `"cfetch"`, prendi `3435` come base  
    - Frontend (`fe`, cioè `43`) → `34354`  
    - Backend (`server`) → `34352`  
    - Database (`mongo`) → `34357`  
    - …e così via
 
-2. Usa il prefisso del progetto, quindi assegna ruoli sequenziali  
+2. Usa il prefisso del progetto, poi assegna ruoli sequenziali  
    - Per `"cfetch"`, prendi `3435` come base  
    - Web → `34351`  
    - Backend → `34352`  
@@ -59,10 +59,10 @@ Se un progetto richiede più porte (frontend, backend, database, ecc.), scegli *
 
 ### Intervallo di porte valido
 
-- Le porte devono rientrare in **1024–65535** (le porte di sistema 0‑1023 sono bloccate).
-- **Porte di Sistema (0‑1023)**: assegnate da IETF. Sono strettamente bloccate.
-- **Porte Utente (1024‑49151)**: assegnate da IANA. Usarle con cautela perché potrebbero entrare in conflitto con servizi registrati.
-- **Porte Dinamiche/Private (49152‑65535)**: non assegnate. Sono le più sicure per usi privati o dinamici.
+- Le porte devono trovarsi tra **1024–65535** (le porte di sistema 0‑1023 sono bloccate).
+- **Porte di Sistema (0‑1023)**: assegnate da IETF. Stretta limitazione.
+- **Porte Utente (1024‑49151)**: assegnate da IANA. Usare con cautela perché potrebbero entrare in conflitto con servizi registrati.
+- **Porte Dinamiche/Private (49152‑65535)**: non assegnate. Le più sicure per uso privato o dinamico.
 
 ---
 
@@ -74,7 +74,7 @@ Comando semplice:
 npx -y @lionad/port-key <nome-del-tuo-progetto>
 ```
 
-Oppure se vuoi un server MCP su stdio:
+Oppure vuoi un server stdio MCP:
 
 ```sh
 npx -y @lionad/port-key-mcp
@@ -91,11 +91,12 @@ npx -y @lionad/port-key-mcp
 }
 ```
 
-### Opzioni della CLI
+### Opzioni CLI
 
-- `-m, --map <object>`: mappatura personalizzata (JSON o oggetto simile a JS)
-- `--lang <code>`: lingua di output (attualmente solo `en` e `cn`, default: `cn`)
-- `-d, --digits <count>`: numero preferito di cifre per la porta (4 o 5, default: 4)
+- `-m, --map <object>`: mappatura personalizzata (JSON o oggetto in stile JS)
+- `--lang <code>`: lingua di output (attualmente solo `en` e `cn`, predefinito: `cn`)
+- `-d, --digits <count>`: numero preferito di cifre per la porta (4 o 5, predefinito: 4)
+- `--padding-zero <true|false>`: aggiunge zero di riempimento alle porte corte (predefinito: true). es. "air" -> 1840
 - `-h, --help`: mostra l’aiuto
 
 Esempi:
@@ -107,7 +108,7 @@ npx @lionad/port-key cfetch --digits 5  # -> 34353 (porta a 5 cifre)
 ```
 
 Note:
-- La lingua di log predefinita è `cn`. Usa `--lang en` per visualizzare i messaggi in inglese.
+- La lingua di log predefinita è `cn`. Usa `--lang en` per mostrare i messaggi in inglese.
 - Usa `-h` o `--help` per visualizzare l’aiuto.
 
 ### Configurazione
@@ -116,13 +117,15 @@ PortKey legge una configurazione opzionale dell’utente da:
 
 - `~/.port-key/config.json`
 
-Esempio completo:
+Un esempio completo:
 
 ```json
 {
   // Numero preferito di cifre per la porta (4 o 5)
   "preferDigitCount": 5,
-  // Mappatura personalizzata lettera‑cifra
+  // Aggiungi zero di riempimento alle porte corte (predefinito: true)
+  "paddingZero": true,
+  // Mappatura personalizzata lettere‑cifre
   "blockedPorts": [3000, 3001, 3002, 6666],
   // Limiti dell’intervallo di porte (inclusivo)
   "minPort": 1024,
@@ -136,6 +139,6 @@ Esempio completo:
 
 ### Struttura del progetto
 
-- Questo repository utilizza un monorepo gestito da pnpm; il pacchetto principale si trova in `packages/core`.
-- Installazione: esegui `pnpm install` nella radice del progetto.
-- Esecuzione dei test: `pnpm -C packages/core test` oppure `pnpm -C packages/core test:watch`.
+- Questo repository utilizza un monorepo pnpm; il pacchetto core si trova in `packages/core`.
+- Installazione: esegui `pnpm install` nella radice.
+- Esegui i test: `pnpm -C packages/core test` o `pnpm -C packages/core test:watch`.

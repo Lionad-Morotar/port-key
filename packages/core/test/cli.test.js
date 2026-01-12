@@ -145,7 +145,8 @@ describe('CLI', () => {
     const stdout = createStream();
     const stderr = createStream();
     const tmpHome = createEmptyHome();
-    const code = runCli(['--', 'x'], stdout, stderr, { env: { HOME: tmpHome } });
+    // Use --padding-zero false to force failure for short input 'x'
+    const code = runCli(['--padding-zero', 'false', '--', 'x'], stdout, stderr, { env: { HOME: tmpHome } });
     expect(code).toBe(1);
     expect(stderr.output).toContain('无法从输入生成有效端口');
   });

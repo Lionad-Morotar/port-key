@@ -7,6 +7,7 @@
   "optMap": "  -m, --map <object>   Custom mapping (JSON or JS-like object literal)",
   "optLang": "      --lang <code>    Output language (en or cn)",
   "optDigits": "  -d, --digits <count> Preferred digit count for port (4 or 5, default: 4)",
+  "optPadding": "      --padding-zero <true|false>  Pad short ports with zero (default: true)",
   "optHelp": "  -h, --help           Show help",
   "examples": "Examples:",
   "ex1": "  npx @lionad/port-key cfetch           # -> 34353",

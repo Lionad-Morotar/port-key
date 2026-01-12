@@ -7,6 +7,7 @@
   "optMap": "  -m, --map <对象>    自定义映射（JSON 或 JS 对象字面量）",
   "optLang": "      --lang <代码>   输出语言（en 或 cn）",
   "optDigits": "  -d, --digits <位数> 端口优先位数（4 或 5，默认：4）",
+  "optPadding": "      --padding-zero <true|false>  是否为短端口号补零（默认：true）",
   "optHelp": "  -h, --help           显示帮助",
   "examples": "示例：",
   "ex1": "  npx @lionad/port-key cfetch           # -> 34353",

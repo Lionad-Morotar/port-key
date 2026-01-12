@@ -16,6 +16,20 @@ describe('utils: mapToDigits', () => {
 });
 
 describe('utils: mapToPort', () => {
+  it('supports padding-zero for short inputs', () => {
+    // 'air' -> 184
+    // paddingZero: true (default) -> 1840, 18400
+    // 1840 is valid (> 1024)
+    const result = mapToPort('air', DEFAULT_MAP, { preferDigitCount: 4, paddingZero: true });
+    expect(result.digits).toBe('184');
+    expect(result.port).toBe(1840);
+
+    // paddingZero: false -> 184 -> null (too small)
+    const result2 = mapToPort('air', DEFAULT_MAP, { preferDigitCount: 4, paddingZero: false });
+    expect(result2.digits).toBe('184');
+    expect(result2.port).toBe(null);
+  });
+
   it('picks a valid port under 65535', () => {
     const { port } = mapToPort('cfetch');
     expect(port).toBe(3435);
@@ -79,17 +93,17 @@ describe('parseUserMap', () => {
 describe('many words mapping test (with detailed errors)', () => {
   it('maps many words correctly', () => {
     const testCases = [
-      { input: 'x', digits: '2', port: null },
-      { input: 'ab', digits: '15', port: null }, // 15 < 1024 blocked
-      { input: 'abc', digits: '153', port: null }, // 153 < 1024 blocked
+      { input: 'x', digits: '2', port: 2000 },
+      { input: 'ab', digits: '15', port: 1500 }, 
+      { input: 'abc', digits: '153', port: 1530 }, 
       { input: 'cfetch', digits: '343536', port: 3435 },
       { input: 'prove', digits: '04943', port: 4943 },
-      { input: 'd000', digits: '3000', port: null },
+      { input: 'd000', digits: '3000', port: null }, // 3000 blocked
       { input: 'my-app-01', digits: '7610001', port: 7610 },
       { input: '…*1—342', digits: '1342', port: 1342 },
       { input: 'nuxt-ui', digits: '672578', port: 6725 },
       { input: 'greate', digits: '543153', port: 5431 },
-      { input: '_push', digits: '0726', port: null }, // 726 < 1024 blocked
+      { input: '_push', digits: '0726', port: 7260 },
     ];
 
     testCases.forEach(({ input, digits, port }) => {

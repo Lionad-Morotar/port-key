@@ -97,19 +97,45 @@ function isPortBlocked(port, blockedPorts) {
 function pickPortFromDigits(digits, options = {}) {
   const raw = String(digits || '').replace(/[^0-9]/g, '');
   if (!raw) return { port: null, reason: 'No digits found in input' };
-  if (raw.length < 2) return { port: null, reason: 'Not enough digits to form a candidate' };
+  
+  const paddingZero = options.paddingZero !== false; // Default true
+  
+  // If not padding, enforce strict length check
+  // If padding, allow short length as it will be padded
+  if (!paddingZero && raw.length < 2) return { port: null, reason: 'Not enough digits to form a candidate' };
 
   const minPort = Number.isFinite(options.minPort) ? options.minPort : 0;
   const maxPort = Number.isFinite(options.maxPort) ? options.maxPort : 65535;
   const blockedPorts = options.blockedPorts || DEFAULT_BLOCKED_PORTS;
   const preferDigitCount = options.preferDigitCount || 4;
+  // paddingZero is already defined above
 
   const candidates = [];
   const normalized = raw.replace(/^0+/, '');
+  
+  // Padding Logic for short inputs like "air" (184)
+  // If normalized length is small, we can pad it with zeros to match preferDigitCount or more
+  const paddedCandidates = [];
+  if (paddingZero && normalized.length > 0 && normalized.length < preferDigitCount) {
+    let current = normalized;
+    // Fix: start padding loop immediately
+    while (current.length <= 5) {
+       // Only push if length >= 2 (valid port min length logic) and >= preferDigitCount (if we want to respect preference)
+       // Actually, the original requirement says "pad ... to match preferDigitCount or more".
+       if (current.length >= preferDigitCount) {
+         paddedCandidates.push(current);
+       }
+       current += '0';
+    }
+  }
+
   if (preferDigitCount && normalized.length >= preferDigitCount) {
     candidates.push(normalized.slice(0, preferDigitCount));
     candidates.push(normalized.slice(normalized.length - preferDigitCount));
   } else {
+    // If not padding, try smaller lengths (if >= 2)
+    // Note: if paddedCandidates is empty, we must rely on this.
+    // But if we have paddedCandidates, we can still add these as fallbacks.
     for (let len = Math.min(normalized.length, preferDigitCount); len >= 2; len -= 1) {
       candidates.push(normalized.slice(0, len));
     }
@@ -117,6 +143,9 @@ function pickPortFromDigits(digits, options = {}) {
       candidates.push(normalized.slice(normalized.length - len));
     }
   }
+  
+  // Merge padded candidates
+  candidates.push(...paddedCandidates);
 
   const unique = Array.from(new Set(candidates));
   const rejectedCandidates = [];

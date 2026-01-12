@@ -54,6 +54,7 @@ function mergeConfig(base, override) {
     maxPort: b.maxPort ?? a.maxPort,
     preferredRanges: b.preferredRanges ?? a.preferredRanges,
     preferDigitCount: b.preferDigitCount ?? a.preferDigitCount,
+    paddingZero: b.paddingZero ?? a.paddingZero,
     lang: b.lang ?? a.lang,
   };
 }

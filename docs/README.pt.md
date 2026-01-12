@@ -6,7 +6,7 @@
 </p>
 
 <p align="center">
-  <strong>PortKey: Uma Estratégia Simples e Prática de Nomeação de Portas</strong>
+  <strong>PortKey：Uma Estratégia Simples e Prática de Nomeação de Portas</strong>
 </p>
 
 <p align="center">
@@ -16,46 +16,46 @@
 
 ## Resumo
 
-Gere portas usando um mapeamento de tecla letra‑número
+Gere portas usando um mapeamento de letras para números do teclado.
 
-Ao executar vários projetos localmente, escolher números de porta pode se tornar incômodo.
+Quando você está rodando vários projetos localmente, escolher números de porta pode ser irritante.
 
-- Nos últimos anos surgiram *tantos* novos projetos. Para testá‑los, costuma‑se precisar iniciá‑los localmente — e as portas começam a colidir.
-- Se você deseja que as abas do navegador (ou favoritos) permaneçam estáveis, a porta de um projeto não deve mudar constantemente.
+- Nos últimos anos, surgiram *tantos* novos projetos. Para realmente testá‑los, muitas vezes você precisa iniciá‑los localmente — e então as portas começam a colidir.
+- Se quiser manter abas do navegador (ou favoritos) estáveis, a porta de um projeto não deve ficar mudando o tempo todo.
 
-Por exemplo, tenho mais de dez aplicativos Nuxt na minha máquina. Se todos usarem a porta padrão `3000`, obviamente isso não funciona. Assim, criei uma regra simples e consistente de nomeação de portas para “atribuir” portas por projeto.
+Por exemplo, eu tenho mais de dez aplicativos Nuxt na minha máquina. Se todos usarem a porta padrão `3000`, obviamente isso não vai funcionar. Então eu criei uma regra simples e consistente de nomeação de portas para “atribuir” portas por projeto.
 
 [Postagem original no blog](https://lionad.art/articles/simple-naming-method)
 
 ### Ideia central
 
-Em vez de escolher números aleatórios, mapeie **o nome do projeto para números com base no teclado**, de modo que a porta seja *legível* e *memorável*.
+Em vez de escolher números aleatórios, mapeie o **nome do projeto para números com base no teclado**, de modo que a porta seja *legível* e *memorizável*.
 
-Desde que o resultado esteja dentro da faixa válida de portas (**1024–65535**) e não colida com portas reservadas/sistema, você pode usá‑lo diretamente.
+Desde que o resultado esteja dentro da faixa válida de portas (**1024–65535**) e não conflite com portas reservadas/sistema, você pode simplesmente usá‑lo.
 
-Mais especificamente: usando um teclado QWERTY padrão, atribua a cada letra um único dígito de acordo com sua **posição na linha/coluna**.
+Mais especificamente: usando um teclado QWERTY padrão, mapeie cada letra para um único dígito com base em sua **posição de linha/coluna**.
 
 Exemplo:
 
-`"cfetch"` → `c(3) f(4) e(3) t(5) c(3) h(6)` → `34353` (número da porta)
+`"cfetch"` → `c(3) f(4) e(3) t(5) c(3) h(6)` → `34353`（número da porta）
 
-Então você pode pegar os primeiros 4 dígitos (ex.: `3453`) ou manter mais dígitos (ex.: `34353`). Ambos são válidos.
+Então você pode pegar os primeiros 4 dígitos (por exemplo, `3453`), ou manter mais dígitos (por exemplo, `34353`). Ambos são válidos.
 
 Se um projeto precisar de múltiplas portas (frontend, backend, banco de dados etc.), escolha **uma** das duas abordagens a seguir:
 
-1. Use o prefixo do projeto e adicione um “sufixo de função”  
+1. Use o prefixo do projeto e então adicione um “sufixo de função”  
    - Para `"cfetch"`, use `3435` como base  
    - Frontend (`fe`, ou seja, `43`) → `34354`  
    - Backend (`server`) → `34352`  
    - Banco de dados (`mongo`) → `34357`  
-   - … e assim por diante
+   - …e assim por diante
 
 2. Use o prefixo do projeto e atribua funções sequencialmente  
    - Para `"cfetch"`, use `3435` como base  
    - Web → `34351`  
    - Backend → `34352`  
    - Banco de dados → `34353`  
-   - … e assim por diante
+   - …e assim por diante
 
 ### Faixa válida de portas
 
@@ -71,7 +71,7 @@ Se um projeto precisar de múltiplas portas (frontend, backend, banco de dados e
 Comando simples:
 
 ```sh
-npx -y @lionad/port-key <nome-do-seu-projeto>
+npx -y @lionad/port-key <seu-nome-de-projeto>
 ```
 
 Ou se quiser um servidor MCP via stdio:
@@ -93,10 +93,11 @@ npx -y @lionad/port-key-mcp
 
 ### Opções de CLI
 
-- `-m, --map <object>`: mapeamento personalizado (JSON ou objeto literal estilo JS)
-- `--lang <code>`: idioma de saída (atualmente apenas `en` e `cn`, padrão: `cn`)
-- `-d, --digits <count>`: número preferido de dígitos para a porta (4 ou 5, padrão: 4)
-- `-h, --help`: exibir ajuda
+- `-m, --map <object>`: mapeamento customizado (JSON ou literal de objeto JS)
+- `--lang <code>`: idioma da saída (atualmente apenas `en` e `cn`, padrão: `cn`)
+- `-d, --digits <count>`: quantidade preferida de dígitos para a porta (4 ou 5, padrão: 4)
+- `--padding-zero <true|false>`: preenche com zero portas curtas (padrão: true). Ex.: `"air"` → 1840
+- `-h, --help`: exibe ajuda
 
 Exemplos:
 
@@ -107,7 +108,7 @@ npx @lionad/port-key cfetch --digits 5  # -> 34353 (porta de 5 dígitos)
 ```
 
 Observações:
-- O idioma padrão dos logs é `cn`. Use `--lang en` para exibir mensagens em inglês.
+- O idioma padrão do log é `cn`. Use `--lang en` para exibir mensagens em inglês.
 - Use `-h` ou `--help` para mostrar a ajuda.
 
 ### Configuração
@@ -120,9 +121,11 @@ Um exemplo completo:
 
 ```json
 {
-  // Número preferido de dígitos para a porta (4 ou 5)
+  // Quantidade preferida de dígitos para a porta (4 ou 5)
   "preferDigitCount": 5,
-  // Mapeamento letra‑para‑dígito customizado
+  // Preencher com zero portas curtas (padrão: true)
+  "paddingZero": true,
+  // Mapeamento customizado de letra para dígito
   "blockedPorts": [3000, 3001, 3002, 6666],
   // Limites da faixa de portas (inclusivo)
   "minPort": 1024,
@@ -134,8 +137,8 @@ Um exemplo completo:
 
 ## Para desenvolvedores
 
-### Estrutura do Projeto
+### Estrutura do projeto
 
-- Este repositório usa monorepo pnpm; o pacote principal está em `packages/core`.
-- Instalação: execute `pnpm install` na raiz do diretório.
+- Este repositório usa monorepo pnpm; o pacote central está em `packages/core`.
+- Instalação: execute `pnpm install` na raiz do projeto.
 - Executar testes: `pnpm -C packages/core test` ou `pnpm -C packages/core test:watch`.

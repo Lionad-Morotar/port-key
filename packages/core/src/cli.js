@@ -18,6 +18,7 @@ function formatHelp(lang = 'cn') {
     t.optMap,
     t.optLang,
     t.optDigits,
+    t.optPadding,
     t.optHelp,
     '',
     t.examples,
@@ -35,6 +36,7 @@ function parseArgv(argv) {
   let showHelp = false;
   let lang;
   let preferDigitCount;
+  let paddingZero;
   const positionals = [];
 
   let i = 0;
@@ -78,6 +80,25 @@ function parseArgv(argv) {
       continue;
     }
 
+    if (token === '--padding-zero') {
+      const value = args[i + 1];
+      if (value === 'false') {
+        paddingZero = false;
+        i += 2;
+      } else if (value === 'true') {
+        paddingZero = true;
+        i += 2;
+      } else if (!value || value.startsWith('-')) {
+         // Treated as boolean flag (true) if no value provided
+         paddingZero = true;
+         i += 1;
+      } else {
+         // Fallback for unexpected values
+         throw new Error('Invalid value for --padding-zero. Use true or false.');
+      }
+      continue;
+    }
+
     positionals.push(token);
     i += 1;
   }
@@ -87,6 +108,7 @@ function parseArgv(argv) {
     lang,
     showHelp,
     preferDigitCount,
+    paddingZero,
     input: positionals.join(' '),
   };
 }
@@ -125,6 +147,7 @@ function runCli(argv, stdout = process.stdout, stderr = process.stderr, deps = {
     map: parsed.map !== DEFAULT_MAP ? parsed.map : undefined,
     lang: parsed.lang,
     preferDigitCount: parsed.preferDigitCount,
+    paddingZero: parsed.paddingZero,
   });
 
   const lang = getLangOrDefault(effective.lang);
@@ -151,6 +174,7 @@ function runCli(argv, stdout = process.stdout, stderr = process.stderr, deps = {
     maxPort: effective.maxPort,
     preferredRanges: effective.preferredRanges,
     preferDigitCount: effective.preferDigitCount,
+    paddingZero: effective.paddingZero,
   });
 
   if (result.port === null) {
