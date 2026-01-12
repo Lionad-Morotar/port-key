@@ -36,7 +36,7 @@ const config: Config = {
     level: process.env.LOG_LEVEL || 'info',
   },
   server: {
-    port: process.env.PORT ? parseInt(process.env.PORT, 10) : 3000,
+    port: process.env.PORT ? parseInt(process.env.PORT, 10) : 10945,
     streamable: process.env.STREAMABLE === 'true' || process.env.STREAMABLE === '1',
   },
   session: {

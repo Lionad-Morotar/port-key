@@ -11,7 +11,7 @@ Usage: port-key-mcp [options]
 
 Options:
   -s, --streamable       Run in streamable mode (HTTP)
-  -p, --port <number>    Specify port number (default: 3000)
+  -p, --port <number>    Specify port number (default: 10945)
   -l, --local [boolean]  Enable/disable local tools (default: true)
   --reuse [boolean]      Reuse existing streamable server on same port (default: true)
   -h, --help             Show this help message

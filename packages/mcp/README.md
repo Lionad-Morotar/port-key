@@ -23,7 +23,7 @@ npx @lionad/port-key-mcp
 Runs an HTTP server implementing the Streamable HTTP transport. This mode is suitable for remote connections or when stdio is not available.
 
 ```shell
-# Run on default port 3000
+# Run on default port 10945
 npx @lionad/port-key-mcp --streamable
 
 # Run on specific port
