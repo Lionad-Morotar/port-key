@@ -182,11 +182,7 @@ Run tests in watch mode:
 pnpm run test:watch
 ```
 
-Run e2e tests (builds first, then spawns `node packages/mcp` in subprocesses):
-
-```shell
-pnpm run test:e2e
-```
+E2E tests live under `tests/e2e/` and are included in `pnpm test`.
 
 ## Thanks
 

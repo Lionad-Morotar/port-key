@@ -8,7 +8,7 @@ import process from "node:process";
 
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = dirname(__filename);
-const ROOT_DIR = join(__dirname, "..", "..", "..");
+const ROOT_DIR = join(__dirname, "..", "..", "..", "..");
 const MCP_PATH = join(ROOT_DIR, "packages", "mcp");
 
 interface ServerProcess {
@@ -36,8 +36,8 @@ describe("MCP CLI E2E", () => {
       }
     }
     servers = [];
-    
-    await new Promise(resolve => setTimeout(resolve, 1000));
+
+    await new Promise((resolve) => setTimeout(resolve, 1000));
   });
 
   async function getFreePort(): Promise<number> {
@@ -57,7 +57,11 @@ describe("MCP CLI E2E", () => {
     });
   }
 
-  async function startServer(args: string[], type: "streamable" | "stdio" = "streamable", port?: number): Promise<ServerProcess> {
+  async function startServer(
+    args: string[],
+    type: "streamable" | "stdio" = "streamable",
+    port?: number
+  ): Promise<ServerProcess> {
     const isStreamable = args.includes("--streamable");
     const serverPort = port ?? (isStreamable ? await getFreePort() : undefined);
 
@@ -138,7 +142,7 @@ describe("MCP CLI E2E", () => {
       if (isHealthy) {
         return true;
       }
-      await new Promise(resolve => setTimeout(resolve, interval));
+      await new Promise((resolve) => setTimeout(resolve, interval));
     }
     return false;
   }
@@ -217,7 +221,7 @@ describe("MCP CLI E2E", () => {
 
     it("should respond to health check in streamable mode", async () => {
       const server = await startServer(["--streamable"], "streamable");
-      
+
       const isHealthy = await waitForServer(server.port!);
       if (!isHealthy) {
         throw new Error(`Health check failed. Output: ${server.output()}`);
@@ -226,12 +230,12 @@ describe("MCP CLI E2E", () => {
 
     it("should respond to MCP endpoint in streamable mode", async () => {
       const server = await startServer(["--streamable"], "streamable");
-      
+
       const isHealthy = await waitForServer(server.port!);
       if (!isHealthy) {
         throw new Error(`Health check failed. Output: ${server.output()}`);
       }
-      
+
       try {
         const sessionId = await initStreamableSession(server.port!);
 
@@ -260,7 +264,9 @@ describe("MCP CLI E2E", () => {
         }
         const firstChunk = await Promise.race([
           reader.read(),
-          new Promise<never>((_, reject) => setTimeout(() => reject(new Error("Timed out waiting for SSE data")), 2000)),
+          new Promise<never>((_, reject) =>
+            setTimeout(() => reject(new Error("Timed out waiting for SSE data")), 2000)
+          ),
         ]);
 
         const chunkText = firstChunk.value ? new TextDecoder().decode(firstChunk.value) : "";
@@ -293,29 +299,31 @@ describe("MCP CLI E2E", () => {
 
     it("should handle stdio communication", async () => {
       const server = await startServer([], "stdio");
-      
-      await new Promise(resolve => setTimeout(resolve, 500));
-      
+
+      await new Promise((resolve) => setTimeout(resolve, 500));
+
       if (!server.proc.stdin) {
         throw new Error("stdin is not available");
       }
 
-      server.proc.stdin.write(JSON.stringify({
-        jsonrpc: "2.0",
-        id: 1,
-        method: "initialize",
-        params: {
-          protocolVersion: "2024-11-05",
-          capabilities: {},
-          clientInfo: {
-            name: "test-client",
-            version: "1.0.0",
+      server.proc.stdin.write(
+        JSON.stringify({
+          jsonrpc: "2.0",
+          id: 1,
+          method: "initialize",
+          params: {
+            protocolVersion: "2024-11-05",
+            capabilities: {},
+            clientInfo: {
+              name: "test-client",
+              version: "1.0.0",
+            },
           },
-        },
-      }) + "\n");
+        }) + "\n"
+      );
 
-      await new Promise(resolve => setTimeout(resolve, 1000));
-      
+      await new Promise((resolve) => setTimeout(resolve, 1000));
+
       expect(server.proc.killed).toBe(false);
     });
   });
@@ -324,10 +332,10 @@ describe("MCP CLI E2E", () => {
     it("should start multiple server instances on different ports", async () => {
       const server1 = await startServer(["--streamable"], "streamable");
       const server2 = await startServer(["--streamable"], "streamable");
-      
+
       const healthy1 = await waitForServer(server1.port!);
       const healthy2 = await waitForServer(server2.port!);
-      
+
       expect(healthy1).toBe(true);
       expect(healthy2).toBe(true);
       expect(server1.port).not.toBe(server2.port);
@@ -337,16 +345,16 @@ describe("MCP CLI E2E", () => {
   describe("Graceful Shutdown", () => {
     it("should shut down gracefully on SIGTERM", async () => {
       const server = await startServer(["--streamable"], "streamable");
-      
-      await new Promise(resolve => setTimeout(resolve, 500));
-      
+
+      await new Promise((resolve) => setTimeout(resolve, 500));
+
       server.proc.kill("SIGTERM");
-      
+
       await new Promise<void>((resolve) => {
         server.proc.once("exit", () => resolve());
         setTimeout(() => resolve(), 2000);
       });
-      
+
       expect(server.proc.killed).toBe(true);
     });
   });
@@ -355,9 +363,10 @@ describe("MCP CLI E2E", () => {
     it("should respect custom PORT environment variable", async () => {
       const port = await getFreePort();
       await startServer(["--streamable"], "streamable", port);
-      
+
       const isHealthy = await waitForServer(port);
       expect(isHealthy).toBe(true);
     });
   });
 });
+
