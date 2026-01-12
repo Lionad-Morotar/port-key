@@ -9,5 +9,7 @@
 - Add comprehensive test coverage for MCP server tools
 - Update README with detailed usage instructions and tool parameters
 - Support custom mapping, `preferDigitCount`, `minPort`, `maxPort`, and `blockedPorts` options
-- Add locale files (cn.json, en.json) with design philosophy content
+- Add `build:locales` script to automatically generate locale files from docs/ directory
+- Support 9 languages: cn, es, fr, de, ja, ko, ru, ar, pt, it
 - Add locales to package files for distribution
+- Update mcp-server to support all 9 languages via lang parameter

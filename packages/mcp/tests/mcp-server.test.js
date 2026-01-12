@@ -121,16 +121,52 @@ describe("MCP Server", () => {
 				assert.ok(content[0].text.includes("设计理念"));
 			});
 
-			it("should return design philosophy in English when lang is en", async () => {
+			it("should return design philosophy in Spanish when lang is es", async () => {
 				const { content } = await client.callTool({
 					name: "get-design-philosophy",
-					arguments: { lang: "en" },
+					arguments: { lang: "es" },
 				});
 
 				assert.strictEqual(content.length, 1);
 				assert.strictEqual(content[0].type, "text");
 				assert.ok(content[0].text.length > 0);
-				assert.ok(content[0].text.includes("design philosophy"));
+				assert.ok(content[0].text.includes("teclado"));
+			});
+
+			it("should return design philosophy in French when lang is fr", async () => {
+				const { content } = await client.callTool({
+					name: "get-design-philosophy",
+					arguments: { lang: "fr" },
+				});
+
+				assert.strictEqual(content.length, 1);
+				assert.strictEqual(content[0].type, "text");
+				assert.ok(content[0].text.length > 0);
+				assert.ok(content[0].text.includes("clavier"));
+			});
+
+			it("should return design philosophy in German when lang is de", async () => {
+				const { content } = await client.callTool({
+					name: "get-design-philosophy",
+					arguments: { lang: "de" },
+				});
+
+				assert.strictEqual(content.length, 1);
+				assert.strictEqual(content[0].type, "text");
+				assert.ok(content[0].text.length > 0);
+				assert.ok(content[0].text.includes("Tastatur"));
+			});
+
+			it("should return design philosophy in Japanese when lang is ja", async () => {
+				const { content } = await client.callTool({
+					name: "get-design-philosophy",
+					arguments: { lang: "ja" },
+				});
+
+				assert.strictEqual(content.length, 1);
+				assert.strictEqual(content[0].type, "text");
+				assert.ok(content[0].text.length > 0);
+				assert.ok(content[0].text.includes("キーボード"));
 			});
 		});
 	});

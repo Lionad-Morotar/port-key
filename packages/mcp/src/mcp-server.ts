@@ -8,6 +8,8 @@ import { fileURLToPath } from "node:url";
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = dirname(__filename);
 
+const SUPPORTED_LANGUAGES = ["cn", "es", "fr", "de", "ja", "ko", "ru", "ar", "pt", "it"];
+
 async function loadLocale(lang: string): Promise<string> {
 	const localePath = join(__dirname, "..", "locales", `${lang}.json`);
 	try {
@@ -78,9 +80,9 @@ mcpServer.registerTool(
 	"get-design-philosophy",
 	{
 		title: "Get PortKey Design Philosophy",
-		description: "Get the design philosophy and background of PortKey",
+		description: "Get design philosophy and background of PortKey",
 		inputSchema: {
-			lang: z.enum(["cn", "en"]).default("cn"),
+			lang: z.enum([...SUPPORTED_LANGUAGES] as [string, ...string[]]).default("cn"),
 		},
 	},
 	async ({ lang = "cn" }) => {

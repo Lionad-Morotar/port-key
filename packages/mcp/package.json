@@ -30,7 +30,8 @@
     "LICENSE"
   ],
   "scripts": {
-    "build": "tsc -p tsconfig.build.json",
+    "build:locales": "node scripts/build-locales.js",
+    "build": "pnpm run build:locales && tsc -p tsconfig.build.json",
     "prepublishOnly": "pnpm run build",
     "test": "pnpm run build && vitest run",
     "test:watch": "vitest"

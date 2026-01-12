@@ -24,10 +24,10 @@ npx @lionad/port-key-mcp
 
 ### Available Tools
 
-The MCP server provides the following tools:
+The MCP server provides following tools:
 
 - **map-project-name-to-port**: Map a project name to a port number using keyboard-based letter-to-number mapping
-- **get-design-philosophy**: Get the design philosophy and background of PortKey
+- **get-design-philosophy**: Get design philosophy and background of PortKey
 
 #### map-project-name-to-port
 
@@ -66,7 +66,7 @@ The MCP server provides the following tools:
 
 ##### Tool Parameters
 
-- `lang` (string, optional): Language code for the design philosophy content (`"cn"` or `"en"`, default: `"cn"`)
+- `lang` (string, optional): Language code for design philosophy content. Supported languages: `"cn"`, `"es"`, `"fr"`, `"de"`, `"ja"`, `"ko"`, `"ru"`, `"ar"`, `"pt"`, `"it"`. Default: `"cn"`.
 
 ##### Example Tool Call
 
@@ -82,18 +82,32 @@ The MCP server provides the following tools:
 ##### Example Response
 
 ```
-Here is design philosophy of PortKey:
+以下是 PortKey 的设计理念：
 
-## Core Idea
+## 核心思路
 
-PortKey maps project names to numbers based on keyboard layout, making port numbers both readable and memorable.
-
+PortKey 基于键盘布局将项目名称映射为数字，使端口号既可读又易记。
 ...
 ```
 
+##### Supported Languages
+
+| Code | Language   |
+|-------|------------|
+| cn    | 中文        |
+| es    | Español    |
+| fr    | Français    |
+| de    | Deutsch     |
+| ja    | 日本語      |
+| ko    | 한국어       |
+| ru    | Русский     |
+| ar    | العربية     |
+| pt    | Português  |
+| it    | Italiano   |
+
 ## Configuration
 
-You can configure MCP server in your MCP client's configuration file (e.g., for VS Code Copilot, configure in your `.vscode/mcp.json`):
+You can configure MCP server in your MCP client's configuration file (e.g., for VS Code Copilot, configure in your `.copilot/settings.json`):
 
 ```json
 {
@@ -107,6 +121,12 @@ You can configure MCP server in your MCP client's configuration file (e.g., for 
 ```
 
 ## Development
+
+Build locales (generates from docs/ directory):
+
+```shell
+npm run build:locales
+```
 
 Run tests:
 
