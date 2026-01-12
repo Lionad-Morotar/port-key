@@ -14,30 +14,8 @@ const DEFAULT_MAP = Object.freeze({
 });
 
 const DEFAULT_BLOCKED_PORTS = Object.freeze(
+  // well-known application ports
   new Set([
-    0,
-    20,
-    21,
-    22,
-    23,
-    25,
-    53,
-    67,
-    68,
-    80,
-    110,
-    123,
-    143,
-    161,
-    162,
-    389,
-    443,
-    445,
-    465,
-    587,
-    636,
-    993,
-    995,
     3000,
     3001,
     5000,
@@ -105,6 +83,8 @@ function isValidPort(port) {
 }
 
 function isPortBlocked(port, blockedPorts) {
+  // System Ports (0-1023) are assigned by IETF and should not be used.
+  if (port < 1024) return true;
   if (blockedPorts && typeof blockedPorts.has === 'function') {
     return blockedPorts.has(port);
   }
@@ -219,6 +199,7 @@ export {
   normalizeInput,
   mapToDigits,
   isValidPort,
+  isPortBlocked,
   pickPortFromDigits,
   mapToPort,
   parseUserMap,

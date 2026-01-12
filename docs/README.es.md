@@ -6,7 +6,7 @@
 </p>
 
 <p align="center">
-  <strong>PortKey: una estrategia simple y práctica para nombrar puertos</strong>
+  <strong>PortKey：Una estrategia simple y práctica para nombrar puertos</strong>
 </p>
 
 <p align="center">
@@ -16,24 +16,24 @@
 
 ## Resumen
 
-Generar puertos mediante un mapeo de tecla‑letra a número.
+Generar puertos mediante un mapeo de letras a números del teclado.
 
-Cuando manejas varios proyectos localmente, elegir números de puerto puede resultar molesto.
+Cuando ejecutas varios proyectos localmente, elegir números de puerto se vuelve molesto.
 
-- En los últimos años han surgido *muchísimos* proyectos nuevos. Para probarlos, a menudo necesitas iniciarlos localmente y los puertos empiezan a colisionar.
+- En los últimos años han surgido *tantos* nuevos proyectos. Para probarlos realmente, a menudo necesitas iniciarlos localmente—y entonces los puertos empiezan a colisionar.
 - Si deseas que las pestañas del navegador (o marcadores) permanezcan estables, el puerto de un proyecto no debería cambiar constantemente.
 
-Por ejemplo, tengo más de diez aplicaciones Nuxt en mi máquina. Si todas usan por defecto `3000`, obviamente no funcionará. Por eso ideé una regla simple y consistente para “asignar” puertos a cada proyecto.
+Por ejemplo, tengo más de diez aplicaciones Nuxt en mi máquina. Si todas usan `3000` por defecto, obviamente no funcionará. Así que ideé una regla simple y consistente para nombrar puertos por proyecto.
 
-[Publicación del blog original](https://lionad.art/articles/simple-naming-method)
+[Publicación original del blog](https://lionad.art/articles/simple-naming-method)
 
-### Idea central
+### Idea principal
 
-En lugar de elegir números aleatorios, asigna **el nombre del proyecto a números según la disposición del teclado**, de modo que el puerto sea *legible* y *memorable*.
+En lugar de elegir números aleatorios, asigna el **nombre del proyecto a números basados en el teclado**, de modo que el puerto sea *legible* y *memorable*.
 
-Mientras el resultado esté dentro del rango de puertos válido (**0–65535**) y no colisione con puertos reservados/sistema, puedes usarlo directamente.
+Mientras el resultado esté dentro del rango de puertos válidos (**1024–65535**) y no choque con puertos reservados/sistema, puedes usarlo directamente.
 
-Más concretamente: usando un teclado QWERTY estándar, asigna a cada letra un solo dígito según su **posición de fila/columna**.
+Más concretamente: usando un teclado QWERTY estándar, asigna a cada letra un único dígito según su **posición de fila/columna**.
 
 Ejemplo:
 
@@ -41,27 +41,27 @@ Ejemplo:
 
 Luego puedes tomar los primeros 4 dígitos (p. ej., `3453`) o conservar más dígitos (p. ej., `34353`). Cualquiera está bien.
 
-Si un proyecto necesita varios puertos (frontend, backend, base de datos, etc.), elige **una** de estas dos estrategias:
+Si un proyecto necesita varios puertos (frontend, backend, base de datos, etc.), elige **una** de estas dos formas:
 
-1. Usa el prefijo del proyecto y añade un “sufijo de rol”  
+1. Usa el prefijo del proyecto y luego agrega un “sufijo de rol”  
    - Para `"cfetch"`, toma `3435` como base  
    - Frontend (`fe`, es decir, `43`) → `34354`  
    - Backend (`server`) → `34352`  
    - Base de datos (`mongo`) → `34357`  
    - …y así sucesivamente
 
-2. Usa el prefijo del proyecto y asigna roles secuencialmente  
+2. Usa el prefijo del proyecto y asigna roles secuenciales  
    - Para `"cfetch"`, toma `3435` como base  
    - Web → `34351`  
    - Backend → `34352`  
    - Base de datos → `34353`  
-   - …y así sucesivamente
 
-### Rango de puertos válido
+### Rango válido de puertos
 
-- Los puertos deben estar entre **0–65535**.
-- Para servicios personalizados, suele ser mejor usar el rango **1024–49151** (no reservado) o **49152–65535** (privado/dinámico).
-- Mientras el número mapeado no supere el límite, es válido.
+- Los puertos deben estar dentro del rango **1024–65535** (los puertos del sistema 0‑1023 están bloqueados).
+- **Puertos de Sistema (0‑1023)**: asignados por IETF. Estrictamente bloqueados.
+- **Puertos de Usuario (1024‑49151)**: asignados por IANA. Úsalos con precaución pues pueden entrar en conflicto con servicios registrados.
+- **Puertos Dinámicos/Privados (49152‑65535)**: no asignados. Los más seguros para uso privado o dinámico.
 
 ---
 
@@ -94,7 +94,7 @@ npx -y @lionad/port-key-mcp
 
 - `-m, --map <object>`: mapeo personalizado (JSON o literal tipo JS)
 - `--lang <code>`: idioma de salida (actualmente solo `en` y `cn`, por defecto: `cn`)
-- `-d, --digits <count>`: cantidad de dígitos preferida para el puerto (4 o 5, por defecto: 4)
+- `-d, --digits <count>`: número de dígitos preferido para el puerto (4 o 5, por defecto: 4)
 - `-h, --help`: mostrar ayuda
 
 Ejemplos:
@@ -107,7 +107,7 @@ npx @lionad/port-key cfetch --digits 5  # -> 34353 (puerto de 5 dígitos)
 
 Notas:
 - El idioma predeterminado del registro es `cn`. Usa `--lang en` para mostrar mensajes en inglés.
-- Usa `-h` o `--help` para mostrar la ayuda.
+- Utiliza `-h` o `--help` para mostrar la ayuda.
 
 ### Configuración
 
@@ -119,7 +119,7 @@ Ejemplo completo:
 
 ```json
 {
-  // Cantidad de dígitos preferida para el puerto (4 o 5)
+  // Número de dígitos preferido para el puerto (4 o 5)
   "preferDigitCount": 5,
   // Mapeo personalizado de letra a dígito
   "blockedPorts": [3000, 3001, 3002, 6666],
@@ -135,6 +135,6 @@ Ejemplo completo:
 
 ### Estructura del proyecto
 
-- Este repositorio usa un monorepo gestionado con pnpm; el paquete central está en `packages/core`.
+- Este repositorio utiliza un monorepo pnpm; el paquete central se encuentra en `packages/core`.
 - Instalación: ejecuta `pnpm install` en la raíz del proyecto.
 - Ejecutar pruebas: `pnpm -C packages/core test` o `pnpm -C packages/core test:watch`.

@@ -30,7 +30,7 @@ For example, I have more than ten Nuxt apps on my machine. If they all default t
 
 Instead of picking random numbers, map the **project name to numbers based on the keyboard**, so the port is *readable* and *memorable*.
 
-As long as the result is within the valid port range (**0–65535**) and doesn’t hit reserved/system ports, you can just use it.
+As long as the result is within the valid port range (**1024–65535**) and doesn’t hit reserved/system ports, you can just use it.
 
 More specifically: using a standard QWERTY keyboard, map each letter to a single digit based on its **row/column position**.
 
@@ -58,9 +58,10 @@ If a project needs multiple ports (frontend, backend, database, etc.), pick **on
 
 ### Valid port range
 
-- Ports must be within **0–65535**.
-- For custom services, it’s usually best to use **1024–49151** (non-reserved) or **49152–65535** (private/dynamic).
-- As long as the mapped number stays under the limit, it’s valid.
+- Ports must be within **1024–65535** (System ports 0-1023 are blocked).
+- **System Ports (0-1023)**: Assigned by IETF. Strictly blocked.
+- **User Ports (1024-49151)**: Assigned by IANA. Use with caution as they might conflict with registered services.
+- **Dynamic/Private Ports (49152-65535)**: Not assigned. Safest for private or dynamic use.
 
 ---
 

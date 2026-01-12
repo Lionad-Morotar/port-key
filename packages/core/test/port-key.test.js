@@ -22,8 +22,14 @@ describe('utils: mapToPort', () => {
   });
 
   it('avoids blocked ports when possible and tries fallbacks', () => {
-    const result = pickPortFromDigits('300012', { blockedPorts: new Set([30001, 3000]) });
-    expect(result.port).toBe(12);
+    // 3000 is blocked by option.
+    // 1234 is valid (> 1023).
+    // Input '30001234'
+    // Candidates: '3000', '1234', '30001234' (too large)
+    // Actually pickPortFromDigits splits by preferDigitCount (default 4).
+    // '30001234' -> '3000', '1234'.
+    const result = pickPortFromDigits('30001234', { blockedPorts: new Set([3000]) });
+    expect(result.port).toBe(1234);
     expect(result.rejectedCandidates).toEqual(
       expect.arrayContaining([
         expect.objectContaining({ candidate: '3000', reason: 'Port 3000 is blocked' }),
@@ -74,8 +80,8 @@ describe('many words mapping test (with detailed errors)', () => {
   it('maps many words correctly', () => {
     const testCases = [
       { input: 'x', digits: '2', port: null },
-      { input: 'ab', digits: '15', port: 15 },
-      { input: 'abc', digits: '153', port: 153 },
+      { input: 'ab', digits: '15', port: null }, // 15 < 1024 blocked
+      { input: 'abc', digits: '153', port: null }, // 153 < 1024 blocked
       { input: 'cfetch', digits: '343536', port: 3435 },
       { input: 'prove', digits: '04943', port: 4943 },
       { input: 'd000', digits: '3000', port: null },
@@ -83,7 +89,7 @@ describe('many words mapping test (with detailed errors)', () => {
       { input: '…*1—342', digits: '1342', port: 1342 },
       { input: 'nuxt-ui', digits: '672578', port: 6725 },
       { input: 'greate', digits: '543153', port: 5431 },
-      { input: '_push', digits: '0726', port: 726 },
+      { input: '_push', digits: '0726', port: null }, // 726 < 1024 blocked
     ];
 
     testCases.forEach(({ input, digits, port }) => {
