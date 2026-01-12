@@ -1,0 +1,59 @@
+{
+  "name": "@lionad/port-key-mcp",
+  "version": "0.1.5",
+  "description": "MCP Server for PortKey",
+  "type": "module",
+  "bin": "./bin/port-key-mcp.js",
+  "exports": {
+    ".": "./src/mcp-cli.js"
+  },
+  "keywords": [
+    "portkey",
+    "port-key",
+    "port",
+    "port number",
+    "naming",
+    "strategy",
+    "method",
+    "mcp"
+  ],
+  "main": "src/mcp-cli.js",
+  "files": [
+    "src",
+    "bin",
+    "locales",
+    "README.md",
+    "LICENSE"
+  ],
+  "scripts": {
+    "test": "vitest run",
+    "test:watch": "vitest"
+  },
+  "author": "Lionad",
+  "license": "ISC",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Lionad-Morotar/port-key.git"
+  },
+  "bugs": {
+    "url": "https://github.com/Lionad-Morotar/port-key/issues"
+  },
+  "homepage": "https://github.com/Lionad-Morotar/port-key#readme",
+  "engines": {
+    "node": ">=16"
+  },
+  "publishConfig": {
+    "registry": "https://registry.npmjs.org/"
+  },
+  "dependencies": {
+    "@lionad/port-key": "workspace:*",
+    "@modelcontextprotocol/sdk": "^1.24.1",
+    "zod": "^4.1.13"
+  },
+  "devDependencies": {
+    "@cfworker/json-schema": "^4.1.1",
+    "@types/express": "^5.0.6",
+    "@types/node": "^24.7.2",
+    "vitest": "4.0.16"
+  }
+}
