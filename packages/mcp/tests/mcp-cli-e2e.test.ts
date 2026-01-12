@@ -177,6 +177,37 @@ describe("MCP CLI E2E", () => {
     return sessionId;
   }
 
+  async function runCliOnce(args: string[], timeoutMs = 5000): Promise<{ code: number | null; output: string }> {
+    return new Promise((resolve, reject) => {
+      const childProcess = spawn("node", [MCP_PATH, ...args], {
+        cwd: ROOT_DIR,
+        env: { ...process.env, NODE_ENV: "test" },
+      });
+
+      let output = "";
+      const timer = setTimeout(() => {
+        childProcess.kill("SIGKILL");
+        reject(new Error(`Timed out waiting for process exit. Output: ${output}`));
+      }, timeoutMs);
+
+      childProcess.stdout.on("data", (data: Uint8Array) => {
+        output += new TextDecoder().decode(data);
+      });
+      childProcess.stderr.on("data", (data: Uint8Array) => {
+        output += new TextDecoder().decode(data);
+      });
+
+      childProcess.on("exit", (code) => {
+        clearTimeout(timer);
+        resolve({ code, output });
+      });
+      childProcess.on("error", (err) => {
+        clearTimeout(timer);
+        reject(err);
+      });
+    });
+  }
+
   describe("Streamable Mode", () => {
     it("should start server in streamable mode", async () => {
       const server = await startServer(["--streamable"], "streamable");
@@ -238,6 +269,18 @@ describe("MCP CLI E2E", () => {
       } catch (error) {
         throw new Error(`Failed to call MCP endpoint: ${error}`);
       }
+    });
+
+    it("should reuse existing streamable server on same port", async () => {
+      const port = await getFreePort();
+      await startServer(["--streamable", "--port", String(port)], "streamable", port);
+
+      const isHealthy = await waitForServer(port);
+      expect(isHealthy).toBe(true);
+
+      const res = await runCliOnce(["--streamable", "--port", String(port)]);
+      expect(res.code).toBe(0);
+      expect(res.output).toContain(`PortKey MCP Server already running at http://127.0.0.1:${port}`);
     });
   });
 

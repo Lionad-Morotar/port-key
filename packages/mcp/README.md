@@ -28,12 +28,27 @@ npx @lionad/port-key-mcp --streamable
 
 # Run on specific port
 npx @lionad/port-key-mcp --streamable --port 8080
+
+# Reuse the already-running server on the same port (default: true)
+npx @lionad/port-key-mcp --streamable --port 8080 --reuse
+
+# Force starting a new process (will fail if the port is already in use by another service)
+npx @lionad/port-key-mcp --streamable --port 8080 --reuse false
 ```
 
 Environment variables are also supported:
 ```shell
 PORT=8080 LOG_LEVEL=debug npx @lionad/port-key-mcp --streamable
 ```
+
+##### Single-instance reuse (Streamable)
+
+When you run `npx @lionad/port-key-mcp --streamable` from multiple terminals using the same port, the CLI will detect an existing PortKey MCP server (via `GET /health`) and exit successfully without starting a new server process. This keeps “one port = one MCP server instance” while allowing repeated invocations.
+
+##### Endpoints (Streamable)
+
+- `GET /health` returns a JSON health payload.
+- `POST /mcp`, `GET /mcp`, `DELETE /mcp` implement MCP Streamable HTTP transport (stateful sessions).
 
 ### Available Tools
 
@@ -137,30 +152,40 @@ For HTTP mode configuration in clients that support it:
   "mcpServers": {
     "port-key": {
       "command": "npx",
-      "args": ["--streamable", "@lionad/port-key-mcp"]
+      "args": ["@lionad/port-key-mcp", "--streamable"]
     }
   }
 }
 ```
+
+## Logs
+
+In Streamable HTTP mode, logs are written under `~/.port-key/logs`.
 
 ## Development
 
 Build locales (generates from docs/ directory):
 
 ```shell
-npm run build:locales
+pnpm run build:locales
 ```
 
 Run tests:
 
 ```shell
-npm test
+pnpm test
 ```
 
 Run tests in watch mode:
 
 ```shell
-npm run test:watch
+pnpm run test:watch
+```
+
+Run e2e tests (builds first, then spawns `node packages/mcp` in subprocesses):
+
+```shell
+pnpm run test:e2e
 ```
 
 ## Thanks

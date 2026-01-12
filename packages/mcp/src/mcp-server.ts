@@ -232,6 +232,24 @@ export class MCPServerApp {
       logger.info(`Health check available at http://0.0.0.0:${port}/health`);
       logger.info(`MCP endpoint available at http://0.0.0.0:${port}/mcp`);
     } catch (err) {
+      const code = err && typeof err === "object" && "code" in err ? (err as any).code : undefined;
+      if (code === "EADDRINUSE") {
+        try {
+          const res = await fetch(`http://127.0.0.1:${port}/health`, {
+            signal: AbortSignal.timeout(1000),
+            headers: { Accept: "application/json" },
+          });
+          if (res.ok) {
+            const body = await res.json().catch(() => null);
+            if (body && typeof body === "object" && (body as any).status === "ok") {
+              logger.info(`PortKey MCP Server already running on http://127.0.0.1:${port}`);
+              return;
+            }
+          }
+        } catch {
+        }
+      }
+
       logger.error("Failed to start HTTP server", err);
       process.exit(1);
     }
