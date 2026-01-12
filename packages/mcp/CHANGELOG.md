@@ -1,5 +1,9 @@
 # Changelog
 
+## v0.4.1
+
+- fix: default listen 127.0.0.1:10945
+
 ## v0.4.0
 
 - feat: add HTTP server support using Fastify (StreamableHTTPServerTransport)

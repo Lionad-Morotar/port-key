@@ -26,7 +26,7 @@ export class MCPServerApp {
     const server = new McpServer({
       name: "PortKey",
       // ! AUTO GENERATED VERSION - DO NOT EDIT
-      version: "0.4.0",
+      version: "0.4.1",
     });
 
     this.registerTools(server);

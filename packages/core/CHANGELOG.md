@@ -1,5 +1,9 @@
 # 更新日志
 
+## v0.4.1
+
+- chore: sync version
+
 ## v0.4.0
 
 - chore: sync version
