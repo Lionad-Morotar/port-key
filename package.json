@@ -5,7 +5,13 @@
   "scripts": {
     "build": "pnpm -r --filter='./packages/*' run build",
     "test": "pnpm -r --filter='./packages/*' run test",
-    "test:watch": "pnpm -r --filter='./packages/*' run test:watch"
+    "test:watch": "pnpm -r --filter='./packages/*' run test:watch",
+    "bump": "bash scripts/bump-version.sh",
+    "bump:dry-run": "bash scripts/bump-version.sh --dry-run",
+    "bump:patch": "bash scripts/bump-version.sh patch",
+    "bump:minor": "bash scripts/bump-version.sh minor",
+    "bump:major": "bash scripts/bump-version.sh major",
+    "release": "pnpm -r publish --access public --no-git-checks --registry=https://registry.npmjs.org/"
   },
   "author": "Lionad",
   "license": "ISC",

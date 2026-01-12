@@ -32,7 +32,8 @@
   "scripts": {
     "build:locales": "node scripts/build-locales.js",
     "build": "pnpm run build:locales && tsc -p tsconfig.build.json",
-    "prepublishOnly": "pnpm run build",
+    "prepublishOnly": "pnpm run build && cp ../../README.md ./README.md",
+    "postpublish": "rm ./README.md",
     "test": "pnpm run build && vitest run",
     "test:watch": "vitest"
   },

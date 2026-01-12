@@ -31,8 +31,11 @@
     "LICENSE"
   ],
   "scripts": {
+    "build": "echo 'skip build steps in packages/core'",
     "test": "vitest run",
-    "test:watch": "vitest"
+    "test:watch": "vitest",
+    "prepublishOnly": "cp ../../README.md ./README.md",
+    "postpublish": "rm ./README.md"
   },
   "author": "Lionad",
   "license": "ISC",
