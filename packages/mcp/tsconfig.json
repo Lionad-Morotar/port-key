@@ -7,6 +7,10 @@
   "compilerOptions": {
     "noEmit": true,
     "strict": true,
-    "allowJs": true
+    "allowJs": true,
+    "module": "esnext",
+    "moduleResolution": "bundler",
+    "rootDir": "./src",
+    "outDir": "./dist"
   }
 }
