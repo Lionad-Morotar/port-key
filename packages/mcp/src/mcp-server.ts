@@ -227,10 +227,10 @@ export class MCPServerApp {
     });
 
     try {
-      await fastify.listen({ port, host: "0.0.0.0" });
-      logger.info(`PortKey MCP Server listening on http://0.0.0.0:${port}`);
-      logger.info(`Health check available at http://0.0.0.0:${port}/health`);
-      logger.info(`MCP endpoint available at http://0.0.0.0:${port}/mcp`);
+      await fastify.listen({ port, host: "127.0.0.1" });
+      logger.info(`PortKey MCP Server listening on http://127.0.0.1:${port}`);
+      logger.info(`Health check available at http://127.0.0.1:${port}/health`);
+      logger.info(`MCP endpoint available at http://127.0.0.1:${port}/mcp`);
     } catch (err) {
       const code = err && typeof err === "object" && "code" in err ? (err as any).code : undefined;
       if (code === "EADDRINUSE") {

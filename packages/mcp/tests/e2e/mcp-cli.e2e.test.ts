@@ -88,7 +88,7 @@ describe("MCP CLI E2E", () => {
       childProcess.stdout.on("data", (data: Uint8Array) => {
         output += new TextDecoder().decode(data);
         const ready = isStreamable
-          ? output.includes("listening on http://0.0.0.0:")
+          ? output.includes("listening on http://127.0.0.1:")
           : output.includes("Starting PortKey MCP Server");
         if (ready) {
           started = true;
@@ -100,7 +100,7 @@ describe("MCP CLI E2E", () => {
       childProcess.stderr.on("data", (data: Uint8Array) => {
         output += new TextDecoder().decode(data);
         const ready = isStreamable
-          ? output.includes("listening on http://0.0.0.0:")
+          ? output.includes("listening on http://127.0.0.1:")
           : output.includes("Starting PortKey MCP Server");
         if (ready) {
           started = true;
