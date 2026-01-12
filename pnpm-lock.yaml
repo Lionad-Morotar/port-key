@@ -21,8 +21,8 @@ importers:
   packages/mcp:
     dependencies:
       '@lionad/port-key':
-        specifier: workspace:*
-        version: link:../core
+        specifier: ^0.1.5
+        version: 0.1.6
       '@modelcontextprotocol/sdk':
         specifier: ^1.24.1
         version: 1.25.2(@cfworker/json-schema@4.1.1)(hono@4.11.3)(zod@4.3.5)
@@ -212,6 +212,11 @@ packages:
 
   '@jridgewell/sourcemap-codec@1.5.5':
     resolution: {integrity: sha512-cYQ9310grqxueWbl+WuIUIaiUaDcj7WOq5fVhEljNVgRfOUhY9fy2zTvfoqWsnebh8Sl70VScFbICvJnLKB0Og==}
+
+  '@lionad/port-key@0.1.6':
+    resolution: {integrity: sha512-dFO00yLxAtr/TVgF14XMzjsYXXIPekxqe0VEF+ZWnNu7jowG48yTzLsdcNOU8E7EPpibYTWve5uX1vRtWwnS7w==}
+    engines: {node: '>=16'}
+    hasBin: true
 
   '@modelcontextprotocol/sdk@1.25.2':
     resolution: {integrity: sha512-LZFeo4F9M5qOhC/Uc1aQSrBHxMrvxett+9KLHt7OhcExtoiRN9DKgbZffMP/nxjutWDQpfMDfP3nkHI4X9ijww==}
@@ -1034,6 +1039,8 @@ snapshots:
       hono: 4.11.3
 
   '@jridgewell/sourcemap-codec@1.5.5': {}
+
+  '@lionad/port-key@0.1.6': {}
 
   '@modelcontextprotocol/sdk@1.25.2(@cfworker/json-schema@4.1.1)(hono@4.11.3)(zod@4.3.5)':
     dependencies:

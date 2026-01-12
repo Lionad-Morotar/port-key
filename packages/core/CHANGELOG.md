@@ -1,5 +1,9 @@
 # 更新日志
 
+## v0.2.0
+
+- feat: 根据 IANA 更新端口校验逻辑
+
 ## v0.1.6
 
 - docs: add description for MCP usage in README.md
