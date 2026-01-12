@@ -2,15 +2,15 @@
 
 ## v0.3.0
 
-- release
+- chore: sync version
 
 ## v0.2.0
 
-- release
+- chore: sync version
 
 ## v0.1.6
 
-- release
+- chore: sync version
 
 ## v0.1.5
 
