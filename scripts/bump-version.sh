@@ -30,6 +30,41 @@ NEXT_VERSION=$(node -e "
   console.log(parts.join('.'));
 ")
 
+# Check changelogs unless it's a dry run
+if [ "$DRY_RUN" = false ]; then
+  echo "Checking CHANGELOG.md updates..."
+  MISSING_CHANGELOGS=()
+  
+  # Find all package directories (excluding node_modules)
+  PACKAGES=$(find packages -mindepth 1 -maxdepth 1 -type d)
+  
+  for pkg in $PACKAGES; do
+    CHANGELOG="$pkg/CHANGELOG.md"
+    
+    # Check if CHANGELOG.md exists
+    if [ ! -f "$CHANGELOG" ]; then
+      MISSING_CHANGELOGS+=("$pkg (CHANGELOG.md missing)")
+      continue
+    fi
+    
+    # Check if CHANGELOG.md has been modified in git staging area or working tree
+    if ! git diff --name-only HEAD | grep -q "^$CHANGELOG$"; then
+      MISSING_CHANGELOGS+=("$pkg")
+    fi
+  done
+  
+  if [ ${#MISSING_CHANGELOGS[@]} -ne 0 ]; then
+    echo "Error: The following packages have no CHANGELOG.md updates:"
+    for pkg in "${MISSING_CHANGELOGS[@]}"; do
+      echo "  - $pkg"
+    done
+    echo ""
+    echo "Please update CHANGELOG.md for all packages before bumping version."
+    exit 1
+  fi
+  echo "All changelogs updated."
+fi
+
 if [ "$DRY_RUN" = true ]; then
   echo "=== DRY RUN MODE ==="
   echo "Current version: $CURRENT_VERSION"
