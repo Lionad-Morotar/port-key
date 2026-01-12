@@ -2,32 +2,47 @@
 
 ## Description
 
-[Model Context Protocol](https://modelcontextprotocol.io) (MCP) server for PortKey. It provides tools to map project names to port numbers using keyboard-based letter-to-number mapping and get design philosophy.
-
-## Installation
-
-Install MCP server package:
-
-```shell
-npm install @lionad/port-key-mcp
-```
+[Model Context Protocol](https://modelcontextprotocol.io) (MCP) server for PortKey. It provides tools to map project names to port numbers using keyboard-based letter-to-number mapping, check port availability, and access PortKey configuration.
 
 ## Usage
 
 ### Running the Server
 
-The PortKey MCP server is designed to be run by an IDE-based MCP client like [Visual Studio Code's Copilot](https://code.visualstudio.com/docs/copilot/chat/chat-agent-mode).
+The PortKey MCP server supports both Stdio and Streamable HTTP transport modes.
+
+#### Stdio Mode (Default)
+
+Designed to be run by an IDE-based MCP client like [Visual Studio Code's Copilot](https://code.visualstudio.com/docs/copilot/chat/chat-agent-mode).
 
 ```shell
 npx @lionad/port-key-mcp
 ```
 
+#### HTTP Mode (Streamable)
+
+Runs an HTTP server implementing the Streamable HTTP transport. This mode is suitable for remote connections or when stdio is not available.
+
+```shell
+# Run on default port 3000
+npx @lionad/port-key-mcp --streamable
+
+# Run on specific port
+npx @lionad/port-key-mcp --streamable --port 8080
+```
+
+Environment variables are also supported:
+```shell
+PORT=8080 LOG_LEVEL=debug npx @lionad/port-key-mcp --streamable
+```
+
 ### Available Tools
 
-The MCP server provides following tools:
+The MCP server provides the following tools:
 
 - **map-project-name-to-port**: Map a project name to a port number using keyboard-based letter-to-number mapping
 - **get-design-philosophy**: Get design philosophy and background of PortKey
+- **check-port-availability**: Check if a specific port is available or occupied
+- **get-port-occupancy**: Get information about processes occupying specific ports
 
 #### map-project-name-to-port
 
@@ -68,29 +83,24 @@ The MCP server provides following tools:
 
 - `lang` (string, optional): Language code for design philosophy content. Supported languages: `"cn"`, `"es"`, `"fr"`, `"de"`, `"ja"`, `"ko"`, `"ru"`, `"ar"`, `"pt"`, `"it"`. Default: `"cn"`.
 
-##### Example Tool Call
+#### check-port-availability
 
-```json
-{
-  "name": "get-design-philosophy",
-  "arguments": {
-    "lang": "en"
-  }
-}
-```
+##### Tool Parameters
 
-##### Example Response
+- `port` (number, required): The port number to check (0-65535)
 
-```
-以下是 PortKey 的设计理念：
+#### get-port-occupancy
 
-## 核心思路
+##### Tool Parameters
 
-PortKey 基于键盘布局将项目名称映射为数字，使端口号既可读又易记。
-...
-```
+- `ports` (array of numbers, optional): List of port numbers to filter results
 
-##### Supported Languages
+### Available Resources
+
+- **config://port-mapping**: Get default port mapping configuration and blocked ports
+- **projects://{projectName}/port-history**: Get history of port assignments for a project
+
+### Supported Languages (for design philosophy)
 
 | Code | Language   |
 |-------|------------|
@@ -120,6 +130,19 @@ You can configure MCP server in your MCP client's configuration file (e.g., for 
 }
 ```
 
+For HTTP mode configuration in clients that support it:
+
+```json
+{
+  "mcpServers": {
+    "port-key": {
+      "command": "npx",
+      "args": ["--streamable", "@lionad/port-key-mcp"]
+    }
+  }
+}
+```
+
 ## Development
 
 Build locales (generates from docs/ directory):
@@ -139,3 +162,11 @@ Run tests in watch mode:
 ```shell
 npm run test:watch
 ```
+
+## Thanks
+
+- **[Template-Nodejs-MCP-Server](https://github.com/HarveyYifanLi/Template-Nodejs-MCP-Server)** by HarveyYifanLi
+  - Provided excellent examples of stateful session management and modular tool/resource architecture.
+
+- **[mcp-restaurant-booking](https://github.com/modelcontextprotocol/typescript-sdk/tree/main/servers/restaurant)** by Model Context Protocol
+  - Provided reference for production-grade TypeScript project configuration and logging systems.

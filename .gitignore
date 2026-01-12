@@ -7,5 +7,6 @@ node_modules
 .vscode
 .idea
 *.log
+logs/
 yarn.lock
 *.tgz

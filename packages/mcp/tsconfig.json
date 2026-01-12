@@ -1,9 +1,7 @@
 {
   "extends": "../../tsconfig.base.json",
-  "files": [
-    "src/mcp-cli.ts",
-    "src/mcp-server.ts"
-  ],
+  "include": ["src/**/*"],
+  "exclude": ["node_modules", "dist", "tests"],
   "compilerOptions": {
     "noEmit": true,
     "strict": true,
@@ -11,6 +9,9 @@
     "module": "esnext",
     "moduleResolution": "bundler",
     "rootDir": "./src",
-    "outDir": "./dist"
+    "outDir": "./dist",
+    "esModuleInterop": true,
+    "skipLibCheck": true,
+    "resolveJsonModule": true
   }
 }

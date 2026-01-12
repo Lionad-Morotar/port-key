@@ -72,10 +72,11 @@ if [ "$DRY_RUN" = true ]; then
   echo ""
   echo "The following commands would be executed:"
   echo "  1. pnpm -r exec npm version $VERSION_TYPE --no-git-tag-version"
-  echo "  2. pnpm install"
-  echo "  3. git add ."
-  echo "  4. git commit -m \"release: v$NEXT_VERSION\" --no-verify"
-  echo "  5. git tag \"v$NEXT_VERSION\""
+  echo "  2. Update version in packages/mcp/src/mcp-server.ts"
+  echo "  3. pnpm install"
+  echo "  4. git add ."
+  echo "  5. git commit -m \"release: v$NEXT_VERSION\" --no-verify"
+  echo "  6. git tag \"v$NEXT_VERSION\""
   echo "===================="
   exit 0
 fi
@@ -89,6 +90,32 @@ pnpm -r exec npm version $VERSION_TYPE --no-git-tag-version
 NEW_VERSION=$(node -p "require('./packages/core/package.json').version")
 
 echo "New version: $NEW_VERSION"
+
+# Update MCP Server version in mcp-server.ts
+echo "Updating MCP Server version to $NEW_VERSION..."
+node -e "
+const fs = require('fs');
+const path = './packages/mcp/src/mcp-server.ts';
+try {
+  const content = fs.readFileSync(path, 'utf8');
+  const lines = content.split('\n');
+  const markerIndex = lines.findIndex(line => line.includes('// ! AUTO GENERATED VERSION - DO NOT EDIT'));
+  
+  if (markerIndex !== -1 && markerIndex + 1 < lines.length) {
+    const markerLine = lines[markerIndex];
+    const indentation = markerLine.match(/^\\s*/)[0];
+    lines[markerIndex + 1] = indentation + 'version: \"$NEW_VERSION\",';
+    fs.writeFileSync(path, lines.join('\n'));
+    console.log('Successfully updated mcp-server.ts');
+  } else {
+    console.error('Could not find version marker in mcp-server.ts');
+    process.exit(1);
+  }
+} catch (err) {
+  console.error('Error updating mcp-server.ts:', err);
+  process.exit(1);
+}
+"
 
 # Update lockfile just in case
 pnpm install
