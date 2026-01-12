@@ -147,6 +147,12 @@ export class MCPServerApp {
 
       // Initialize new transport
       if (!transport && isInitializeRequest(request.body)) {
+        const allowedHosts = [
+          `127.0.0.1:${port}`,
+          `localhost:${port}`,
+          `[::1]:${port}`,
+        ];
+
         transport = new StreamableHTTPServerTransport({
           sessionIdGenerator: () => randomUUID(),
           onsessioninitialized: (id) => {
@@ -156,7 +162,7 @@ export class MCPServerApp {
           },
           // DNS rebinding protection
           enableDnsRebindingProtection: true,
-          allowedHosts: ["127.0.0.1", "localhost", "::1"],
+          allowedHosts,
         });
 
         transport.onclose = () => {
