@@ -1,5 +1,9 @@
 # 更新日志
 
+## v0.1.6
+
+- docs: add description for MCP usage in README.md
+
 ## v0.1.5
 
 - fix: 将符号链接的 README.md 替换为实际文件，确保 npm 发布时 README 被正确包含

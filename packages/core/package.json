@@ -1,6 +1,6 @@
 {
   "name": "@lionad/port-key",
-  "version": "0.1.5",
+  "version": "0.1.6",
   "description": "A simple, practical port naming strategy",
   "type": "module",
   "types": "./src/port-key.d.ts",

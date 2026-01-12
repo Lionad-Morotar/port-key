@@ -66,9 +66,29 @@ If a project needs multiple ports (frontend, backend, database, etc.), pick **on
 
 ## How to use
 
+Simple command:
+
+```sh
+npx -y @lionad/port-key <your-project-name>
 ```
-npx @lionad/port-key <your-project-name>
+
+Or you want a stdio MCP server:
+
+```sh
+npx -y @lionad/port-key-mcp
 ```
+
+```json
+{
+  "mcpServers": {
+    "port-key": {
+      "command": "npx",
+      "args": ["@lionad/port-key-mcp"]
+    }
+  }
+}
+```
+
 
 ### CLI options
 

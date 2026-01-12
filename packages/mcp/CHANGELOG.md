@@ -1,5 +1,9 @@
 # Changelog
 
+## v0.1.6
+
+- release
+
 ## v0.1.5
 
 - Add separate MCP server package
