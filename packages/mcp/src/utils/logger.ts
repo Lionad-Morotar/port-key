@@ -1,6 +1,15 @@
 import winston from 'winston';
 import DailyRotateFile from 'winston-daily-rotate-file';
 import config from '../config/index.js';
+import { homedir } from 'os';
+import { existsSync, mkdirSync } from 'fs';
+import { join } from 'path';
+
+const LOG_DIR = join(homedir(), '.port-key', 'logs');
+
+if (!existsSync(LOG_DIR)) {
+  mkdirSync(LOG_DIR, { recursive: true });
+}
 
 interface CustomLogger extends winston.Logger {
   getLevel(): string;
@@ -16,7 +25,7 @@ const logger: CustomLogger = winston.createLogger({
   ),
   transports: [
     new DailyRotateFile({
-      filename: 'logs/error-%DATE%.log',
+      filename: join(LOG_DIR, 'error-%DATE%.log'),
       datePattern: 'YYYY-MM-DD',
       zippedArchive: true,
       maxSize: '10m',
@@ -24,7 +33,7 @@ const logger: CustomLogger = winston.createLogger({
       level: 'error',
     }),
     new DailyRotateFile({
-      filename: 'logs/combined-%DATE%.log',
+      filename: join(LOG_DIR, 'combined-%DATE%.log'),
       datePattern: 'YYYY-MM-DD',
       zippedArchive: true,
       maxSize: '1',
