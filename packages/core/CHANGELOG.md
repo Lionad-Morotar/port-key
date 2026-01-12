@@ -1,5 +1,9 @@
 # 更新日志
 
+## v0.4.0
+
+- chore: sync version
+
 ## v0.3.0
 
 - feat: 增加 padding-zero 配置项，默认开启
