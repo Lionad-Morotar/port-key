@@ -1,5 +1,9 @@
 # 更新日志
 
+## v0.4.2
+
+- feat: 替换 logo
+
 ## v0.4.1
 
 - chore: sync version

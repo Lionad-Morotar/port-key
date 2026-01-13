@@ -1,5 +1,9 @@
 # Changelog
 
+## v0.4.2
+
+- feat: 替换 logo
+
 ## v0.4.1
 
 - fix: default listen 127.0.0.1:10945

@@ -1,6 +1,6 @@
 {
   "name": "@lionad/port-key-mcp",
-  "version": "0.4.1",
+  "version": "0.4.2",
   "description": "MCP Server for PortKey",
   "bin": "./bin/port-key-mcp.js",
   "type": "module",
