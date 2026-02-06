@@ -6,7 +6,7 @@
 </p>
 
 <p align="center">
-  <strong>PortKey: una estrategia simple y práctica para nombrar puertos</strong>
+  <strong>PortKey：一种简单实用的端口命名策略</strong>
 </p>
 
 <p align="center">
@@ -14,67 +14,67 @@
   <a href="./docs/README.cn.md">中文</a> | <a href="./docs/README.es.md">Español</a> | <a href="./docs/README.fr.md">Français</a> | <a href="./docs/README.de.md">Deutsch</a> | <a href="./docs/README.ja.md">日本語</a> | <a href="./docs/README.ko.md">한국어</a> | <a href="./docs/README.ru.md">Русский</a> | <a href="./docs/README.ar.md">العربية</a> | <a href="./docs/README.pt.md">Português</a> | <a href="./docs/README.it.md">Italiano</a>
 </p>
 
-## Resumen
+## 概述
 
-Genera puertos mediante una asignación de letras a números basada en la disposición del teclado.
+通过键盘字母与数字的映射关系生成端口号
 
-Cuando gestionas varios proyectos localmente, elegir números de puerto puede resultar molesto.
+当你在本地同时运行多个项目时，挑选合适的端口号常常令人头疼。
 
-- En los últimos años han surgido **tantos** proyectos nuevos. Para probarlos, a menudo necesitas iniciarlos localmente y los puertos empiezan a colisionar.
-- Si deseas que las pestañas del navegador (o los marcadores) sean estables, el puerto de un proyecto no debería cambiar constantemente.
+- 过去几年中出现了大量新项目。为了真正体验它们，你通常需要本地启动服务——随之而来的便是端口冲突问题。
+- 如果你想保持浏览器标签页（或书签）的稳定性，项目所使用的端口不应频繁变更。
 
-Por ejemplo, tengo más de diez aplicaciones Nuxt en mi máquina. Si todas usaran el puerto predeterminado `3000`, obviamente no funcionaría. Por ello ideé una regla simple y consistente para “asignar” puertos a cada proyecto.
+例如，我的机器上已运行着十余个 Nuxt 应用。若它们全部默认使用 `3000` 端口，显然无法共存。因此，我设计了一套简单、一致的端口命名规则，用于为不同项目“分配”专属端口。
 
-[Publicación original del blog](https://lionad.art/articles/simple-naming-method)
+[原文博客](https://lionad.art/articles/simple-naming-method)
 
-### Idea principal
+### 核心思路
 
-En lugar de elegir números aleatorios, asigna **el nombre del proyecto a números según el teclado**, de modo que el puerto sea *legible* y *memorable*.
+摒弃随意选取数字的方式，转而依据**键盘布局将项目名称映射为数字**，使端口号具备可读性与记忆性。
 
-Mientras el resultado esté dentro del rango de puertos válidos (**1024–65535**) y no coincida con puertos reservados/sistema, puedes usarlo directamente.
+只要生成的端口号落在合法范围内（**1024–65535**），且避开已预留/系统级端口，即可直接使用。
 
-Más concretamente: utilizando un teclado QWERTY estándar, asigna a cada letra un solo dígito según su **posición de fila/columna**.
+具体方法如下：以标准 QWERTY 键盘为基础，根据每个字母的**行列位置**映射为单一数字。
 
-Ejemplo:
+示例：
 
-`"cfetch"` → `c(3) f(4) e(3) t(5) c(3) h(6)` → `34353` (número de puerto)
+`"cfetch"` → `c(3) f(4) e(3) t(5) c(3) h(6)` → `34353`（端口号）
 
-Luego puedes tomar los primeros 4 dígitos (p. ej., `3453`), o conservar más dígitos (p. ej., `34353`). Cualquiera es válido.
+你可以仅取前四位数字（如 `3453`），或保留更多位数（如 `34353`），两种方式均可。
 
-Si un proyecto necesita varios puertos (frontend, backend, base de datos, etc.), elige **una** de estas dos estrategias:
+若项目需多个端口（前端、后端、数据库等），可任选以下两种策略之一：
 
-1. Usa el prefijo del proyecto y añade un “sufijo de rol”  
-   - Para `"cfetch"`, toma `3435` como base  
-   - Frontend (`fe`, es decir, `43`) → `34354`  
-   - Backend (`server`) → `34352`  
-   - Base de datos (`mongo`) → `34357`  
-   - …y así sucesivamente
+1. 使用项目前缀，再附加“角色后缀”
+   - 以 `"cfetch"` 为例，取 `3435` 作为基础值
+   - 前端（`fe`，对应数字 `43`）→ `34354`
+   - 后端（`server`，对应数字 `2`）→ `34352`
+   - 数据库（`mongo`，对应数字 `7`）→ `34357`
+   - ……依此类推
 
-2. Usa el prefijo del proyecto y asigna roles secuenciales  
-   - Para `"cfetch"`, toma `3435` como base  
-   - Web → `34351`  
-   - Backend → `34352`  
-   - Base de datos → `34353`  
-   - …y así sucesivamente
+2. 使用项目前缀，再按顺序分配角色编号
+   - 以 `"cfetch"` 为例，取 `3435` 作为基础值
+   - Web 服务 → `34351`
+   - 后端 → `34352`
+   - 数据库 → `34353`
+   - ……依此类推
 
-### Rango válido de puertos
+### 合法端口范围
 
-- Los puertos deben estar entre **1024–65535** (los puertos del sistema, 0‑1023, están bloqueados).
-- **Puertos de Sistema (0‑1023)**: asignados por IETF. No utilizables.
-- **Puertos de Usuario (1024‑49151)**: asignados por IANA. Úsalos con precaución, pues pueden entrar en conflicto con servicios registrados.
-- **Puertos Dinámicos/Privados (49152‑65535)**: no asignados. Son los más seguros para uso privado o dinámico.
+- 端口号需位于 **1024–65535**（系统保留端口 0–1023 禁止使用）
+- **系统端口（0–1023）**：由 IETF 分配，严格禁止使用
+- **用户端口（1024–49151）**：由 IANA 分配，使用时请谨慎，可能与已注册服务冲突
+- **动态/私有端口（49152–65535）**：未被分配，最适合私有或动态用途
 
 ---
 
-## Cómo usar
+## 使用方法
 
-Comando sencillo:
+简单命令如下：
 
 ```sh
-npx -y @lionad/port-key <nombre-de-tu-proyecto>
+npx -y @lionad/port-key <你的项目名称>
 ```
 
-O si prefieres un servidor MCP de stdio:
+或你希望配置一个标准输入/输出的 MCP 服务：
 
 ```sh
 npx -y @lionad/port-key-mcp
@@ -91,43 +91,44 @@ npx -y @lionad/port-key-mcp
 }
 ```
 
-### Opciones de CLI
 
-- `-m, --map <object>`: asignación personalizada (JSON o literal de objeto tipo JS)
-- `--lang <code>`: idioma de salida (actualmente solo `en` y `cn`, por defecto: `cn`)
-- `-d, --digits <count>`: número preferido de dígitos para el puerto (4 o 5, por defecto: 4)
-- `--padding-zero <true|false>`: rellenar con ceros los puertos cortos (por defecto: true). Ej.: `"air"` → `1840`
-- `-h, --help`: muestra la ayuda
+### 命令行参数
 
-Ejemplos:
+- `-m, --map <object>`：自定义映射规则（JSON 或类 JavaScript 对象字面量）
+- `--lang <code>`：输出语言（当前仅支持 `en` 与 `cn`，默认：`cn`）
+- `-d, --digits <count>`：端口 preferred digit count（4 或 5，默认值：4）
+- `--padding-zero <true|false>`：当输入长度不足时，是否以尾零补足至指定位数（默认为 `true`）。例如：`"air"` → `1840`，而 `"1234" --digits 5` → `12340`
+- `-h, --help`：显示帮助信息
+
+示例：
 
 ```bash
 npx @lionad/port-key cfetch # -> 3435
-npx @lionad/port-key cfetch --digits 4   # -> 3435 (puerto de 4 dígitos)
-npx @lionad/port-key cfetch --digits 5   # -> 34353 (puerto de 5 dígitos)
+npx @lionad/port-key cfetch --digits 4  # -> 3435（四位端口）
+npx @lionad/port-key cfetch --digits 5  # -> 34353（五位端口）
 ```
 
-Notas:
-- El idioma predeterminado del registro es `cn`. Usa `--lang en` para mostrar mensajes en inglés.
-- Utiliza `-h` o `--help` para ver la ayuda.
+说明：
+- 默认日志语言为 `cn`。如需英文提示，请添加参数 `--lang en`
+- 使用 `-h` 或 `--help` 可查看帮助信息
 
-### Configuración
+### 配置文件
 
-PortKey lee una configuración opcional del usuario desde:
+PortKey 会从以下路径读取可选用户配置：
 
 - `~/.port-key/config.json`
 
-Ejemplo completo:
+完整示例：
 
 ```json
 {
-  // Número de dígitos preferido para el puerto (4 o 5)
+  // 端口 preferred digit count（4 或 5）
   "preferDigitCount": 5,
-  // Rellenar con cero los puertos cortos (por defecto: true)
+  // 当输入长度不足时，是否以尾零补足至 preferred digits（默认：true）
   "paddingZero": true,
-  // Mapeo personalizado de letra a dígito
+  // 自定义字母到数字的映射关系
   "blockedPorts": [3000, 3001, 3002, 6666],
-  // Límites del rango de puertos (inclusive)
+  // 端口取值范围限制（含边界）
   "minPort": 1024,
   "maxPort": 49151
 }
@@ -135,10 +136,10 @@ Ejemplo completo:
 
 ---
 
-## Para desarrolladores
+## 开发者说明
 
-### Estructura del proyecto
+### 项目结构
 
-- Este repositorio usa un monorepo con `pnpm`; el paquete central está en `packages/core`.
-- Instalación: ejecuta `pnpm install` en la raíz del proyecto.
-- Ejecutar pruebas: `pnpm -C packages/core test` o `pnpm -C packages/core test:watch`.
+- 本仓库采用 pnpm monorepo 结构；核心包位于 `packages/core`
+- 安装依赖：在根目录执行 `pnpm install`
+- 运行测试：`pnpm -C packages/core test` 或 `pnpm -C packages/core test:watch`

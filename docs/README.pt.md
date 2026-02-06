@@ -6,7 +6,7 @@
 </p>
 
 <p align="center">
-  <strong>PortKey：Uma Estratégia Simples e Prática de Nomeação de Portas</strong>
+  <strong>PortKey：一种简洁实用的端口命名策略</strong>
 </p>
 
 <p align="center">
@@ -14,67 +14,67 @@
   <a href="./docs/README.cn.md">中文</a> | <a href="./docs/README.es.md">Español</a> | <a href="./docs/README.fr.md">Français</a> | <a href="./docs/README.de.md">Deutsch</a> | <a href="./docs/README.ja.md">日本語</a> | <a href="./docs/README.ko.md">한국어</a> | <a href="./docs/README.ru.md">Русский</a> | <a href="./docs/README.ar.md">العربية</a> | <a href="./docs/README.pt.md">Português</a> | <a href="./docs/README.it.md">Italiano</a>
 </p>
 
-## Resumo
+## 简介
 
-Gere portas usando um mapeamento de letras para números do teclado.
+基于键盘字母数字映射生成端口
 
-Quando você está rodando vários projetos localmente, escolher números de porta pode ser irritante.
+本地运行多个项目时，选择端口号常令人烦恼：
 
-- Nos últimos anos, surgiram *tantos* novos projetos. Para realmente testá‑los, muitas vezes você precisa iniciá‑los localmente — e então as portas começam a colidir.
-- Se quiser manter abas do navegador (ou favoritos) estáveis, a porta de um projeto não deve ficar mudando o tempo todo.
+- 过去几年涌现了大量新项目；为真正体验它们，往往需要本地启动——随即端口冲突频发。
+- 若希望浏览器标签页（或书签）持久稳定，项目的端口号便不该频繁变动。
 
-Por exemplo, eu tenho mais de dez aplicativos Nuxt na minha máquina. Se todos usarem a porta padrão `3000`, obviamente isso não vai funcionar. Então eu criei uma regra simples e consistente de nomeação de portas para “atribuir” portas por projeto.
+例如，我的机器上同时运行着十余个 Nuxt 应用；若它们均默认占用 `3000`，显然不可行。因此，我设计了一套简洁、统一的端口命名规则，为每个项目“分配”专属端口。
 
-[Postagem original no blog](https://lionad.art/articles/simple-naming-method)
+[来源博客](https://lionad.art/articles/simple-naming-method)
 
-### Ideia central
+### 核心思路
 
-Em vez de escolher números aleatórios, mapeie o **nome do projeto para números com base no teclado**, de modo que a porta seja *legível* e *memorizável*.
+不依赖随机数字，而是依据**项目名称键盘布局映射为数字序列**，使端口具备可读性与记忆性。
 
-Desde que o resultado esteja dentro da faixa válida de portas (**1024–65535**) e não conflite com portas reservadas/sistema, você pode simplesmente usá‑lo.
+只要结果落在有效端口范围（**1024–65535**）内，且避开保留/系统端口，即可直接使用。
 
-Mais especificamente: usando um teclado QWERTY padrão, mapeie cada letra para um único dígito com base em sua **posição de linha/coluna**.
+具体而言：以标准 QWERTY 键盘为基准，依据字母的**行/列位置**将其映射为单个数字。
 
-Exemplo:
+示例：
 
-`"cfetch"` → `c(3) f(4) e(3) t(5) c(3) h(6)` → `34353`（número da porta）
+`"cfetch"` → `c(3) f(4) e(3) t(5) c(3) h(6)` → `34353`（端口号）
 
-Então você pode pegar os primeiros 4 dígitos (por exemplo, `3453`), ou manter mais dígitos (por exemplo, `34353`). Ambos são válidos.
+可取前四位（如 `3435`），也可保留全部数字（如 `34353`）——二者皆可。
 
-Se um projeto precisar de múltiplas portas (frontend, backend, banco de dados etc.), escolha **uma** das duas abordagens a seguir:
+若项目需多个端口（前端、后端、数据库等），请选择以下任一策略：
 
-1. Use o prefixo do projeto e então adicione um “sufixo de função”  
-   - Para `"cfetch"`, use `3435` como base  
-   - Frontend (`fe`, ou seja, `43`) → `34354`  
-   - Backend (`server`) → `34352`  
-   - Banco de dados (`mongo`) → `34357`  
-   - …e assim por diante
+1. 使用项目前缀，再附加“角色后缀”
+   - 以 `"cfetch"` 为例，取 `3435` 为基础
+   - 前端（`fe`，即 `43`）→ `34354`
+   - 后端（`server`）→ `34352`
+   - 数据库（`mongo`）→ `34357`
+   - …依此类推
 
-2. Use o prefixo do projeto e atribua funções sequencialmente  
-   - Para `"cfetch"`, use `3435` como base  
-   - Web → `34351`  
-   - Backend → `34352`  
-   - Banco de dados → `34353`  
-   - …e assim por diante
+2. 使用项目前缀，再分配连续角色编号
+   - 以 `"cfetch"` 为例，取 `3435` 为基础
+   - Web → `34351`
+   - 后端 → `34352`
+   - 数据库 → `34353`
+   - …依此类推
 
-### Faixa válida de portas
+### 有效端口范围
 
-- As portas devem estar entre **1024–65535** (as portas do Sistema 0‑1023 são bloqueadas).
-- **Portas de Sistema (0‑1023)**: atribuídas pelo IETF. Estritamente bloqueadas.
-- **Portas de Usuário (1024‑49151)**: atribuídas pela IANA. Use com cautela, pois podem conflitar com serviços registrados.
-- **Portas Dinâmicas/Privadas (49152‑65535)**: não atribuídas. As mais seguras para uso privado ou dinâmico.
+- 端口必须落在 **1024–65535**（系统端口 0–1023 被禁止使用）。
+- **系统端口（0–1023）**：由 IETF 分配，严格禁止使用。
+- **用户端口（1024–49151）**：由 IANA 分配，使用时须谨慎，可能与注册服务冲突。
+- **动态/私有端口（49152–65535）**：未被分配，最适用于私有或动态场景。
 
 ---
 
-## Como usar
+## 使用方法
 
-Comando simples:
+简明命令：
 
 ```sh
-npx -y @lionad/port-key <seu-nome-de-projeto>
+npx -y @lionad/port-key <your-project-name>
 ```
 
-Ou se quiser um servidor MCP via stdio:
+或启用标准输入/输出 MCP 服务器：
 
 ```sh
 npx -y @lionad/port-key-mcp
@@ -91,43 +91,44 @@ npx -y @lionad/port-key-mcp
 }
 ```
 
-### Opções de CLI
 
-- `-m, --map <object>`: mapeamento customizado (JSON ou literal de objeto JS)
-- `--lang <code>`: idioma da saída (atualmente apenas `en` e `cn`, padrão: `cn`)
-- `-d, --digits <count>`: quantidade preferida de dígitos para a porta (4 ou 5, padrão: 4)
-- `--padding-zero <true|false>`: preenche com zero portas curtas (padrão: true). Ex.: `"air"` → 1840
-- `-h, --help`: exibe ajuda
+### 命令行选项
 
-Exemplos:
+- `-m, --map <object>`：自定义映射表（JSON 或 JS 字面量对象）
+- `--lang <code>`：输出语言（当前仅支持 `en` 和 `cn`，默认值：`cn`）
+- `-d, --digits <count>`：端口推荐位数（4 或 5，默认值：4）
+- `--padding-zero <true|false>`：输入位数不足时以尾部零填充至推荐位数（默认值：true）。如 `"air"` → `1840`；`"1234" --digits 5` → `12340`
+- `-h, --help`：显示帮助信息
+
+示例：
 
 ```bash
 npx @lionad/port-key cfetch # -> 3435
-npx @lionad/port-key cfetch --digits 4  # -> 3435 (porta de 4 dígitos)
-npx @lionad/port-key cfetch --digits 5  # -> 34353 (porta de 5 dígitos)
+npx @lionad/port-key cfetch --digits 4  # -> 3435（4 位端口）
+npx @lionad/port-key cfetch --digits 5  # -> 34353（5 位端口）
 ```
 
-Observações:
-- O idioma padrão do log é `cn`. Use `--lang en` para exibir mensagens em inglês.
-- Use `-h` ou `--help` para mostrar a ajuda.
+备注：
+- 默认日志语言为 `cn`；使用 `--lang en` 可显示英文提示。
+- 使用 `-h` 或 `--help` 可查看帮助。
 
-### Configuração
+### 配置文件
 
-PortKey lê configuração opcional do usuário em:
+PortKey 会读取用户配置（可选），路径如下：
 
 - `~/.port-key/config.json`
 
-Um exemplo completo:
+完整示例：
 
 ```json
 {
-  // Quantidade preferida de dígitos para a porta (4 ou 5)
+  // 端口推荐位数（4 或 5）
   "preferDigitCount": 5,
-  // Preencher com zero portas curtas (padrão: true)
+  // 输入位数不足时以尾部零填充至推荐位数（默认：true）
   "paddingZero": true,
-  // Mapeamento customizado de letra para dígito
+  // 自定义字母到数字的映射规则
   "blockedPorts": [3000, 3001, 3002, 6666],
-  // Limites da faixa de portas (inclusivo)
+  // 端口范围限制（含边界）
   "minPort": 1024,
   "maxPort": 49151
 }
@@ -135,10 +136,10 @@ Um exemplo completo:
 
 ---
 
-## Para desenvolvedores
+## 开发者说明
 
-### Estrutura do projeto
+### 项目结构
 
-- Este repositório usa monorepo pnpm; o pacote central está em `packages/core`.
-- Instalação: execute `pnpm install` na raiz do projeto.
-- Executar testes: `pnpm -C packages/core test` ou `pnpm -C packages/core test:watch`.
+- 本仓库采用 pnpm monorepo 结构；核心包位于 `packages/core`。
+- 安装依赖：在根目录执行 `pnpm install`。
+- 运行测试：`pnpm -C packages/core test` 或 `pnpm -C packages/core test:watch`。

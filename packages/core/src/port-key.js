@@ -63,11 +63,12 @@ function normalizeInput(text) {
 function mapToDigits(text, map = DEFAULT_MAP) {
   const reverse = buildReverseMap(map);
   const input = normalizeInput(text);
+  const hasLetter = /[a-z]/.test(input);
 
   let out = '';
   for (const ch of input) {
     if (ch >= '0' && ch <= '9') {
-      out += ch;
+      if (!hasLetter) out += ch;
       continue;
     }
 
@@ -97,60 +98,35 @@ function isPortBlocked(port, blockedPorts) {
 function pickPortFromDigits(digits, options = {}) {
   const raw = String(digits || '').replace(/[^0-9]/g, '');
   if (!raw) return { port: null, reason: 'No digits found in input' };
-  
-  const paddingZero = options.paddingZero !== false; // Default true
-  
-  // If not padding, enforce strict length check
-  // If padding, allow short length as it will be padded
-  if (!paddingZero && raw.length < 2) return { port: null, reason: 'Not enough digits to form a candidate' };
 
   const minPort = Number.isFinite(options.minPort) ? options.minPort : 0;
   const maxPort = Number.isFinite(options.maxPort) ? options.maxPort : 65535;
   const blockedPorts = options.blockedPorts || DEFAULT_BLOCKED_PORTS;
   const preferDigitCount = options.preferDigitCount || 4;
-  // paddingZero is already defined above
+  const padToPreferredDigits =
+    options.padToPreferredDigits === undefined ? options.paddingZero !== false : Boolean(options.padToPreferredDigits);
 
   const candidates = [];
   const normalized = raw.replace(/^0+/, '');
-  
-  // Padding Logic for short inputs like "air" (184)
-  // If normalized length is small, we can pad it with zeros to match preferDigitCount or more
-  const paddedCandidates = [];
-  if (paddingZero && normalized.length > 0 && normalized.length < preferDigitCount) {
-    let current = normalized;
-    // Fix: start padding loop immediately
-    while (current.length <= 5) {
-       // Only push if length >= 2 (valid port min length logic) and >= preferDigitCount (if we want to respect preference)
-       // Actually, the original requirement says "pad ... to match preferDigitCount or more".
-       if (current.length >= preferDigitCount) {
-         paddedCandidates.push(current);
-       }
-       current += '0';
-    }
-  }
 
-  if (preferDigitCount && normalized.length >= preferDigitCount) {
-    candidates.push(normalized.slice(0, preferDigitCount));
-    candidates.push(normalized.slice(normalized.length - preferDigitCount));
-  } else {
-    // If not padding, try smaller lengths (if >= 2)
-    // Note: if paddedCandidates is empty, we must rely on this.
-    // But if we have paddedCandidates, we can still add these as fallbacks.
-    for (let len = Math.min(normalized.length, preferDigitCount); len >= 2; len -= 1) {
-      candidates.push(normalized.slice(0, len));
+  if (normalized.length >= preferDigitCount) {
+    for (let i = 0; i <= normalized.length - preferDigitCount; i += 1) {
+      candidates.push(normalized.slice(i, i + preferDigitCount));
     }
-    for (let len = Math.min(normalized.length, preferDigitCount); len >= 2; len -= 1) {
-      candidates.push(normalized.slice(normalized.length - len));
-    }
+  } else if (padToPreferredDigits && normalized.length > 0) {
+    candidates.push(normalized.padEnd(preferDigitCount, '0'));
+  } else if (normalized.length >= 2) {
+    candidates.push(normalized);
   }
-  
-  // Merge padded candidates
-  candidates.push(...paddedCandidates);
 
   const unique = Array.from(new Set(candidates));
   const rejectedCandidates = [];
   
   for (const c of unique) {
+    if (c.length > 1 && c.startsWith('0')) {
+      rejectedCandidates.push({ candidate: c, reason: 'Leading zero is not allowed' });
+      continue;
+    }
     const port = Number.parseInt(c, 10);
     if (!isValidPort(port)) {
       rejectedCandidates.push({ candidate: c, reason: 'Invalid port number' });
@@ -165,6 +141,21 @@ function pickPortFromDigits(digits, options = {}) {
       continue;
     }
     return { port, rejectedCandidates };
+  }
+
+  if (preferDigitCount === 5) {
+    const fallback = pickPortFromDigits(raw, { ...options, preferDigitCount: 4 });
+    if (fallback && fallback.port !== null) {
+      return {
+        port: fallback.port,
+        rejectedCandidates: rejectedCandidates.concat(fallback.rejectedCandidates || []),
+      };
+    }
+    return {
+      port: null,
+      reason: fallback.reason || 'No valid port could be generated from input',
+      rejectedCandidates: rejectedCandidates.concat(fallback.rejectedCandidates || []),
+    };
   }
 
   return { 

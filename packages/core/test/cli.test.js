@@ -103,6 +103,42 @@ describe('CLI', () => {
     expect(stderr.output).toBe('');
   });
 
+  it('falls back to 4 digits when preferDigitCount is 5 and no 5-digit port is available', () => {
+    const tmpHome = fs.mkdtempSync(path.join(os.tmpdir(), 'portkey-home-prefer-5-'));
+    fs.mkdirSync(path.join(tmpHome, '.port-key'), { recursive: true });
+    fs.writeFileSync(
+      path.join(tmpHome, '.port-key', 'config.json'),
+      JSON.stringify({ preferDigitCount: 5 }),
+      'utf8'
+    );
+
+    const stdout = createStream();
+    const stderr = createStream();
+
+    const code = runCli(['--', 'your7868'], stdout, stderr, { env: { HOME: tmpHome } });
+    expect(code).toBe(0);
+    expect(stdout.output.trim()).toBe('6974');
+    expect(stderr.output).toBe('');
+  });
+
+  it('pads to 5 digits when preferDigitCount is 5 and input is short digits', () => {
+    const tmpHome = fs.mkdtempSync(path.join(os.tmpdir(), 'portkey-home-prefer-5-pad-'));
+    fs.mkdirSync(path.join(tmpHome, '.port-key'), { recursive: true });
+    fs.writeFileSync(
+      path.join(tmpHome, '.port-key', 'config.json'),
+      JSON.stringify({ preferDigitCount: 5, paddingZero: true }),
+      'utf8'
+    );
+
+    const stdout = createStream();
+    const stderr = createStream();
+
+    const code = runCli(['--', '1234'], stdout, stderr, { env: { HOME: tmpHome } });
+    expect(code).toBe(0);
+    expect(stdout.output.trim()).toBe('12340');
+    expect(stderr.output).toBe('');
+  });
+
   it('allows --lang en, rejects other langs', () => {
     const stdout1 = createStream();
     const stderr1 = createStream();

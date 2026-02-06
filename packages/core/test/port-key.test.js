@@ -6,8 +6,12 @@ describe('utils: mapToDigits', () => {
     expect(mapToDigits('cfetch')).toBe('343536');
   });
 
-  it('keeps numeric characters untouched', () => {
-    expect(mapToDigits('project-42')).toBe('049733542');
+  it('ignores digits when there are letters in input', () => {
+    expect(mapToDigits('project-42')).toBe('0497335');
+  });
+
+  it('keeps numeric characters when input contains no letters', () => {
+    expect(mapToDigits('42')).toBe('42');
   });
 
   it('ignores punctuation and whitespace', () => {
@@ -18,8 +22,7 @@ describe('utils: mapToDigits', () => {
 describe('utils: mapToPort', () => {
   it('supports padding-zero for short inputs', () => {
     // 'air' -> 184
-    // paddingZero: true (default) -> 1840, 18400
-    // 1840 is valid (> 1024)
+    // paddingZero: true (default) -> 1840
     const result = mapToPort('air', DEFAULT_MAP, { preferDigitCount: 4, paddingZero: true });
     expect(result.digits).toBe('184');
     expect(result.port).toBe(1840);
@@ -28,6 +31,11 @@ describe('utils: mapToPort', () => {
     const result2 = mapToPort('air', DEFAULT_MAP, { preferDigitCount: 4, paddingZero: false });
     expect(result2.digits).toBe('184');
     expect(result2.port).toBe(null);
+  });
+
+  it('pads to 5 digits when preferDigitCount is 5 and input is short', () => {
+    const result = pickPortFromDigits('1234', { preferDigitCount: 5, paddingZero: true });
+    expect(result.port).toBe(12340);
   });
 
   it('picks a valid port under 65535', () => {
@@ -39,9 +47,6 @@ describe('utils: mapToPort', () => {
     // 3000 is blocked by option.
     // 1234 is valid (> 1023).
     // Input '30001234'
-    // Candidates: '3000', '1234', '30001234' (too large)
-    // Actually pickPortFromDigits splits by preferDigitCount (default 4).
-    // '30001234' -> '3000', '1234'.
     const result = pickPortFromDigits('30001234', { blockedPorts: new Set([3000]) });
     expect(result.port).toBe(1234);
     expect(result.rejectedCandidates).toEqual(
@@ -98,12 +103,13 @@ describe('many words mapping test (with detailed errors)', () => {
       { input: 'abc', digits: '153', port: 1530 }, 
       { input: 'cfetch', digits: '343536', port: 3435 },
       { input: 'prove', digits: '04943', port: 4943 },
-      { input: 'd000', digits: '3000', port: null }, // 3000 blocked
-      { input: 'my-app-01', digits: '7610001', port: 7610 },
+      { input: 'd000', digits: '3', port: null }, // 3000 blocked
+      { input: 'my-app-01', digits: '76100', port: 7610 },
       { input: '…*1—342', digits: '1342', port: 1342 },
       { input: 'nuxt-ui', digits: '672578', port: 6725 },
       { input: 'greate', digits: '543153', port: 5431 },
       { input: '_push', digits: '0726', port: 7260 },
+      { input: 'your7868', digits: '6974', port: 6974 },
     ];
 
     testCases.forEach(({ input, digits, port }) => {
@@ -119,5 +125,16 @@ describe('many words mapping test (with detailed errors)', () => {
 
     const result5 = mapToPort('013344', DEFAULT_MAP, { preferDigitCount: 5 });
     expect(result5.port).toBe(13344);
+  });
+
+  it('falls back from 5 digits to 4 digits when 5-digit has no valid port', () => {
+    const result = pickPortFromDigits('69747868', { preferDigitCount: 5, maxPort: 40000 });
+    expect(result.port).toBe(6974);
+  });
+
+  it('falls back from 5 digits to 4 digits for long words too', () => {
+    const result = mapToPort('oooooo', DEFAULT_MAP, { preferDigitCount: 5 });
+    expect(result.digits).toBe('999999');
+    expect(result.port).toBe(9999);
   });
 });

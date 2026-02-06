@@ -96,7 +96,7 @@ npx -y @lionad/port-key-mcp
 - `-m, --map <object>`: custom mapping (JSON or JS-like object literal)
 - `--lang <code>`: output language (currently only `en` and `cn`, default: `cn`)
 - `-d, --digits <count>`: preferred digit count for port (4 or 5, default: 4)
-- `--padding-zero <true|false>`: Pad short ports with zero (default: true). e.g. "air" -> 1840
+- `--padding-zero <true|false>`: Pad to preferred digits with trailing zeros when input is short (default: true). e.g. `"air"` -> `1840`, `"1234" --digits 5` -> `12340`
 - `-h, --help`: show help
 
 Examples:
@@ -123,7 +123,7 @@ A full Example:
 {
   // Preferred digit count for port (4 or 5)
   "preferDigitCount": 5,
-  // Pad short ports with zero (default: true)
+  // Pad to preferred digits with trailing zeros when input is short (default: true)
   "paddingZero": true,
   // Custom letter-to-digit mapping
   "blockedPorts": [3000, 3001, 3002, 6666],
