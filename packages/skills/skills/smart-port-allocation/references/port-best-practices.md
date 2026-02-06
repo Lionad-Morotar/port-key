@@ -21,7 +21,7 @@
 - **常规开发**：`3000-3999` 或 `8000-8999`
 - **微服务集群**：`5000-5999` 或 `9000-9999`
 - **测试环境**：`10000-19999`
- - **注意（PortKey 默认）**：PortKey 默认会屏蔽一批常见端口（如 3000、3001、5173、8080 等）；若团队强制使用某些端口段，建议在 `~/.port-key/config.json` 中统一 `blockedPorts/minPort/maxPort`。
+- **注意（PortKey 默认）**：PortKey 默认会屏蔽一批常见端口（如 3000、3001、5173、8080 等）；若团队强制使用某些端口段，建议在 `~/.port-key/config.json` 中统一 `blockedPorts/minPort/maxPort`。
 
 ## 本地开发端口分配策略
 
@@ -183,7 +183,7 @@
 **原因**：
 - 未使用标准化端口分配工具
 - 团队成员各自随机选择端口
- - 使用了不同的用户配置（如 preferDigitCount、blockedPorts、minPort/maxPort）
+- 使用了不同的用户配置（如 preferDigitCount、blockedPorts、minPort/maxPort）
 
 **解决方案**：
 1. 统一使用 `smart-port-allocation` Skill

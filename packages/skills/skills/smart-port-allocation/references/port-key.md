@@ -112,7 +112,6 @@ npx -y @lionad/port-key "myproject"
 
 # 生成 5 位端口
 npx -y @lionad/port-key "myproject" --digits 5
-# 输出: 
 # 无法从输入生成有效端口。
 # Rejected candidates:
 #   76049: Invalid port number
