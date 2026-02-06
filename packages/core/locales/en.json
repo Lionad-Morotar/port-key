@@ -10,7 +10,7 @@
   "optPadding": "      --padding-zero <true|false>  Pad to preferred digits with trailing zeros when input is short (default: true)",
   "optHelp": "  -h, --help           Show help",
   "examples": "Examples:",
-  "ex1": "  npx @lionad/port-key cfetch           # -> 34353",
+  "ex1": "  npx @lionad/port-key cfetch           # -> 3435",
   "ex2": "  npx @lionad/port-key my-app-01        # -> 7610",
   "ex3": "  npx @lionad/port-key -d 5 -- 013344   # -> 13344 (5-digit port)",
   "missingInput": "Missing input text.",

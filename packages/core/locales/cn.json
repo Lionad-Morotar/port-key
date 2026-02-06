@@ -10,7 +10,7 @@
   "optPadding": "      --padding-zero <true|false>  输入不足位数时在末尾补 0 到偏好位数（默认：true）",
   "optHelp": "  -h, --help           显示帮助",
   "examples": "示例：",
-  "ex1": "  npx @lionad/port-key cfetch           # -> 34353",
+  "ex1": "  npx @lionad/port-key cfetch           # -> 3435",
   "ex2": "  npx @lionad/port-key my-app-01        # -> 7610",
   "ex3": "  npx @lionad/port-key -d 5 -- 013344   # -> 13344（5位端口）",
   "missingInput": "缺少输入文本。",
