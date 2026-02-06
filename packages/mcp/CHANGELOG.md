@@ -1,5 +1,9 @@
 # Changelog
 
+## v0.5.0
+
+- chore: sync version
+
 ## v0.4.2
 
 - feat: 替换 logo
