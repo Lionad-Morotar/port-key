@@ -204,7 +204,7 @@ PortKey 是一个"项目名 → 端口号"的键盘映射工具。整体采用 p
 - **Circular imports:** 未检测到。core 子系统内 `cli.js` 单向依赖 `port-key.js / config.js / i18n.js`;mcp 子系统内 `mcp-cli.ts → mcp-server.ts → tools/resources → @lionad/port-key` 是单向无环的。
 - **跨包版本协议(关键约束):** `packages/mcp/package.json:57` 声明 `"@lionad/port-key": "^0.3.0"` 而非 `workspace:*`。本地开发时 pnpm 会从 npm registry 解析而非链接本地 core,**core 的改动不会立即被 mcp 测试感知**,需 `pnpm publish` 或手动 `pnpm link` 才能联动(详见 CONCERNS 记录)。
 - **纯 JS 核心 + TS 外围:** core 刻意保持纯 JS 以最小化发布体积与依赖,仅提供 `port-key.d.ts` 作为可选类型声明;所有 TS 消费者必须用 `import { ... } from "@lionad/port-key"` 并依赖该 d.ts。
-- **版本号硬编码:** `packages/mcp/src/mcp-server.ts:29` 通过 `// ! AUTO GENERATED VERSION - DO NOT EDIT` 标记 + `bump-version.sh` 自动写入;禁止手动改。
+- **版本号统一来源:** `packages/mcp/src/version.ts` 导出 `VERSION` 常量，所有 `new McpServer()` 位置统一引用（2026-07-13 重构，`bump-version.sh` 已移除，发版改用 `/release-project`）。
 
 ## Anti-Patterns
 

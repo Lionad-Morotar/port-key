@@ -2,6 +2,12 @@
 
 **Analysis Date:** 2026-07-13
 
+> **更新备忘（2026-07-13 同日代码改动后）：** 本快照生成于下列改动之前，部分条目状态已变更：
+> - ✅ **已修复**：mcp 依赖 `^0.3.0` → `workspace:*`；mcp-server.ts 两处版本号统一抽到 `packages/mcp/src/version.ts`（顺带修复云端模式 `0.1.5` 滞后）；mcp-cli.test.js 断言对齐实际启动日志
+> - ❌ **误报**：「bump-version.sh 使用 `--no-git-checks`」实际为 `--no-verify`（合法 flag），系分析误差
+> - ℹ️ **作废引用**：`scripts/bump-version.sh`、`.github/copilot-instructions.md`、`.trae/`、`AGENT.md` 均已移除；发版改用 `/release-project`；core 测试用例 29 → 39
+> - 其余条目（logger maxSize、死代码、Biome 等）仍有效，见正文
+
 ## 整体健康度评估
 
 PortKey 是一个体量小巧（core 约 227 行核心逻辑 + 267 行 CLI、mcp 约 700 行 TS 源码）的 monorepo，单元测试在 `packages/core` 覆盖较为扎实（29 个用例覆盖端口映射、配置合并、CLI 解析、首次运行等关键路径），代码风格整体清晰、命名一致。
