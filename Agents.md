@@ -16,6 +16,5 @@ PortKey 是基于 QWERTY 键盘字母到数字映射的"项目名 → 端口号"
 | [TESTING.md](./.planning/codebase/TESTING.md) | 测试规范、运行命令、隔离策略 |
 | [INTEGRATIONS.md](./.planning/codebase/INTEGRATIONS.md) | MCP 协议、外部服务、环境变量 |
 | [CONCERNS.md](./.planning/codebase/CONCERNS.md) | 技术债务、关注点分级、修复清单 |
-| [SPEC 文档](./.trae/documents/) | 重构与发布的设计决策（禁止更新或删除） |
 
 你可以自行读取项目上下文文档，更新时也优先更新相关文档。
