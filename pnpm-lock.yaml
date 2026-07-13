@@ -24,8 +24,8 @@ importers:
         specifier: ^11.2.0
         version: 11.2.0
       '@lionad/port-key':
-        specifier: ^0.3.0
-        version: 0.3.0
+        specifier: workspace:*
+        version: link:../core
       '@modelcontextprotocol/sdk':
         specifier: ^1.25.2
         version: 1.25.2(@cfworker/json-schema@4.1.1)(hono@4.11.3)(zod@4.3.5)
@@ -60,6 +60,8 @@ importers:
       vitest:
         specifier: 4.0.16
         version: 4.0.16(@types/node@24.10.7)(tsx@4.21.0)
+
+  packages/skills: {}
 
 packages:
 
@@ -258,11 +260,6 @@ packages:
 
   '@jridgewell/sourcemap-codec@1.5.5':
     resolution: {integrity: sha512-cYQ9310grqxueWbl+WuIUIaiUaDcj7WOq5fVhEljNVgRfOUhY9fy2zTvfoqWsnebh8Sl70VScFbICvJnLKB0Og==}
-
-  '@lionad/port-key@0.3.0':
-    resolution: {integrity: sha512-2jeutrKxacj/KWMdELhVxzj27KOhGB+JfIGe6yuXc7QxM0D5lP6T2zhDtPaPahEk0V+RKZ2klkthaK6HGX4YMg==}
-    engines: {node: '>=16'}
-    hasBin: true
 
   '@modelcontextprotocol/sdk@1.25.2':
     resolution: {integrity: sha512-LZFeo4F9M5qOhC/Uc1aQSrBHxMrvxett+9KLHt7OhcExtoiRN9DKgbZffMP/nxjutWDQpfMDfP3nkHI4X9ijww==}
@@ -1363,8 +1360,6 @@ snapshots:
       hono: 4.11.3
 
   '@jridgewell/sourcemap-codec@1.5.5': {}
-
-  '@lionad/port-key@0.3.0': {}
 
   '@modelcontextprotocol/sdk@1.25.2(@cfworker/json-schema@4.1.1)(hono@4.11.3)(zod@4.3.5)':
     dependencies:

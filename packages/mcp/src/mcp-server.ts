@@ -11,6 +11,7 @@ import { resources } from "./resources/index.js";
 import config from "./config/index.js";
 import logger from "./utils/logger.js";
 import { SessionManager } from "./utils/session-manager.js";
+import { VERSION } from "./version.js";
 
 // Session manager for HTTP transport
 const sessionManager = new SessionManager<StreamableHTTPServerTransport>(config.session);
@@ -25,8 +26,7 @@ export class MCPServerApp {
   private createServer(): McpServer {
     const server = new McpServer({
       name: "PortKey",
-      // ! AUTO GENERATED VERSION - DO NOT EDIT
-      version: "0.5.0",
+      version: VERSION,
     });
 
     this.registerTools(server);
@@ -286,7 +286,7 @@ export class MCPServerApp {
     if (isLocal === false) {
        this.server = new McpServer({
         name: "PortKey",
-        version: "0.1.5", // Should match what was in createServer
+        version: VERSION,
       });
       // Register only non-local tools
       this.registerTools(this.server, false);

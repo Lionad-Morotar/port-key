@@ -27,7 +27,7 @@ describe("MCP server", () => {
 		});
 
 		child.stderr.on("data", data => {
-			assert.match(data.toString(), /PortKey MCP server is running/u);
+			assert.match(data.toString(), /Starting PortKey MCP Server/u);
 			done();
 		});
 	});
