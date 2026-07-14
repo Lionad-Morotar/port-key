@@ -1,5 +1,16 @@
 # Changelog
 
+## v0.6.0
+
+- security: check-port-availability 与 get-port-occupancy 的 exec 改为 execFile 参数数组，消除 lsof 命令注入面
+- fix: check-port-availability 区分命令缺失（ENOENT）与端口空闲，lsof 不存在时返回错误而非误判可用
+- fix: logger 日志轮转 maxSize 由 '1'（1 字节）修正为 '10m'
+- fix: session-manager 清理定时器加 unref()，不再阻止进程退出
+- refactor: 包入口收敛为 CLI-only（移除 main/exports/types），仅可执行、不可 import（对齐官方 TS MCP server）
+- chore: 移除未生效的 health 配置块与 session.timeout 死配置
+- chore: [internal] 移除自动翻译 pre-commit 机制与根目录失效 index.js，README 翻译改由子代理手动同步
+- docs: README logo 改用绝对 URL 并同步 10 语言翻译
+
 ## v0.5.0
 
 - chore: sync version

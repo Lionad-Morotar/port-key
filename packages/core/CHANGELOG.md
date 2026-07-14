@@ -1,5 +1,12 @@
 # 更新日志
 
+## v0.6.0
+
+- fix: preferDigitCount 仅接受 2~5 整数，无效值回退默认 4 位
+- fix: i18n 路径解析改用 fileURLToPath，修复 Windows 下手工剥离 `file://` 导致的非法路径
+- fix: 补全 PickPortOptions 的 paddingZero 类型声明
+- chore: 移除未实现的 preferredRanges 死字段
+
 ## v0.5.0
 
 - fix: 修正 CLI help 示例输出
