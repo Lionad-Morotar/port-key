@@ -102,7 +102,11 @@ function pickPortFromDigits(digits, options = {}) {
   const minPort = Number.isFinite(options.minPort) ? options.minPort : 0;
   const maxPort = Number.isFinite(options.maxPort) ? options.maxPort : 65535;
   const blockedPorts = options.blockedPorts || DEFAULT_BLOCKED_PORTS;
-  const preferDigitCount = options.preferDigitCount || 4;
+  // 位数仅接受 2~5 的整数，其余一律回退默认 4 位，避免 1 位端口或小数窗口等无意义结果
+  const preferDigitCount =
+    Number.isInteger(options.preferDigitCount) && options.preferDigitCount >= 2 && options.preferDigitCount <= 5
+      ? options.preferDigitCount
+      : 4;
   const padToPreferredDigits =
     options.padToPreferredDigits === undefined ? options.paddingZero !== false : Boolean(options.padToPreferredDigits);
 

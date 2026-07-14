@@ -1,5 +1,6 @@
 import { describe, it, expect } from 'vitest';
 import { runCli } from '../src/cli.js';
+import { mergeConfig } from '../src/config.js';
 import fs from 'node:fs';
 import path from 'node:path';
 import os from 'node:os';
@@ -29,5 +30,10 @@ describe('User config', () => {
     const code = runCli(['--', '013344'], stdout, stderr, { env: { HOME: tmpHome } });
     expect(code).toBe(0);
     expect(stdout.output.trim()).toBe('13344');
+  });
+
+  it('mergeConfig strips the unsupported preferredRanges field', () => {
+    // preferredRanges 是死代码：即便用户 config 里配了，mergeConfig 也应剔除而非透传
+    expect('preferredRanges' in mergeConfig({ preferredRanges: [[3000, 4000]] }, {})).toBe(false);
   });
 });

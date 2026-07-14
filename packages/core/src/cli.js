@@ -172,7 +172,6 @@ function runCli(argv, stdout = process.stdout, stderr = process.stderr, deps = {
     blockedPorts: effective.blockedPorts,
     minPort: effective.minPort,
     maxPort: effective.maxPort,
-    preferredRanges: effective.preferredRanges,
     preferDigitCount: effective.preferDigitCount,
     paddingZero: effective.paddingZero,
   });

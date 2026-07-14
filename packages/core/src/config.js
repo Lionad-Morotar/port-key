@@ -45,18 +45,20 @@ function mergeConfig(base, override) {
   const a = base && typeof base === 'object' ? base : {};
   const b = override && typeof override === 'object' ? override : {};
 
-  return {
+  const merged = {
     ...a,
     ...b,
     map: b.map ?? a.map,
     blockedPorts: b.blockedPorts ?? a.blockedPorts,
     minPort: b.minPort ?? a.minPort,
     maxPort: b.maxPort ?? a.maxPort,
-    preferredRanges: b.preferredRanges ?? a.preferredRanges,
     preferDigitCount: b.preferDigitCount ?? a.preferDigitCount,
     paddingZero: b.paddingZero ?? a.paddingZero,
     lang: b.lang ?? a.lang,
   };
+  // preferredRanges 是未实现的死字段，透传会让用户误以为配置生效，显式剔除
+  delete merged.preferredRanges;
+  return merged;
 }
 
 function getPortKeyDirPath(deps = {}) {
@@ -98,7 +100,6 @@ function loadRunCount(deps = {}) {
 
 function incrementRunCount(deps = {}) {
   const fsModule = deps.fs || fs;
-  const pathModule = deps.path || path;
   const logPath = getLogPath(deps);
   const portKeyDir = getPortKeyDirPath(deps);
 

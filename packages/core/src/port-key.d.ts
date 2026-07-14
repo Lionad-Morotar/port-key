@@ -12,6 +12,8 @@ export type PickPortOptions = {
   minPort?: number;
   maxPort?: number;
   blockedPorts?: ReadonlySet<number> | number[];
+  /** 短输入是否用 '0' 右补齐到 preferDigitCount 位，默认 true */
+  paddingZero?: boolean;
 };
 
 export const DEFAULT_MAP: Readonly<DigitLetterMap>;

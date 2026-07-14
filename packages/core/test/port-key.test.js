@@ -60,10 +60,18 @@ describe('utils: mapToPort', () => {
     const result1 = pickPortFromDigits('000');
     expect(result1.port).toBe(null);
     expect(result1.reason).toBe('No valid port could be generated from input');
-    
+
     const result2 = pickPortFromDigits('');
     expect(result2.port).toBe(null);
     expect(result2.reason).toBe('No digits found in input');
+  });
+
+  it('falls back to 4 digits for out-of-range preferDigitCount', () => {
+    // 位数低于 2 或高于 5 没有意义，应回退到默认 4 位而非产生诡异结果
+    expect(pickPortFromDigits('343536', { preferDigitCount: 1 }).port).toBe(3435);
+    expect(pickPortFromDigits('343536', { preferDigitCount: 6 }).port).toBe(3435);
+    expect(pickPortFromDigits('343536', { preferDigitCount: 2.5 }).port).toBe(3435);
+    expect(pickPortFromDigits('343536', { preferDigitCount: Number.NaN }).port).toBe(3435);
   });
 });
 
