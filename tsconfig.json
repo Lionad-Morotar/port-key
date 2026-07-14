@@ -5,6 +5,7 @@
   ],
   "compilerOptions": {
     "emitDeclarationOnly": false,
-    "noEmit": true
+    "noEmit": true,
+    "rootDir": "."
   }
 }

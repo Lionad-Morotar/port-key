@@ -78,7 +78,7 @@ port-key/                          # 仓库根(port-key-workspace)
 
 **Entry Points:**
 - `packages/core/bin/port-key.js`:CLI shebang 入口,调用 `runCli`
-- `packages/mcp/bin/port-key-mcp.js`:MCP 入口,从 dist 加载已编译的 mcp-cli
+- `packages/mcp/bin/port-key-mcp.js`:MCP 入口,从 dist 加载已编译的 mcp-cli(CLI-only,package.json 无 `main`/`exports`,不可 import)
 - `packages/skills/skills/smart-port-allocation/SKILL.md`:Skill 入口(frontmatter 触发)
 
 **Configuration:**

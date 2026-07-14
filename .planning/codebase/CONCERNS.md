@@ -173,11 +173,11 @@ PortKey 是一个体量小巧（core 约 227 行核心逻辑 + 267 行 CLI、mcp
 - `packages/mcp/src/mcp-cli.ts:79` — `console.log(\`PortKey MCP Server already running...\`)`
 - `packages/mcp/src/mcp-cli.ts:84` — `await mcpServerApp.run(options);`（顶层 await 副作用）
 
-**影响：**
-- `console.log` 绕过 winston 的格式化、级别控制、文件轮转
-- 顶层副作用导致 `import` 该模块即触发 CLI 运行，无法单元测试（除非 fork 子进程）
+**影响与现状：**
+- 顶层副作用原本的风险是"`import` 该模块即触发 CLI 运行"。此风险**已通过 CLI-only 模式消除**（2026-07-14）：`packages/mcp/package.json` 移除了 `main`/`exports`/`types`，包不可被 `import`（`ERR_MODULE_NOT_FOUND` 安全失败），顶层副作用只剩"作为可执行程序启动"这一条路径——与官方 TS MCP server（filesystem/memory/everything）一致，属预期行为。
+- 剩余小问题：`console.log` 绕过 winston 的格式化、级别控制、文件轮转；且因入口带顶层副作用，无法直接单测（需 fork 子进程，现有 `mcp-cli.test.js` 与 e2e 即如此）。
 
-**建议缓解：** 把入口逻辑包进 `main()` 函数并 `if (import.meta.url === \`file://${process.argv[1]}\`) main()`；统一用 logger。
+**说明（原守护建议已否决）：** 曾考虑 `if (import.meta.url === \`file://${process.argv[1]}\`) main()` 守护，但调研发现它与 bin 两层转发（`bin/port-key-mcp.js` → `import "../dist/mcp-cli.js"`）冲突——经 bin 调用时 `process.argv[1]` 是 bin 脚本而非 mcp-cli，守护为假导致 main 不执行。官方 TS MCP server 不用守护，靠"不提供库入口"让副作用入口安全，故采此模式。仍建议：统一用 logger 替代 `console.log`。
 
 ### [Low] 无 ESLint / Prettier / Biome 配置
 

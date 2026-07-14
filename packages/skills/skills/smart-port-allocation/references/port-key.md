@@ -110,12 +110,9 @@ npx -y @lionad/port-key "myproject" --map '{"1":"abc","2":"def"}'
 npx -y @lionad/port-key "myproject"
 # 输出: 7604
 
-# 生成 5 位端口
+# 生成 5 位端口（myproject → digits 760497335；5 位候选 76049 超出 65535 被拒，选中 60497）
 npx -y @lionad/port-key "myproject" --digits 5
-# 无法从输入生成有效端口。
-# Rejected candidates:
-#   76049: Invalid port number
-#   97335: Invalid port number
+# 输出: 60497
 ```
 
 ### 首字母提取示例（智能体处理）

@@ -188,11 +188,12 @@ PortKey 是一个"项目名 → 端口号"的键盘映射工具。整体采用 p
 - Location: `packages/mcp/bin/port-key-mcp.js`(`import "../dist/mcp-cli.js"`)
 - Triggers: `npx @lionad/port-key-mcp ...` 或 MCP client 配置
 - Responsibilities: 从 dist(已编译 JS)加载 `mcp-cli.ts` 的等价 ESM
+- **CLI-only 约束(关键):** `packages/mcp/package.json` 只声明 `bin`,不声明 `main`/`exports`/`types`(对齐官方 TS MCP server——`modelcontextprotocol/servers` 的 filesystem/memory/everything 均如此)。因此 `import "@lionad/port-key-mcp"` 会直接 `ERR_MODULE_NOT_FOUND` 安全失败,而不会触发 `dist/mcp-cli.js` 顶层副作用启动 server。该包**不可作为库 import**,只能作为可执行程序运行。
 
-**MCP Programmatic Entry:**
+**MCP 内部单例(非对外入口):**
 - Location: `packages/mcp/src/mcp-server.ts:310`(`export const mcpServerApp`)
-- Triggers: 测试或其他 TS 消费者 import
-- Responsibilities: 单例模式暴露 `MCPServerApp` 实例
+- Triggers: 仅供包内与测试通过相对路径 import(如 `packages/mcp/tests/mcp-server.test.ts`),**不通过 package exports 对外暴露**
+- Responsibilities: 单例模式暴露 `MCPServerApp` 实例;若未来需支持程序化嵌入,应新增一个无副作用的库入口(如 `src/index.ts` re-export `MCPServerApp` 类)并在 package.json 显式声明 `exports`,而非复用带副作用的 CLI 入口。
 
 ## Architectural Constraints
 
@@ -202,7 +203,7 @@ PortKey 是一个"项目名 → 端口号"的键盘映射工具。整体采用 p
   - `packages/mcp/src/mcp-server.ts:16` 的 `const sessionManager`(单例 session 池)
   - `packages/mcp/src/mcp-server.ts:310` 的 `export const mcpServerApp`(单例 server app,测试隔离性较差)
 - **Circular imports:** 未检测到。core 子系统内 `cli.js` 单向依赖 `port-key.js / config.js / i18n.js`;mcp 子系统内 `mcp-cli.ts → mcp-server.ts → tools/resources → @lionad/port-key` 是单向无环的。
-- **跨包版本协议(关键约束):** `packages/mcp/package.json:57` 声明 `"@lionad/port-key": "^0.3.0"` 而非 `workspace:*`。本地开发时 pnpm 会从 npm registry 解析而非链接本地 core,**core 的改动不会立即被 mcp 测试感知**,需 `pnpm publish` 或手动 `pnpm link` 才能联动(详见 CONCERNS 记录)。
+- **跨包依赖协议:** `packages/mcp/package.json` 以 `"@lionad/port-key": "workspace:*"` 链接本地 core(pnpm workspace),core 改动立即被 mcp 测试感知,无需 publish 或手动 link;发布时 pnpm 将 `workspace:*` 转换为实际版本号。
 - **纯 JS 核心 + TS 外围:** core 刻意保持纯 JS 以最小化发布体积与依赖,仅提供 `port-key.d.ts` 作为可选类型声明;所有 TS 消费者必须用 `import { ... } from "@lionad/port-key"` 并依赖该 d.ts。
 - **版本号统一来源:** `packages/mcp/src/version.ts` 导出 `VERSION` 常量，所有 `new McpServer()` 位置统一引用（2026-07-13 重构，`bump-version.sh` 已移除，发版改用 `/release-project`）。
 

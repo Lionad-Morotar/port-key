@@ -45,6 +45,7 @@ PortKey 的外部集成可分为三个层面:(1) **npm 发布**(三个公开包,
   - 入口:`import "../dist/mcp-cli.js"`
   - 参数:`-s/--streamable`、`-p/--port <number>`、`-l/--local [boolean]`、`--reuse [boolean]`、`-h/--help`
   - 发布 bin 名:`port-key-mcp`
+  - 包形态:CLI-only,`package.json` 只声明 `bin`,不声明 `main`/`exports`/`types`(对齐官方 TS MCP server),`import "@lionad/port-key-mcp"` 会安全失败而非启动 server
 
 ## Data Storage
 

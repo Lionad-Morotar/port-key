@@ -1,7 +1,7 @@
 # PortKey
 
 <p align="center">
-  <img width="200" src="/public/logo.png" />
+  <img width="200" src="https://raw.githubusercontent.com/Lionad-Morotar/port-key/main/public/logo.png" />
 </p>
 
 <p align="center">
