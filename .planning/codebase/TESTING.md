@@ -443,8 +443,7 @@ expect(stderr.output).toBe('');
 
 **pre-commit 钩子现状：**
 
-- `.git/hooks/pre-commit` 是手工安装的 shell 脚本（非 `.husky/`）
-- 仅在 staged 文件含 `README.md` 时触发 `scripts/pre-commit-hook.js`，调用 `scripts/translate-readme.sh` 翻译 README 到 `docs/README.*.md`
+- 当前**无 pre-commit 钩子**（原 `README.md` 自动翻译钩子已于 2026-07-14 移除：其 `fabric`/`sponge`/`sed` 链路在翻译服务不可用时曾清空 `docs/README.*.md`；README 翻译改由子代理手动同步）
 - **不跑任何测试** — 不会拦截失败测试进入 commit
 
 **.npmrc**：`registry=https://registry.npmjs.org/`，发布配置。

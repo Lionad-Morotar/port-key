@@ -345,7 +345,9 @@ PortKey 是一个体量小巧（core 约 227 行核心逻辑 + 267 行 CLI、mcp
 
 **建议缓解：** 要么统一为 10 种（core 补齐），要么把 i18n 抽到独立 `@lionad/port-key-locales` 包共享。
 
-### [Medium] `docs/README.*.md` 多语言翻译依赖外部 `fabric` CLI 与 macOS-only `sed`
+### [Medium] ✅ 已解决：`docs/README.*.md` 多语言翻译曾依赖外部 `fabric` CLI 与 macOS-only `sed`
+
+> **已解决（2026-07-14）：** `scripts/translate-readme.sh` 与 `scripts/pre-commit-hook.js` 已移除，README 翻译改由子代理手动同步，不再依赖 `fabric`/`sponge`/`sed`。以下为历史记录。
 
 **现象：** `scripts/translate-readme.sh:60` 使用 `fabric -p translate | sponge` 生成翻译，`sed -i ''` 修改文件头。
 - `fabric` 是外部 CLI（未在 package.json 声明依赖）
@@ -478,7 +480,7 @@ PortKey 是一个体量小巧（core 约 227 行核心逻辑 + 267 行 CLI、mcp
 12. 拆分 `mcp-server.ts` 为 `transports/http.ts` + `transports/stdio.ts`
 13. 补 `runHttp` 单元测试（Fastify inject）
 14. 统一 core / mcp 的 i18n 语言覆盖
-15. `translate-readme.sh` 重写为跨平台 Node 脚本
+15. ~~`translate-readme.sh` 重写为跨平台 Node 脚本~~ → 已改为**移除自动翻译机制**（2026-07-14）：脚本与 pre-commit 钩子一并删除，README 翻译改由子代理手动同步
 16. 移除 `preferredRanges` 死代码或实现它
 17. 加 GitHub Actions workflow 跑 `pnpm test` + `pnpm lint`
 18. Windows 平台支持（lsof → netstat 切换）

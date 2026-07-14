@@ -165,14 +165,13 @@ packages/skills (@lionad/port-key-skills)  ← 纯 markdown,通过 npx 引用其
 
 - `packages/core/locales/`:`cn.json`、`en.json`(2 种,用于 CLI 帮助文本)
 - `packages/mcp/locales/`:`cn`、`es`、`fr`、`de`、`ja`、`ko`、`ru`、`ar`、`pt`、`it`(10 种,由 `scripts/build-locales.js` 从 `docs/README.<lang>.md` 抽取"## "首段生成 `designPhilosophy` 字段)
-- `docs/`:`README.cn.md`、`README.es.md`、`README.fr.md`、`README.de.md`、`README.ja.md`、`README.ko.md`、`README.ru.md`、`README.ar.md`、`README.pt.md`、`README.it.md`(10 种语言,由 pre-commit hook 自动翻译)
+- `docs/`:`README.cn.md`、`README.es.md`、`README.fr.md`、`README.de.md`、`README.ja.md`、`README.ko.md`、`README.ru.md`、`README.ar.md`、`README.pt.md`、`README.it.md`(10 种语言,由子代理手动同步)
 
-**pre-commit Hook(已直接安装,非 husky):**
+**pre-commit Hook:**
 
-- `.git/hooks/pre-commit`(已存在,423 bytes):当 `README.md` 被 staged 时,调 `node ./scripts/pre-commit-hook.js`
-- `scripts/pre-commit-hook.js`:用文件锁(`.git/hooks/translate.lock`)防并发,spawn `bash ./scripts/translate-readme.sh`(依赖 `fabric` CLI 与 `sponge` 命令),完成后 `git add docs/README.*.md`
+- 当前**无 pre-commit 钩子**(原 `README.md` 自动翻译钩子已于 2026-07-14 移除:其 `fabric`/`sponge`/`sed` 链路在翻译服务不可用时曾清空 `docs/README.*.md`)
+- README 多语言翻译改由子代理手动同步根 `README.md`
 - **无 `.husky/` 目录**,无 lint-staged,无 conventional-commit 校验
-- bump-version 提交时使用 `--no-verify` 跳过此钩子
 
 **GitHub 仓库集成:**
 
@@ -199,7 +198,6 @@ packages/skills (@lionad/port-key-skills)  ← 纯 markdown,通过 npx 引用其
 | `~/.port-key/logs/` | 用户文件 | `packages/mcp/src/utils/logger.ts` | winston daily rotate |
 | `dotenv` | 配置 | `packages/mcp/src/config/index.ts` | `.env` 可选 |
 | GitHub | 仓库 | `Lionad-Morotar/port-key` | 无 Actions |
-| `fabric` CLI | 开发工具 | `scripts/translate-readme.sh` | pre-commit 自动翻译 |
 | `skills` npx 工具 | 外部生态 | `npx skills add ...` | 第三方 skill installer |
 
 ---

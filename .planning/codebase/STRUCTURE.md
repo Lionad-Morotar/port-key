@@ -10,8 +10,7 @@ port-key/                          # 仓库根(port-key-workspace)
 │   ├── core/                      # @lionad/port-key 核心包(纯 JS ESM)
 │   ├── mcp/                       # @lionad/port-key-mcp MCP Server(TS)
 │   └── skills/                    # @lionad/port-key-skills Agent skills
-├── docs/                          # README 的 10 种语言翻译(自动生成)
-├── scripts/                       # 版本管理 + pre-commit + 翻译脚本
+├── docs/                          # README 的 10 种语言翻译(由子代理手动同步)
 ├── public/                        # 静态资源(logo.png)
 ├── .github/                       # copilot-instructions.md
 ├── .vscode/                       # 编辑器配置 + code-counter 缓存
@@ -49,14 +48,10 @@ port-key/                          # 仓库根(port-key-workspace)
 - Key files: `skills/smart-port-allocation/SKILL.md`
 
 **`docs/`:**
-- Purpose: README 的多语言翻译(由 pre-commit hook 自动生成)
+- Purpose: README 的多语言翻译(由子代理手动同步)
 - Contains: 10 个 `README.<lang>.md`(cn / es / fr / de / ja / ko / ru / ar / pt / it;英文直接用根 README.md)
-- Generated: 是(由 `scripts/translate-readme.sh` + `scripts/pre-commit-hook.js`)
+- Generated: 是(由子代理从根 `README.md` 翻译,非脚本自动)
 - Committed: 是
-
-**`scripts/`:**
-- Purpose: 仓库级自动化(版本管理 + 翻译 + git hook)
-- Contains: `bump-version.sh`、`translate-readme.sh`、`pre-commit-hook.js`
 
 **`public/`:**
 - Purpose: 静态资源
@@ -213,10 +208,10 @@ port-key/                          # 仓库根(port-key-workspace)
 - Committed: 是
 
 **`docs/`:**
-- Purpose: README 多语言翻译,由 pre-commit hook 自动维护
-- Generated: 是(由 `scripts/pre-commit-hook.js` + `scripts/translate-readme.sh`)
+- Purpose: README 多语言翻译,由子代理手动同步维护
+- Generated: 是(由子代理从根 `README.md` 翻译,非脚本自动)
 - Committed: 是
-- 触发:git commit 暂存区包含 `README.md` 时,hook 自动跑翻译并把 `docs/README.*.md` 加入暂存区
+- 触发:根 `README.md` 变更后,由子代理手动重新翻译并提交(原 pre-commit 自动翻译钩子已于 2026-07-14 移除)
 
 **`.planning/codebase/`:**
 - Purpose: GSD 工作流的 codebase map 输出(本文档系列)
@@ -347,7 +342,6 @@ packages/skills/
 | 改发布版本号或 bump 逻辑 | `scripts/bump-version.sh` |
 | 改 MCP server 中硬编码版本号 | `scripts/bump-version.sh:96-118`(自动写 mcp-server.ts) |
 | 改 files 白名单(发布内容) | 各包 `package.json` 的 `files` 字段 |
-| 改 pre-commit 翻译触发条件 | `scripts/pre-commit-hook.js:93`(检查 README.md) |
 | 修改 Copilot 项目指南 | `.github/copilot-instructions.md` |
 | 修改 Skill 触发条件或步骤 | `packages/skills/skills/smart-port-allocation/SKILL.md`(frontmatter) |
 | 查看默认端口范围限制 | `packages/core/src/port-key.js:82`(`isValidPort`) + `:86`(`isPortBlocked`) |
