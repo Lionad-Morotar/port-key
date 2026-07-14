@@ -6,7 +6,7 @@ describe('SessionManager', () => {
 
   beforeEach(() => {
     vi.useFakeTimers();
-    sessionManager = new SessionManager({ ttl: 60, timeout: 300 });
+    sessionManager = new SessionManager({ ttl: 60 });
   });
 
   afterEach(() => {

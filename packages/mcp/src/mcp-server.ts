@@ -1,4 +1,4 @@
-import { McpServer, ResourceTemplate } from "@modelcontextprotocol/sdk/server/mcp.js";
+import { McpServer } from "@modelcontextprotocol/sdk/server/mcp.js";
 import { StdioServerTransport } from "@modelcontextprotocol/sdk/server/stdio.js";
 import { StreamableHTTPServerTransport } from "@modelcontextprotocol/sdk/server/streamableHttp.js";
 import { randomUUID } from "node:crypto";
@@ -111,7 +111,8 @@ export class MCPServerApp {
 
     // Register CORS
     await fastify.register(cors, {
-      origin: true, // Allow all origins for now, can be configured
+      // 仅绑定 127.0.0.1，配合下方 DNS rebinding 白名单，允许本机任意来源
+      origin: true,
       exposedHeaders: ["mcp-session-id"],
       allowedHeaders: ["Content-Type", "mcp-session-id", "mcp-protocol-version"],
     });
@@ -266,36 +267,16 @@ export class MCPServerApp {
     process.on("SIGINT", shutdown);
     process.on("SIGTERM", shutdown);
 
-    // Re-register tools based on options.local
-    // By default local is true unless explicitly set to false
+    // local=false（云端模式）时不注册依赖本机命令的工具。
+    // SDK 不支持反注册，故在需要过滤工具时重建一个 server 实例。
     const isLocal = options.local !== false;
-    
-    // Clear existing tools registration and re-register
-    // Note: Since we register in createServer(), we might need to recreate server or just register again
-    // But sdk doesn't support unregister. So we should create server with correct tools from start or
-    // modify registerTools to take options. 
-    // Since createServer is called in constructor, we need a way to re-init or filter tools.
-    
-    // Better approach: We should register tools in run() or have a separate init()
-    // But since constructor calls createServer, let's just create a NEW server instance if we need to filter tools
-    // However, this.server is already assigned.
-    
-    // Let's modify createServer to accept options, but we can't change constructor signature easily without breaking things.
-    // Instead, let's re-create the server instance here if we need to filter tools.
-    
-    if (isLocal === false) {
-       this.server = new McpServer({
+    if (!isLocal) {
+      this.server = new McpServer({
         name: "PortKey",
         version: VERSION,
       });
-      // Register only non-local tools
       this.registerTools(this.server, false);
       this.registerResources(this.server);
-    } else {
-       // If isLocal is true (default), we already registered all tools in constructor
-       // But to be safe and consistent, we could re-register or just ensure constructor did the right thing.
-       // The constructor calls createServer which calls registerTools without args (so all tools).
-       // So if isLocal is true, we are good with default instance.
     }
 
     if (options.streamable || config.server.streamable) {

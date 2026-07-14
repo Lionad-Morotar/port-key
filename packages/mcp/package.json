@@ -4,13 +4,6 @@
   "description": "MCP Server for PortKey",
   "bin": "./bin/port-key-mcp.js",
   "type": "module",
-  "types": "./dist/mcp-cli.d.ts",
-  "exports": {
-    ".": {
-      "types": "./dist/mcp-cli.d.ts",
-      "default": "./dist/mcp-cli.js"
-    }
-  },
   "keywords": [
     "portkey",
     "port-key",
@@ -21,7 +14,6 @@
     "method",
     "mcp"
   ],
-  "main": "dist/mcp-cli.js",
   "files": [
     "dist",
     "bin",

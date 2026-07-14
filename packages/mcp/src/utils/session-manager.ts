@@ -2,7 +2,6 @@ import config from '../config/index.js';
 
 interface SessionOptions {
   ttl: number;
-  timeout: number;
 }
 
 interface SessionWrapper<T> {
@@ -18,8 +17,9 @@ export class SessionManager<T> {
   constructor(options: SessionOptions = config.session) {
     this.sessions = new Map();
     this.options = options;
-    // Cleanup every minute to remove expired sessions
+    // 定时清理过期会话；unref 让该 timer 不阻止进程退出（测试/CLI 场景）
     this.cleanupInterval = setInterval(() => this.cleanup(), 60000);
+    this.cleanupInterval.unref();
   }
 
   /**

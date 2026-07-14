@@ -1,8 +1,9 @@
 import { z } from "zod";
-import { exec } from "child_process";
-import { promisify } from "util";
+import { execFile } from "node:child_process";
+import { promisify } from "node:util";
 
-const execAsync = promisify(exec);
+// execFile 以参数数组传参，不经 shell 插值，根除注入面
+const execFileAsync = promisify(execFile);
 
 export const checkPortAvailabilityTool = {
   name: "check-port-availability",
@@ -14,11 +15,9 @@ export const checkPortAvailabilityTool = {
   },
   execute: async ({ port }: { port: number }) => {
     try {
-      // Use lsof to check port usage (works on macOS/Linux)
-      // For Windows, netstat might be needed, but assuming macOS environment as per context
       try {
-        await execAsync(`lsof -i :${port}`);
-        // If lsof returns success (exit code 0), the port is occupied
+        // lsof 仅在 macOS/Linux 可用；exit 0 表示端口被占用
+        await execFileAsync("lsof", ["-i", `:${port}`]);
         return {
           content: [
             {
@@ -33,7 +32,20 @@ export const checkPortAvailabilityTool = {
           ],
         };
       } catch (error) {
-        // If lsof returns error (exit code 1), the port is likely free
+        // 命令不存在（如 Windows 无 lsof）时必须报错，而非误判为端口空闲
+        if (error && typeof error === "object" && (error as { code?: unknown }).code === "ENOENT") {
+          const errorMessage = error instanceof Error ? error.message : String(error);
+          return {
+            content: [
+              {
+                type: "text",
+                text: JSON.stringify({ error: `lsof is not available on this platform: ${errorMessage}` }),
+              },
+            ],
+            isError: true,
+          };
+        }
+        // 非零退出（exit 1）表示端口空闲
         return {
           content: [
             {

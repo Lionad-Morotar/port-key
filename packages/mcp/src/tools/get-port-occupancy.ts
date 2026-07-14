@@ -1,8 +1,9 @@
 import { z } from "zod";
-import { exec } from "child_process";
-import { promisify } from "util";
+import { execFile } from "node:child_process";
+import { promisify } from "node:util";
 
-const execAsync = promisify(exec);
+// execFile 以参数数组传参，不经 shell 插值，根除注入面
+const execFileAsync = promisify(execFile);
 
 export const getPortOccupancyTool = {
   name: "get-port-occupancy",
@@ -14,15 +15,8 @@ export const getPortOccupancyTool = {
   },
   execute: async ({ ports }: { ports?: number[] }) => {
     try {
-      let command = "lsof -i -P -n";
-      if (ports && ports.length > 0) {
-        // Filter for specific ports if provided
-        // lsof doesn't support multiple ports easily in one go for -i without complex syntax
-        // So we'll fetch all and filter in JS, or construct a grep chain
-        // Fetching all listening ports is usually fast enough
-      }
-
-      const { stdout } = await execAsync(command);
+      // 拉取全部监听端口后在 JS 层按 ports 过滤；lsof 不便一次传多个 -i :port
+      const { stdout } = await execFileAsync("lsof", ["-i", "-P", "-n"]);
       const lines = stdout.split('\n').filter(line => line.trim() !== '');
       const processes: any[] = [];
       

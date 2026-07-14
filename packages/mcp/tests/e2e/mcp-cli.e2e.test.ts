@@ -9,7 +9,8 @@ import process from "node:process";
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = dirname(__filename);
 const ROOT_DIR = join(__dirname, "..", "..", "..", "..");
-const MCP_PATH = join(ROOT_DIR, "packages", "mcp");
+// 包已移除 main/exports（CLI-only，对齐官方 TS MCP server），node 无法按目录解析入口，直接指向编译后的 CLI 入口
+const MCP_PATH = join(ROOT_DIR, "packages", "mcp", "dist", "mcp-cli.js");
 
 interface ServerProcess {
   proc: ChildProcess;
