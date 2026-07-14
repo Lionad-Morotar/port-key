@@ -59,7 +59,7 @@ export const mapProjectNameToPortTool = {
 
 - `packages/core/package.json` 声明 `"type": "module"`
 - 所有源码顶部 `'use strict';`（`packages/core/src/{port-key,cli,config,i18n}.js`）
-- 测试中也必须用 `import`，禁止 `require`（`.github/copilot-instructions.md` 明确强调）
+- 测试中也必须用 `import`，禁止 `require`
 
 **mcp：TypeScript + Node16 ESM**
 
@@ -394,9 +394,9 @@ feat & chore: 增加 e2e 测试用例 & 更新依赖
 
 - 根 `pnpm-workspace.yaml` 声明 `packages/*`
 - `.npmrc` 指向 `registry=https://registry.npmjs.org/`
-- 仓库同时存在 `pnpm-lock.yaml` 与历史遗留的 `package-lock.json` — **以 `pnpm-lock.yaml` 为准**，禁用 npm/corepack（用户全局约定）
+- 仓库仅存在 `pnpm-lock.yaml`（历史 `package-lock.json` 已清理），禁用 npm/corepack（用户全局约定）
 
-**版本同步：** 所有包共享同一版本号，通过 `scripts/bump-version.sh` 同时更新 `packages/core/package.json` 与 `packages/mcp/package.json`。
+**版本同步：** 所有包共享同一版本号，用 `/release-project` 技能手动同步三包 `package.json` 的 `version` 与 `packages/mcp/src/version.ts` 的 `VERSION` 常量。
 
 **发布流程：** `pnpm release` → build → `pnpm -r publish --access public --no-git-checks`。
 

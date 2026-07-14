@@ -1,4 +1,4 @@
-<!-- refreshed: 2026-07-13 -->
+<!-- refreshed: 2026-07-14 -->
 # Architecture
 
 **Analysis Date:** 2026-07-13
@@ -205,27 +205,15 @@ PortKey 是一个"项目名 → 端口号"的键盘映射工具。整体采用 p
 - **Circular imports:** 未检测到。core 子系统内 `cli.js` 单向依赖 `port-key.js / config.js / i18n.js`;mcp 子系统内 `mcp-cli.ts → mcp-server.ts → tools/resources → @lionad/port-key` 是单向无环的。
 - **跨包依赖协议:** `packages/mcp/package.json` 以 `"@lionad/port-key": "workspace:*"` 链接本地 core(pnpm workspace),core 改动立即被 mcp 测试感知,无需 publish 或手动 link;发布时 pnpm 将 `workspace:*` 转换为实际版本号。
 - **纯 JS 核心 + TS 外围:** core 刻意保持纯 JS 以最小化发布体积与依赖,仅提供 `port-key.d.ts` 作为可选类型声明;所有 TS 消费者必须用 `import { ... } from "@lionad/port-key"` 并依赖该 d.ts。
-- **版本号统一来源:** `packages/mcp/src/version.ts` 导出 `VERSION` 常量，所有 `new McpServer()` 位置统一引用（2026-07-13 重构，`bump-version.sh` 已移除，发版改用 `/release-project`）。
+- **版本号统一来源:** `packages/mcp/src/version.ts` 导出 `VERSION` 常量，所有 `new McpServer()` 位置统一引用。
 
 ## Anti-Patterns
-
-### run() 中重建 McpServer 时硬编码旧版本号
-
-**What happens:** `packages/mcp/src/mcp-server.ts:289` 在 `isLocal === false` 分支里重新 `new McpServer({ name: "PortKey", version: "0.1.5" })`,版本号是硬编码字面量。
-**Why it's wrong:** 与 `createServer()` 中的 `version: "0.5.0"`(由 `bump-version.sh` 维护)不一致,云端部署模式下注册的 server 版本会永久滞后在 0.1.5。注释 `// Should match what was in createServer` 说明已知问题但未修复。
-**Do this instead:** 在 `createServer()` 增加可选参数 `createServer(options?: { isLocal?: boolean })`,在构造期就根据 options 注册正确的工具集,消除 run() 中的二次重建;版本号从一个共享常量(`packages/mcp/src/version.ts`)导入,bump 脚本同步更新该常量。
 
 ### MCP 单例导出污染测试隔离
 
 **What happens:** `packages/mcp/src/mcp-server.ts:310` `export const mcpServerApp = new MCPServerApp()` 在模块加载时就实例化。
 **Why it's wrong:** vitest 测试用例共享同一个 `mcpServerApp`(`packages/mcp/tests/mcp-server.test.ts:46` 直接 `mcpServerApp.getMcpServer()`),如果一个测试修改了 server 状态(如手动注册 tool),后续测试会受影响。
 **Do this instead:** 导出 `MCPServerApp` 类作为主 API,测试中 `new MCPServerApp()` 创建独立实例;保留单例仅为 CLI 入口的便捷引用。
-
-### 根 index.js 指向不存在的路径
-
-**What happens:** `/Users/lionad/Github/Lionad-Morotar/port-key/index.js:3` 是 `module.exports = require('./src/portkey')`,但 `./src/portkey` 在当前 monorepo 结构下不存在,且根包是 `"type": "module"` 却用了 CommonJS 的 `require`。
-**Why it's wrong:** 任何人 `import "port-key-workspace"` 或 `node index.js` 都会报错,是历史重构遗留。
-**Do this instead:** 删除该文件,或改为 re-export core(如 `export * from './packages/core/src/port-key.js'`)。
 
 ### Logger 硬编码日志路径,未走 deps 注入
 
@@ -267,14 +255,13 @@ PortKey 是一个"项目名 → 端口号"的键盘映射工具。整体采用 p
 
 ## 发布流 (Release Pipeline)
 
-**版本号统一:** 所有子包当前共享同一版本号(如 `0.5.0`),由 `scripts/bump-version.sh` 维护。
+**版本号统一:** 所有子包共享同一版本号(当前 `0.6.0`),手动同步三包 `package.json` 的 `version` 与 `packages/mcp/src/version.ts` 的 `VERSION` 常量。
 
-**bump 流程** (`scripts/bump-version.sh`):
-1. 校验所有 `packages/*/CHANGELOG.md` 已被 git 跟踪修改(未更新则 fail-fast)。
-2. `pnpm -r exec npm version <patch|minor|major> --no-git-tag-version` 批量改 package.json。
-3. Node 脚本读取 `packages/mcp/src/mcp-server.ts` 中的 `// ! AUTO GENERATED VERSION - DO NOT EDIT` 标记,替换下一行的 `version: "..."`。
-4. `pnpm install` 刷新 lockfile。
-5. `git add . && git commit -m "release: v<NEW>" --no-verify && git tag "v<NEW>"`。
+**发版流程** (用 `/release-project` 技能):
+1. 更新所有 `packages/*/CHANGELOG.md`(各包变更条目)。
+2. 同步修改三包 `package.json` 的 `version` 与 `packages/mcp/src/version.ts` 的 `VERSION`。
+3. `pnpm install` 刷新 lockfile(纯版本号变化通常不改 lockfile)。
+4. `git commit -m "release: v<NEW>"` + `git tag -a "v<NEW>"`。
 
 **publish 流程** (`package.json:14` 根脚本 `release`):
 1. `pnpm build`:触发所有子包的 build(core 跳过,mcp 执行 `build:locales + tsc -p tsconfig.build.json`,skills 跳过)。

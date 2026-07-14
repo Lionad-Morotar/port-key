@@ -100,15 +100,14 @@ PortKey 的外部集成可分为三个层面:(1) **npm 发布**(三个公开包,
 
 **CI Pipeline:**
 
-- **无 CI/CD** — `.github/` 目录下仅有 `copilot-instructions.md`,**不存在 `.github/workflows/` 目录**
+- **无 CI/CD** — 仓库不存在 `.github/` 目录,无任何 GitHub Actions / workflows 配置
 - 无 GitHub Actions、无 GitLab CI、无 CircleCI 配置
 - 发布流程纯手工:根 `package.json` `release` 脚本 = `pnpm build && pnpm -r publish --access public --no-git-checks --registry=https://registry.npmjs.org/`
-- 版本提升:`bash scripts/bump-version.sh [patch|minor|major]`,会:
-  1. 检查所有 `packages/*/CHANGELOG.md` 是否已修改(`scripts/bump-version.sh:34-66`)
-  2. `pnpm -r exec npm version` 提升版本
-  3. 同步更新 `packages/mcp/src/mcp-server.ts:29` 中 `// ! AUTO GENERATED VERSION - DO NOT EDIT` 标记下一行的 `version` 字段
-  4. `pnpm install` 刷新 lockfile
-  5. `git commit -m "release: v<ver>" --no-verify` + `git tag v<ver>`
+- 版本提升:用 `/release-project` 技能,手动:
+  1. 更新所有 `packages/*/CHANGELOG.md`(各包变更条目)
+  2. 同步修改三包 `package.json` 的 `version` 与 `packages/mcp/src/version.ts` 的 `VERSION` 常量
+  3. `pnpm install` 刷新 lockfile(纯版本号变化通常不改 lockfile)
+  4. `git commit -m "release: v<ver>"` + `git tag -a "v<ver>"`
 
 **prepublishOnly 钩子:**
 
@@ -169,8 +168,8 @@ packages/skills (@lionad/port-key-skills)  ← 纯 markdown,通过 npx 引用其
 
 **pre-commit Hook:**
 
-- 当前**无 pre-commit 钩子**(原 `README.md` 自动翻译钩子已于 2026-07-14 移除:其 `fabric`/`sponge`/`sed` 链路在翻译服务不可用时曾清空 `docs/README.*.md`)
-- README 多语言翻译改由子代理手动同步根 `README.md`
+- 当前**无 pre-commit 钩子**
+- README 多语言翻译由子代理手动同步根 `README.md`
 - **无 `.husky/` 目录**,无 lint-staged,无 conventional-commit 校验
 
 **GitHub 仓库集成:**

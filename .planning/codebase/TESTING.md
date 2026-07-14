@@ -4,15 +4,15 @@
 
 PortKey 的测试由两个包独立维护，均用 Vitest 4.0.16，但风格、运行约束、覆盖深度差异较大。本文档同时给出"现状"与"应遵循的约定"。
 
-**实际测试数量（2026-07-13 实跑结果）：**
+**实际测试数量（2026-07-14 实跑结果）：**
 
 | 包 | 测试文件数 | 测试用例数 | 通过 |
 | --- | --- | --- | --- |
-| `packages/core` | 5 | 39 | 39 |
-| `packages/mcp` | 8 | 29 | 29 |
-| **合计** | **13** | **68** | **68** |
+| `packages/core` | 5 | 42 | 42 |
+| `packages/mcp` | 8 | 32 | 32 |
+| **合计** | **13** | **74** | **74** |
 
-旧版 `.github/copilot-instructions.md` 提到的"29 tests"是 mcp 加入前的 core 数字，现已过期 — 请勿再引用该数字。
+"29 tests" 是 mcp 加入前的 core 旧数字，已过期（当前 core 42 / mcp 32）— 请勿再引用。
 
 ## 测试框架
 
@@ -437,13 +437,13 @@ expect(stderr.output).toBe('');
 
 ## CI / CD 现状
 
-**未配置 GitHub Actions / 其他 CI。** `.github/` 目录仅含 `copilot-instructions.md`，无 `workflows/` 目录。
+**未配置 GitHub Actions / 其他 CI。** 仓库不存在 `.github/` 目录，无任何 workflows 配置。
 
 **测试完全依赖本地手动运行 + pre-commit 钩子。** 这是一个 concern（见 CONCERNS.md）。
 
 **pre-commit 钩子现状：**
 
-- 当前**无 pre-commit 钩子**（原 `README.md` 自动翻译钩子已于 2026-07-14 移除：其 `fabric`/`sponge`/`sed` 链路在翻译服务不可用时曾清空 `docs/README.*.md`；README 翻译改由子代理手动同步）
+- 当前**无 pre-commit 钩子**；README 多语言翻译由子代理手动同步根 `README.md`
 - **不跑任何测试** — 不会拦截失败测试进入 commit
 
 **.npmrc**：`registry=https://registry.npmjs.org/`，发布配置。
@@ -496,15 +496,15 @@ function loadMessages(lang) {
 - `fetch` 全局（Node 18+）
 - `node:url` 的 `fileURLToPath`（Node 16+）
 
-推荐用 Node 18+ 跑测试，本地验证环境为 Node v24.11.1（见 `.github/copilot-instructions.md`）。
+推荐用 Node 18+ 跑测试，本地验证环境为 Node v24.11.1。
 
 ## 提交前自检清单
 
-参考 `.github/copilot-instructions.md` 第 84-89 行扩展：
+提交前依次执行：
 
 1. `pnpm install`（如改了依赖）
-2. **改动 core 时：** `pnpm -C packages/core test`（应 39 passed）
-3. **改动 mcp 时：** `pnpm -C packages/mcp test`（应 29 passed，含 e2e 约 14s）
+2. **改动 core 时：** `pnpm -C packages/core test`（应 42 passed）
+3. **改动 mcp 时：** `pnpm -C packages/mcp test`（应 32 passed，含 e2e 约 14s）
 4. **改动 CLI/MCP 行为时：** 手动 sanity check：
    - `node packages/core/bin/port-key.js -- cfetch` → 应输出 `3435`
    - `node packages/mcp/bin/port-key-mcp.js --streamable --port 10945` → 应启动并响应 `/health`

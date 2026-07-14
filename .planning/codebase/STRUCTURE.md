@@ -12,13 +12,11 @@ port-key/                          # 仓库根(port-key-workspace)
 │   └── skills/                    # @lionad/port-key-skills Agent skills
 ├── docs/                          # README 的 10 种语言翻译(由子代理手动同步)
 ├── public/                        # 静态资源(logo.png)
-├── .github/                       # copilot-instructions.md
 ├── .vscode/                       # 编辑器配置 + code-counter 缓存
 ├── .planning/                     # GSD 规划输出(本文件所在)
-├── AGENT.md                       # 开发代理(LLM)指南
+├── Agents.md                      # 开发代理(LLM)指南
 ├── README.md                      # 产品说明(CLI 用法 + 配置示例)
 ├── LICENSE                        # ISC
-├── index.js                       # ⚠ 死代码(指向不存在的 ./src/portkey)
 ├── package.json                   # workspace 根配置
 ├── pnpm-workspace.yaml            # workspace 声明(packages/*)
 ├── pnpm-lock.yaml                 # pnpm 锁文件(73KB)
@@ -50,16 +48,12 @@ port-key/                          # 仓库根(port-key-workspace)
 **`docs/`:**
 - Purpose: README 的多语言翻译(由子代理手动同步)
 - Contains: 10 个 `README.<lang>.md`(cn / es / fr / de / ja / ko / ru / ar / pt / it;英文直接用根 README.md)
-- Generated: 是(由子代理从根 `README.md` 翻译,非脚本自动)
+- Generated: 是(由子代理从根 `README.md` 翻译)
 - Committed: 是
 
 **`public/`:**
 - Purpose: 静态资源
 - Contains: `logo.png`、`.DS_Store`(误入库)
-
-**`.github/`:**
-- Purpose: GitHub/Copilot 配置
-- Contains: `copilot-instructions.md`(给 GitHub Copilot 的项目指南)
 
 **`.vscode/`:**
 - Purpose: 编辑器配置
@@ -209,9 +203,9 @@ port-key/                          # 仓库根(port-key-workspace)
 
 **`docs/`:**
 - Purpose: README 多语言翻译,由子代理手动同步维护
-- Generated: 是(由子代理从根 `README.md` 翻译,非脚本自动)
+- Generated: 是(由子代理从根 `README.md` 翻译)
 - Committed: 是
-- 触发:根 `README.md` 变更后,由子代理手动重新翻译并提交(原 pre-commit 自动翻译钩子已于 2026-07-14 移除)
+- 触发:根 `README.md` 变更后,由子代理手动重新翻译并提交
 
 **`.planning/codebase/`:**
 - Purpose: GSD 工作流的 codebase map 输出(本文档系列)
@@ -339,14 +333,13 @@ packages/skills/
 | 改 HTTP server 中间件(CORS) | `packages/mcp/src/mcp-server.ts:113`(fastify cors 注册) |
 | 改 health 端点返回字段 | `packages/mcp/src/mcp-server.ts:120`(`/health` handler) |
 | 加新语言(MCP) | `docs/README.<lang>.md` + `packages/mcp/scripts/build-locales.js:11`(`LANGUAGES`) |
-| 改发布版本号或 bump 逻辑 | `scripts/bump-version.sh` |
-| 改 MCP server 中硬编码版本号 | `scripts/bump-version.sh:96-118`(自动写 mcp-server.ts) |
+| 改发布版本号 | 用 `/release-project` 技能(手动改三包 package.json + `packages/mcp/src/version.ts`) |
+| 改 MCP server 版本号 | `packages/mcp/src/version.ts`(`VERSION` 常量,单一来源) |
 | 改 files 白名单(发布内容) | 各包 `package.json` 的 `files` 字段 |
-| 修改 Copilot 项目指南 | `.github/copilot-instructions.md` |
 | 修改 Skill 触发条件或步骤 | `packages/skills/skills/smart-port-allocation/SKILL.md`(frontmatter) |
 | 查看默认端口范围限制 | `packages/core/src/port-key.js:82`(`isValidPort`) + `:86`(`isPortBlocked`) |
 | 查看核心算法如何透传纯数字 | `packages/core/src/port-key.js:66-71`(`hasLetter` 判断) |
 
 ---
 
-*Structure analysis: 2026-07-13*
+*Structure analysis: 2026-07-14*
