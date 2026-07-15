@@ -53,10 +53,10 @@ describe('CLI', () => {
     const stderr = createStream();
     const tmpHome = createEmptyHome();
 
-    const code = runCli(['-m', '{"8":"abc"}', '--', 'cbaa'], stdout, stderr, { env: { HOME: tmpHome } });
+    const code = runCli(['-m', '{"7":"abc"}', '--', 'cbaa'], stdout, stderr, { env: { HOME: tmpHome } });
 
     expect(code).toBe(0);
-    expect(stdout.output.trim()).toBe('8888');
+    expect(stdout.output.trim()).toBe('7777');
     expect(stderr.output).toBe('');
   });
 
@@ -87,7 +87,7 @@ describe('CLI', () => {
     fs.mkdirSync(path.join(tmpHome, '.port-key'), { recursive: true });
     fs.writeFileSync(
       path.join(tmpHome, '.port-key', 'config.json'),
-      JSON.stringify({ map: { 8: 'c' } }),
+      JSON.stringify({ map: { 7: 'c' } }),
       'utf8'
     );
 
@@ -99,7 +99,7 @@ describe('CLI', () => {
     });
 
     expect(code).toBe(0);
-    expect(stdout.output.trim()).toBe('8888');
+    expect(stdout.output.trim()).toBe('7777');
     expect(stderr.output).toBe('');
   });
 

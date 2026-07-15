@@ -1,5 +1,9 @@
 # 更新日志
 
+## v0.6.1
+
+- feat: 扩展默认屏蔽端口列表，覆盖 Tauri、Angular、ADB、Prisma Studio、VNC、Storybook、AirPlay、Jupyter、Node.js debugger、Ollama、Expo 等常见服务端口
+
 ## v0.6.0
 
 - fix: preferDigitCount 仅接受 2~5 整数，无效值回退默认 4 位

@@ -6,6 +6,20 @@ describe('isPortBlocked', () => {
   it('blocks specific ports in the blacklist', () => {
     expect(isPortBlocked(3000, DEFAULT_BLOCKED_PORTS)).toBe(true);
     expect(isPortBlocked(8080, DEFAULT_BLOCKED_PORTS)).toBe(true);
+
+    // well-known application ports merged from portero hints
+    expect(isPortBlocked(1420, DEFAULT_BLOCKED_PORTS)).toBe(true);
+    expect(isPortBlocked(4200, DEFAULT_BLOCKED_PORTS)).toBe(true);
+    expect(isPortBlocked(5037, DEFAULT_BLOCKED_PORTS)).toBe(true);
+    expect(isPortBlocked(5555, DEFAULT_BLOCKED_PORTS)).toBe(true);
+    expect(isPortBlocked(5900, DEFAULT_BLOCKED_PORTS)).toBe(true);
+    expect(isPortBlocked(6006, DEFAULT_BLOCKED_PORTS)).toBe(true);
+    expect(isPortBlocked(7000, DEFAULT_BLOCKED_PORTS)).toBe(true);
+    expect(isPortBlocked(8000, DEFAULT_BLOCKED_PORTS)).toBe(true);
+    expect(isPortBlocked(8888, DEFAULT_BLOCKED_PORTS)).toBe(true);
+    expect(isPortBlocked(9229, DEFAULT_BLOCKED_PORTS)).toBe(true);
+    expect(isPortBlocked(11434, DEFAULT_BLOCKED_PORTS)).toBe(true);
+    expect(isPortBlocked(19000, DEFAULT_BLOCKED_PORTS)).toBe(true);
   });
 
   it('does NOT block random user ports not in blacklist', () => {

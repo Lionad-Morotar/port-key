@@ -14,20 +14,32 @@ const DEFAULT_MAP = Object.freeze({
 });
 
 const DEFAULT_BLOCKED_PORTS = Object.freeze(
-  // well-known application ports
+  // well-known application ports (system ports 0-1023 are blocked by range rule)
   new Set([
-    3000,
-    3001,
-    5000,
-    5173,
-    5432,
-    6379,
-    8080,
-    8081,
-    9000,
-    27017,
-    3306,
-    1234,
+    1234, // common placeholder / dev port
+    1420, // Tauri dev default
+    3000, // common dev port (React/Next/Express)
+    3001, // common dev port
+    3306, // MySQL
+    4200, // Angular dev server
+    5000, // macOS AirPlay / Flask
+    5037, // ADB server (Android)
+    5173, // Vite default
+    5432, // PostgreSQL
+    5555, // Prisma Studio / ADB
+    5900, // VNC / Screen Sharing
+    6006, // Storybook
+    6379, // Redis
+    7000, // macOS AirPlay
+    8000, // common dev port (Django/uvicorn)
+    8080, // alternative HTTP / proxies
+    8081, // common HTTP alternative
+    8888, // Jupyter Notebook
+    9000, // common dev / PHP-FPM
+    9229, // Node.js debugger
+    11434, // Ollama (local LLMs)
+    19000, // Expo
+    27017, // MongoDB
   ])
 );
 
