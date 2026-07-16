@@ -1,5 +1,11 @@
 # Changelog
 
+## [0.6.1] - 2026-07-16
+
+### Changed
+
+- [internal] 同步版本号至 0.6.1
+
 ## v0.6.0
 
 - security: check-port-availability 与 get-port-occupancy 的 exec 改为 execFile 参数数组，消除 lsof 命令注入面

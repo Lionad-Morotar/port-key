@@ -1,6 +1,6 @@
 {
   "name": "@lionad/port-key-skills",
-  "version": "0.6.0",
+  "version": "0.6.1",
   "description": "Agent skills for PortKey",
   "files": [
     "skills",
